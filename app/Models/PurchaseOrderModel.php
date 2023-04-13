@@ -21,16 +21,16 @@ class PurchaseOrderModel extends Model
         'id_supplier'
     ];
 
-    public function allData()
+    public function pobenangallData()
     {
         return DB::table("purchase_order")
-                ->join("users", function($join){
-                    $join->on("purchase_order.id_user", "=", "users.id");
-                })
                 ->join("supplier", function($join){
                     $join->on("purchase_order.id_supplier", "=", "supplier.id_supp");
                 })
+                ->where("purchase_order.id_purchaseorder", "like", "py%")
                 ->get();
+
+
     }
 
     public function BenangallData(){
@@ -47,5 +47,24 @@ class PurchaseOrderModel extends Model
     public function BenangaddData($data)
     {
         DB::table('purchase_order')->insert($data);
+    }
+
+    public function detailData($id_PurchaseOrder)
+    {
+        
+        return DB::table("purchase_order")
+                ->join("supplier", function($join){
+                    $join->on("purchase_order.id_supplier", "=", "supplier.id_supp");
+                })
+                ->where('id_purchaseorder', $id_PurchaseOrder)->first();
+    }
+    public function ItemdetailData($id_PurchaseOrder)
+    {
+        
+        return DB::table("line_item_po")
+                ->join("purchase_order", function($join){
+                    $join->on("purchase_order.id_PurchaseOrder", "=", "line_item_po.id_PurchaseOrder");
+                })
+                ->where('line_item_po.id_purchaseorder', $id_PurchaseOrder)->get();
     }
 }

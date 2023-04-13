@@ -18,7 +18,7 @@ class PurchaseOrderController extends Controller
     public function indexpobenang()
     {
         $data = [
-            'pobenang'=> $this->PurchaseOrderModel->allData(),
+            'pobenang'=> $this->PurchaseOrderModel->pobenangallData (),
         ];
         return view('Purchase Order.PO benang.v_po_benang',$data);
     }
@@ -32,7 +32,7 @@ class PurchaseOrderController extends Controller
         return view('Purchase Order.PO benang.v_addpobenang',$data,compact('supplier'));
     }
 
-    public function submitData(Request $request)
+    public function BenangsubmitData(Request $request)
     {
         $data = [
             'id_PurchaseOrder' => Request()->id_PurchaseOrder,
@@ -52,10 +52,16 @@ class PurchaseOrderController extends Controller
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
             $datas->save();
         }
-        
-
-        
-
         return redirect('/pobenang')->with('pesan', 'Data Berhasil Disimpan');
+    }
+    public function detailpobenang($id_PurchaseOrder){
+        $data = [
+            'pobenang' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
+        ];
+        $item = [
+            'item' =>$this->PurchaseOrderModel->ItemdetailData($id_PurchaseOrder),
+        ];
+         
+        return view('Purchase Order.PO benang.v_detailpobenang', $data, $item);
     }
 }

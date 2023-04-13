@@ -164,7 +164,7 @@
                 html += "<input type='text' class='form-control' name='harga[]' id='harga" +baris+"' name='harga' required>"
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
-                html += "<input type='text' readonly class='form-control'  id='total" +baris+"' name='total' required>"
+                html += "<input type='text' readonly class='form-control' name='total[]'  id='total" +baris+"'  required>"
                 html += "</td>"
                 html +="<td><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"
@@ -179,7 +179,7 @@
                 console.log(harga);
                 var total = parseInt(harga) * parseInt(jumlah);
                 $("#total"+baris).val(total);
-                var arr = document.getElementsByName('total');
+                var arr = document.getElementsByName('total[]');
                 var tot=0;
                 for(var i=0;i<arr.length;i++){
                   if(parseInt(arr[i].value))

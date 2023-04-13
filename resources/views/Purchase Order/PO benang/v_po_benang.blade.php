@@ -46,7 +46,7 @@
                                                     <td>{{ $data->jenis_bayar  }}</td>
 													<td>
 														<a href="/pobenang/edit/{{ $data->id_PurchaseOrder }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a href="/pobenang/detailfg/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+                                                        <a href="/pobenang/detailpobenang/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
 													</td>
 												</tr>
                                                 @endforeach
