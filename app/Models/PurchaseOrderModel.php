@@ -43,4 +43,9 @@ class PurchaseOrderModel extends Model
                 })
                 ->where("id_barang", "like", 'YA%')->get();
     }
+
+    public function BenangaddData($data)
+    {
+        DB::table('purchase_order')->insert($data);
+    }
 }

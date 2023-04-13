@@ -49,7 +49,7 @@ Route::get('/greige/deletegreige/{id_barang}', [BarangController::class, 'delete
 
 
 
-Route::get('/benang', [BarangController::class, 'indexpobenang']);
+Route::get('/benang', [BarangController::class, 'indexbenang']);
 Route::get('/benang/detailbenang/{id_barang}', [BarangController::class, 'detailbenang']);
 Route::get('/benang/addbenang', [BarangController::class, 'addbenang']);
 Route::post('/benang/insertbenang', [BarangController::class, 'insertbenang']);
@@ -81,7 +81,8 @@ Route::view('/pogreige', 'Purchase Order.v_po_greige');
 
 Route::get('/pobenang', [PurchaseOrderController::class, 'indexpobenang']);
 Route::get('/pobenang/add', [PurchaseOrderController::class, 'addpobenang']);
-Route::post('/pobenang/insert', [PurchaseOrderController::class, 'insertpobenang']);
+Route::post('/pobenang/insert', [PurchaseOrderController::class, 'simpan']);
+Route::post('/submitData', [PurchaseOrderController::class, 'submitData'])->name('submitData');
 Route::get('/pobenang/edit/{id}', [PurchaseOrderController::class, 'editpobenang']);
 Route::post('/pobenang/update/{id}', [PurchaseOrderController::class, 'updatepobenang']);
 Route::get('/pobenang/detailpobenang/{id}', [PurchaseOrderController::class, 'detailpobenang']);

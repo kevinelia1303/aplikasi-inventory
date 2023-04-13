@@ -7,7 +7,8 @@
             <div class="card card-info">
               <!-- /.card-header -->
               <!-- form start -->
-              <form class="form-horizontal">
+              <form method="post" action="{{ route('submitData') }}" class="form-horizontal">
+                @csrf
                 <div class="card-body">
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
@@ -58,32 +59,29 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-sm">Simpan</button>
+                    <input type="submit" value="Submit">
                 </div> 
                 </div>
-                
-                
-                </div>
-               
-              </form>
-              <div class="row">
+                <div class="row">
                 <div class="col-12 table-responsive">
                   <table class="table table-striped" id="tabel1">
                     <thead>
                     <tr >
-                      <th style="border:1px solid">No</th>
+                      
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah</th>
                       <th style="border:1px solid">Harga</th>
                       <th style="border:1px solid">Total Harga</th>
-                      <th style="border:1px solid">Action</th> 
+                      <th >
+                                <a href="javascript:;" class="btn btn-info addRow">+</a></th>
+                            </th> 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    {{-- <tr>
                       <td style="border:1px solid">1</td>
                       <td style="border:1px solid;width:50%;" contenteditable="true">
-                         <select class="form-control" class="id_barang" id="id_barang" name="id_barang" required>
+                         <select class="form-control" name="id_barang[]" class="id_barang" id="id_barang" required>
                             <option value="" hidden>-- Pilih Barang --</option>
                             @foreach ($benang as $data)
                                 <option value="{{ $data->id_barang }}">{{ $data->id_barang }}</option>
@@ -91,23 +89,28 @@
                           </select>
                       </td>
                       <td style="border:1px solid">
-                        <input type="text" class="form-control" id="jumlah" name="jumlah" required>
+                        <input type="text" class="form-control" name="jumlah[]" id="jumlah" required>
                       </td>
                       <td style="border:1px solid">
-                        <input type="text" class="form-control" id="harga" name="harga" required>
+                        <input type="text" class="form-control" name="harga[]" id="harga" name="harga" required>
                       </td>
                       <td style="border:1px solid" >
-                        <input type="text" readonly class="form-control" id="total" name="total" required>
+                        <input type="text" readonly class="form-control" name='total[]' id="total" required>
                       </td>
-                      <td style="border:1px solid"><button class="btn-sm btn-danger" id="hapus">-</button></td>
-                    </tr>
+                      <td>
+                          <a href="javascript:;" class="btn btn-danger deleteRow">-</a>
+                      </td>
+                    </tr> --}}
                     </tbody>
                   </table>
-                  <button class="btn btn-primary btn-btn-lg" id="tambah">+</button>
+                  
                 </div>
                 
                 <!-- /.col -->
               </div>
+              </form>
+              </div>
+              
             </div> 
 
 
@@ -129,7 +132,7 @@
             console.log(harga);
             var total = parseInt(harga) * parseInt(jumlah);
             $("#total").val(total);
-            var arr = document.getElementsByName('total');
+            var arr = total;
             var tot=0;
             for(var i=0;i<arr.length;i++){
               if(parseInt(arr[i].value))
@@ -142,12 +145,12 @@
 <script>
     $(document).ready(function () {
         let baris = 1;
-        $(document).on('click', '#tambah', function () {
+        $('thead').on('click', '.addRow', function () {
             baris = baris + 1
             var html = "<tr style='border:1px solid' id='baris'" +baris+  ">"
-                html +="<td style='border:1px solid'>"+baris+"</td>"
+                
                 html +="<td style='border:1px solid;width:30%;'>"
-                html += "<select class='form-control' class='id_barang' id='id_barang"+baris+"' name='id_barang' required>"
+                html += "<select class='form-control' name='id_barang[]' class='id_barang' id='id_barang"+baris+"' required>"
                 html += "<option value='' hidden>-- Pilih Barang --</option>"
                 html += "@foreach ($benang as $data)"
                 html += "<option value='{{ $data->id_barang }}'>{{ $data->id_barang }}</option>"
@@ -155,15 +158,15 @@
                 html += "</select>"
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
-                html += "<input type='text' class='form-control' id='jumlah" +baris+"' name='jumlah' required>"
+                html += "<input type='text' class='form-control' name='jumlah[]' id='jumlah" +baris+"' required>"
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
-                html += "<input type='text' class='form-control' id='harga" +baris+"' name='harga' required>"
+                html += "<input type='text' class='form-control' name='harga[]' id='harga" +baris+"' name='harga' required>"
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
-                html += "<input type='text' readonly class='form-control' id='total" +baris+"' name='total' required>"
+                html += "<input type='text' readonly class='form-control'  id='total" +baris+"' name='total' required>"
                 html += "</td>"
-                html +="<td style='border:1px solid'> <button class='btn-sm btn-danger' data-row='baris' id='hapus'>-</button> </td>"
+                html +="<td><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"
             console.log(html);
             $('#tabel1').append(html);
@@ -189,9 +192,8 @@
         });
         
     });
-    $(document).on('click', '#hapus', function () {
-            let hapus = $(this).data('row')
-            $('#' + hapus).remove()
+    $('tbody').on('click','.deleteRow', function () {
+    $(this).parent().parent().remove();
     });
     
     
