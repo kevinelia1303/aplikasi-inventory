@@ -70,7 +70,7 @@
                       
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah</th>
-                      <th style="border:1px solid">Harga</th>
+                      <th style="border:1px solid">Harga Per Yard</th>
                       <th style="border:1px solid">Total Harga</th>
                       <th >
                                 <a href="javascript:;" class="btn btn-info addRow">+</a></th>

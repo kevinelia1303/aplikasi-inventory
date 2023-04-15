@@ -83,8 +83,8 @@ Route::get('/pobenang', [PurchaseOrderController::class, 'indexpobenang']);
 Route::get('/pobenang/add', [PurchaseOrderController::class, 'addpobenang']);
 Route::post('/pobenang/insert', [PurchaseOrderController::class, 'simpan']);
 Route::post('/submitData', [PurchaseOrderController::class, 'BenangsubmitData'])->name('submitData');
-Route::get('/pobenang/edit/{id}', [PurchaseOrderController::class, 'editpobenang']);
-Route::post('/pobenang/update/{id}', [PurchaseOrderController::class, 'updatepobenang']);
+Route::get('/pobenang/edit/{id}', [PurchaseOrderController::class, 'editpo']);
+Route::post('/pobenang/update/{id}', [PurchaseOrderController::class, 'updatepo']);
 Route::get('/pobenang/detailpobenang/{id}', [PurchaseOrderController::class, 'detailpobenang']);
 
 

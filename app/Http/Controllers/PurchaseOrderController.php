@@ -15,12 +15,28 @@ class PurchaseOrderController extends Controller
         // $this->middleware('auth');
     }
 
-    public function indexpobenang()
+    public function indexpobenang(Request $request)
     {
-        $data = [
-            'pobenang'=> $this->PurchaseOrderModel->pobenangallData (),
-        ];
-        return view('Purchase Order.PO benang.v_po_benang',$data);
+        
+        // return $request->all();
+        $id_purchaseorder=$request->id_PurchaseOrder;
+        $tanggal=$request->tanggal;
+        $status=$request->status;
+        
+        //filter by id
+        if($id_purchaseorder OR $tanggal OR $status <> ""){
+            $pobenang=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+                ->where("purchase_order.status", "LIKE", $status)
+                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("purchase_order.tanggal", "LIKE", $tanggal)
+                ->get();
+            
+        }else{
+            $pobenang=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+                ->where("purchase_order.id_purchaseorder", "like", "py%")
+                ->get();
+        }
+        return view('Purchase Order.PO benang.v_po_benang',compact('pobenang'));
     }
 
     public function addpobenang()
@@ -63,5 +79,31 @@ class PurchaseOrderController extends Controller
         ];
          
         return view('Purchase Order.PO benang.v_detailpobenang', $data, $item);
+    }
+
+    public function editpo($id_PurchaseOrder)
+    {
+        $data = [
+            'po' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
+        ];
+        $item = [
+            'item' =>$this->PurchaseOrderModel->ItemdetailData($id_PurchaseOrder),
+        ];
+        $supplier = SupplierModel::all();
+        
+        return view('Purchase Order.PO benang.v_editpobenang', $data,$item,$supplier);
+    }
+
+    public function updatepo( $id_PurchaseOrder)
+    {
+       
+
+        $data = [
+            'status' => Request()->status,
+        ];
+        $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+        
+
+        return redirect('/pobenang')->with('pesan','Data berhasil diupdate');
     }
 }

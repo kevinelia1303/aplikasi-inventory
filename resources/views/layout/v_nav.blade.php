@@ -19,14 +19,14 @@
               <li class="nav-item">
                 <a href="/user" class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
                   <i class="far fa-user nav-icon"></i>
-                  <p>Data User</p>
+                  <p>01 User</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/finished-goods" class="nav-link {{ request()->is('finished-goods*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    Data Finished Goods
+                    02 Finished Goods
                   </p>
                 </a>
               </li>
@@ -34,7 +34,7 @@
                 <a href="/greige" class="nav-link {{ request()->is('greige*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    Data Greige
+                    03 Greige
                   </p>
                 </a>
               </li>
@@ -42,7 +42,7 @@
                 <a href="/benang" class="nav-link {{ request()->is('benang*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    Data Benang
+                    04 Benang
                   </p>
                 </a>
               </li>
@@ -50,7 +50,7 @@
                 <a href="/supplier" class="nav-link {{ request()->is('supplier*') ? 'active' : '' }}">
                   <i class="far far fa-handshake nav-icon"></i>
                   <p>
-                    Data Supplier
+                    05 Supplier
                   </p>
                 </a>
               </li>
@@ -58,7 +58,7 @@
                 <a href="/gudang" class="nav-link {{ request()->is('gudang*') ? 'active' : '' }}">
                   <i class="far  	fas fa-warehouse  nav-icon"></i>
                   <p>
-                    Data Gudang
+                    06 Gudang
                   </p>
                 </a>
               </li>

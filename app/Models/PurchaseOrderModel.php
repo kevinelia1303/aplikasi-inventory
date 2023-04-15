@@ -29,9 +29,9 @@ class PurchaseOrderModel extends Model
                 })
                 ->where("purchase_order.id_purchaseorder", "like", "py%")
                 ->get();
-
-
     }
+
+    
 
     public function BenangallData(){
         return DB::table("barang")
@@ -66,5 +66,10 @@ class PurchaseOrderModel extends Model
                     $join->on("purchase_order.id_PurchaseOrder", "=", "line_item_po.id_PurchaseOrder");
                 })
                 ->where('line_item_po.id_purchaseorder', $id_PurchaseOrder)->get();
+    }
+
+    public function editData($id_PurchaseOrder, $data)
+    {
+        DB::table('purchase_order')->where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
     }
 }

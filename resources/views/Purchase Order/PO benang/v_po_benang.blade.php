@@ -2,6 +2,50 @@
 @section('title', 'PO Benang')
 @section('content')
     <h1>Purchase Order Benang</h1>
+	{{-- <form action="/filterdata" method="get">
+	<div class="row mb-3">
+		<div class="col-sm-2">
+			<input type="text" name="id_PurchaseOrder" class="form-control" placeholder="Cari ID Purchase Order ...">
+		</div>
+		<div class="col-sm-2">
+			<input type="date" placeholder="dd/mm/yyyy" name="tanggal" class="form-control">
+		</div>
+		<div class="col-sm-2">
+			<select class="form-control" name="level" required>
+				<option value="" hidden>-- Pilih Status --</option>
+				<option value="In Progress">In Progress</option>
+				<option value="Done">Done</option>
+            </select>
+		</div>
+		<div class="col-sm-2">
+			<button type="submit" class="btn btn-primary mt-4">Search</button>
+		</div>
+	</div>
+	</form> --}}
+	<form action="/pobenang" method="get">
+		@csrf
+		<div class="row mb-3">
+			<div class="col-sm-3">
+				<label for="" class="form-label"></label>
+				<input type="text" name="id_PurchaseOrder" class="form-control" placeholder="Cari ID Purchase Order ...">
+			</div>
+			<div class="col-sm-3">
+				<label for="" class="form-label"></label>
+				<input type="date" placeholder="dd/mm/yyyy" name="tanggal" class="form-control">
+			</div>
+			<div class="col-sm-3">
+				<label for="" class="form-label"></label>
+				<select class="form-control" name="status" >
+					<option value="" hidden>-- Pilih Status --</option>
+					<option value="In Progress">In Progress</option>
+					<option value="Done">Done</option>
+				</select>
+			</div>
+			<div class="col-sm-3">
+				<button type="submit" class="btn btn-primary mt-4">Search</button>
+			</div>
+		</div>
+	</form>
     @if (session('pesan'))
 	<div class="alert alert-success" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
