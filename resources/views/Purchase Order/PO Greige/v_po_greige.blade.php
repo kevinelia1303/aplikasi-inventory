@@ -1,8 +1,8 @@
 @extends('layout.v_template')
-@section('title', 'PO Benang')
+@section('title', 'PO Greige')
 @section('content')
-    <h1>Purchase Order Benang</h1>
-	<form action="/pobenang" method="get">
+    <h1>Purchase Order Greige</h1>
+    <form action="/pogreige" method="get">
 		@csrf
 		<div class="row mb-3">
 			<div class="col-sm-3">
@@ -41,7 +41,7 @@
 								<div class="card-header">
 									<div class="d-flex align-items-center">
 										
-										<a href="/pobenang/add" class="btn btn-primary btn-round ml-auto">+ Add Purchase Order Benang</a> <br>
+										<a href="/pogreige/add" class="btn btn-primary btn-round ml-auto">+ Add Purchase Order Greige</a> <br>
 									</div>
 								</div>
 								<div class="card-body">
@@ -60,7 +60,7 @@
 											</thead>
 											
 											<tbody>
-                                                @foreach ($pobenang as $data )
+                                                @foreach ($pogreige as $data )
 												<tr>
 													<td>{{ $data->id_PurchaseOrder }}</td>
 													<td>{{ $data->tanggal }}</td>
@@ -70,14 +70,15 @@
                                                     <td>{{ $data->jenis_bayar  }}</td>
 													@if ( $data->status =="Done")
 													<td>
-														<a href="/pobenang/detailpobenang/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/pogreige/detailpogreige/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
 													</td>
 													@else
 													<td>
-														<a href="/pobenang/edit/{{ $data->id_PurchaseOrder }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a href="/pobenang/detailpobenang/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/pogreige/edit/{{ $data->id_PurchaseOrder }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a href="/pogreige/detailpogreige/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
 													</td>	
 													@endif
+													
 												</tr>
                                                 @endforeach
 											</tbody>
@@ -89,5 +90,5 @@
 					</div>
 				</div>
 			</div>
-	</div>      
+	</div>     
 @endsection

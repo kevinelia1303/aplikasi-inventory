@@ -1,13 +1,11 @@
 @extends('layout.v_template')
-@section('title', 'Add PO Benang')
+@section('title', 'Add PO Greige')
 @section('content')
-    <h1>Add Purchase Order Benang</h1>
-    <!-- /.card -->
-            <!-- Horizontal Form -->
-            <div class="card card-info">
+    <h1>Add Purchase Order Greige</h1>
+    <div class="card card-info">
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{ route('submitData') }}" class="form-horizontal">
+              <form method="post" action="{{ route('submitData1') }}" class="form-horizontal">
                 @csrf
                 <div class="card-body">
                   <div class="form-group row">
@@ -45,7 +43,11 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Status</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="status" placeholder="Status ..">
+                      <select class="form-control" name="status" required>
+                        <option value="" hidden>-- Pilih Status --</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Done">Done</option>
+                    </select>
                     </div>
                   </div>
                 <div class="form-group row">
@@ -69,7 +71,7 @@
                     <tr >
                       
                       <th style="border:1px solid">ID Barang</th>
-                      <th style="border:1px solid">Jumlah</th>
+                      <th style="border:1px solid">Jumlah (Yard)</th>
                       <th style="border:1px solid">Harga Per Yard</th>
                       <th style="border:1px solid">Total Harga</th>
                       <th >
@@ -78,29 +80,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{-- <tr>
-                      <td style="border:1px solid">1</td>
-                      <td style="border:1px solid;width:50%;" contenteditable="true">
-                         <select class="form-control" name="id_barang[]" class="id_barang" id="id_barang" required>
-                            <option value="" hidden>-- Pilih Barang --</option>
-                            @foreach ($benang as $data)
-                                <option value="{{ $data->id_barang }}">{{ $data->id_barang }}</option>
-                            @endforeach
-                          </select>
-                      </td>
-                      <td style="border:1px solid">
-                        <input type="text" class="form-control" name="jumlah[]" id="jumlah" required>
-                      </td>
-                      <td style="border:1px solid">
-                        <input type="text" class="form-control" name="harga[]" id="harga" name="harga" required>
-                      </td>
-                      <td style="border:1px solid" >
-                        <input type="text" readonly class="form-control" name='total[]' id="total" required>
-                      </td>
-                      <td>
-                          <a href="javascript:;" class="btn btn-danger deleteRow">-</a>
-                      </td>
-                    </tr> --}}
+                    
                     </tbody>
                   </table>
                   
@@ -110,10 +90,6 @@
               </div>
               </form>
             </div>
-              
-            
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script>
   $(document).ready(function() {
@@ -152,7 +128,7 @@
                 html +="<td style='border:1px solid;width:30%;'>"
                 html += "<select class='form-control' name='id_barang[]' class='id_barang' id='id_barang"+baris+"' required>"
                 html += "<option value='' hidden>-- Pilih Barang --</option>"
-                html += "@foreach ($benang as $data)"
+                html += "@foreach ($greige as $data)"
                 html += "<option value='{{ $data->id_barang }}'>{{ $data->id_barang }}</option>"
                 html += "@endforeach"
                 html += "</select>"
@@ -197,6 +173,5 @@
     });
     
     
-</script> 
-
+</script>     
 @endsection

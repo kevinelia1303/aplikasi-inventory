@@ -76,12 +76,17 @@ Route::get('/gudang/delete/{kode_gudang}', [GudangController::class, 'delete']);
 
 Route::view('/maklondf', 'Purchase Order.v_po_maklondf');
 Route::view('/maklontwisting', 'Purchase Order.v_po_maklontwisting');
-Route::view('/pogreige', 'Purchase Order.v_po_greige');
+
+Route::get('/pogreige', [PurchaseOrderController::class, 'indexpogreige']);
+Route::get('/pogreige/add', [PurchaseOrderController::class, 'addpogreige']);
+Route::post('/submitData1', [PurchaseOrderController::class, 'GreigesubmitData'])->name('submitData1');
+Route::get('/pogreige/edit/{id}', [PurchaseOrderController::class, 'editpogreige']);
+Route::post('/pogreige/update/{id}', [PurchaseOrderController::class, 'updatepogreige']);
+Route::get('/pogreige/detailpogreige/{id}', [PurchaseOrderController::class, 'detailpogreige']);
 
 
 Route::get('/pobenang', [PurchaseOrderController::class, 'indexpobenang']);
 Route::get('/pobenang/add', [PurchaseOrderController::class, 'addpobenang']);
-Route::post('/pobenang/insert', [PurchaseOrderController::class, 'simpan']);
 Route::post('/submitData', [PurchaseOrderController::class, 'BenangsubmitData'])->name('submitData');
 Route::get('/pobenang/edit/{id}', [PurchaseOrderController::class, 'editpo']);
 Route::post('/pobenang/update/{id}', [PurchaseOrderController::class, 'updatepo']);

@@ -1,30 +1,30 @@
 @extends('layout.v_template')
-@section('title', 'Edit PO Benang')
+@section('title', 'Barang')
 @section('content')
-    <h1>Edit Purchase Order Benang</h1>
+    <h1>Edit Purchase Order Greige</h1>
     <div class="card card-info">
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="/pobenang/update/{{ $po->id_PurchaseOrder }}" >
+              <form method="post" action="/pogreige/update/{{ $pogreige->id_PurchaseOrder }}" >
                 @csrf
                 <div class="card-body">
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input readonly value="{{ $po->id_PurchaseOrder }}" type="text" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
+                      <input readonly value="{{ $pogreige->id_PurchaseOrder }}" type="text" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Tanggal</label>
                     <div class="col-sm-10">
-                      <input readonly value="{{ $po->tanggal }}" type="date"  class="form-control" name="tanggal" required>
+                      <input readonly value="{{ $pogreige->tanggal }}" type="date"  class="form-control" name="tanggal" required>
                     </div>
                   </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Supplier</label>
                     <div class="col-sm-10">
                     <div class="input-group-prepend">
-                        <input readonly value="{{ $po->nama_supplier }}" type="text" readonly class="form-control" id="id_supplier" name="id_supplier" placeholder="id_supplier">
+                        <input readonly value="{{ $pogreige->nama_supplier }}" type="text" readonly class="form-control" id="id_supplier" name="id_supplier" placeholder="id_supplier">
                     </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="col-sm-10">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                            <input readonly value="{{ $po->total_harga }}" type="text" readonly class="form-control" id="total_harga" name="total_harga" placeholder="Total Harga ..">
+                            <input readonly value="{{ $pogreige->total_harga }}" type="text" readonly class="form-control" id="total_harga" name="total_harga" placeholder="Total Harga ..">
                         </div>
                     </div>
                 </div>
@@ -41,15 +41,15 @@
                     <label class="col-sm-2 col-form-label">Status</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="status" required>
-                        <option {{ $po->status == 'Done' ? 'selected' : '' }} value="Done">Done</option>
-                        <option {{ $po->status == 'In Progress' ? 'selected' : '' }} value="In Progress">In Progress</option>
+                        <option {{ $pogreige->status == 'Done' ? 'selected' : '' }} value="Done">Done</option>
+                        <option {{ $pogreige->status == 'In Progress' ? 'selected' : '' }} value="In Progress">In Progress</option>
                     </select>
                     </div>
                   </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Jenis Bayar</label>
                     <div class="col-sm-10">
-                      <input readonly type="text" value="{{ $po->jenis_bayar }}" class="form-control" name="jenis_bayar" placeholder="Status ..">
+                      <input readonly type="text" value="{{ $pogreige->jenis_bayar }}" class="form-control" name="jenis_bayar" placeholder="Status ..">
                     </div>
                 </div>
                 <div class="form-group">

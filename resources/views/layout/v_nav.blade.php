@@ -23,10 +23,10 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/finished-goods" class="nav-link {{ request()->is('finished-goods*') ? 'active' : '' }}">
+                <a href="/benang" class="nav-link {{ request()->is('benang*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    02 Finished Goods
+                    02 Benang
                   </p>
                 </a>
               </li>
@@ -39,10 +39,10 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/benang" class="nav-link {{ request()->is('benang*') ? 'active' : '' }}">
+                <a href="/finished-goods" class="nav-link {{ request()->is('finished-goods*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    04 Benang
+                    04 Finished Goods
                   </p>
                 </a>
               </li>

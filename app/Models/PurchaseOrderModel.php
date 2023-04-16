@@ -44,7 +44,7 @@ class PurchaseOrderModel extends Model
                 ->where("id_barang", "like", 'YA%')->get();
     }
 
-    public function BenangaddData($data)
+    public function addData($data)
     {
         DB::table('purchase_order')->insert($data);
     }
@@ -71,5 +71,16 @@ class PurchaseOrderModel extends Model
     public function editData($id_PurchaseOrder, $data)
     {
         DB::table('purchase_order')->where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
+    }
+
+    public function GreigeallData(){
+        return DB::table("barang")
+                ->join("satuan", function($join){
+	                $join->on("barang.id_satuan", "=", "satuan.id_satuan");
+                })
+                ->join("jenis_barang", function($join){
+	                $join->on("jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang");
+                })
+                ->where("id_barang", "like", 'ITJ%')->get();
     }
 }
