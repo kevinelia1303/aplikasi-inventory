@@ -83,4 +83,14 @@ class PurchaseOrderModel extends Model
                 })
                 ->where("id_barang", "like", 'ITJ%')->get();
     }
+
+    public function ItemMaklondetailData($id_PurchaseOrder)
+    {
+        
+        return DB::table("list_kebutuhan_maklon")
+                ->join("purchase_order", function($join){
+                    $join->on("purchase_order.id_PurchaseOrder", "=", "list_kebutuhan_maklon.id_PurchaseOrder");
+                })
+                ->where('list_kebutuhan_maklon.id_purchaseorder', $id_PurchaseOrder)->get();
+    }
 }

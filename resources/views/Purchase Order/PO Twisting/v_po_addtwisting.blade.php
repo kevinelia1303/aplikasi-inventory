@@ -1,11 +1,11 @@
 @extends('layout.v_template')
-@section('title', 'Add PO Greige')
+@section('title', 'PO Twisting')
 @section('content')
-    <h1>Add Purchase Order Greige</h1>
+    <h1>Add Purchase Order Maklon Twisting</h1>
     <div class="card card-info">
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{ route('submitData1') }}" class="form-horizontal">
+              <form method="post" action="{{ route('submitData2') }}" class="form-horizontal">
                 @csrf
                 <div class="card-body">
                   <div class="form-group row">
@@ -66,6 +66,7 @@
                 </div>
                 <div class="row">
                 <div class="col-12 table-responsive">
+                    <h5>List Barang</h5>
                   <table class="table table-striped" id="tabel1">
                     <thead>
                     <tr >
@@ -74,8 +75,28 @@
                       <th style="border:1px solid">Jumlah (Yard)</th>
                       <th style="border:1px solid">Harga Per Yard</th>
                       <th style="border:1px solid">Total Harga</th>
-                      <th >
+                      <th style="border:1px solid">
                                 <a href="javascript:;" class="btn btn-info addRow">+</a></th>
+                            </th> 
+                    </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                  </table>
+                  
+                </div>
+                
+                <div class="col-12 table-responsive">
+                    <h5>List Kebutuhan Maklon</h5>
+                  <table class="table table-striped" id="tabel2">
+                    <thead>
+                    <tr >
+                      
+                      <th style="border:1px solid">ID Barang</th>
+                      <th style="border:1px solid">Total Yard</th>
+                      <th style="border:1px solid">
+                                <a href="javascript:;" class="btn btn-info addRow1">+</a></th>
                             </th> 
                     </tr>
                     </thead>
@@ -142,7 +163,7 @@
                 html += "<td style='border:1px solid'>"
                 html += "<input type='text' readonly class='form-control' name='total[]'  id='total" +baris+"'  required>"
                 html += "</td>"
-                html +="<td><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
+                html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"
             console.log(html);
             $('#tabel1').append(html);
@@ -170,8 +191,33 @@
     });
     $('tbody').on('click','.deleteRow', function () {
     $(this).parent().parent().remove();
-    });
-    
-    
-</script>     
+    }); 
+</script>
+<script>
+    let baris = 1;
+        $('thead').on('click', '.addRow1', function () {
+            baris = baris + 1
+            var html = "<tr style='border:1px solid' id='baris'" +baris+  ">"
+                
+                html +="<td style='border:1px solid;width:30%;'>"
+                html += "<select class='form-control' name='id_barangmaklon[]' class='id_barang' id='id_barangmaklon"+baris+"' required>"
+                html += "<option value='' hidden>-- Pilih Barang --</option>"
+                html += "@foreach ($benang as $data)"
+                html += "<option value='{{ $data->id_barang }}'>{{ $data->id_barang }}</option>"
+                html += "@endforeach"
+                html += "</select>"
+                html += "</td>"
+                html += "<td style='border:1px solid'>"
+                html += "<input type='text' class='form-control' name='total_maklon[]'  id='total_maklon" +baris+"'  required>"
+                html += "</td>"
+                html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow1'>-</a></td>"
+                html += "</tr>"
+            console.log(html);
+            $('#tabel2').append(html);
+            $('#id_barangmaklon'+baris).select2();
+        });
+        $('tbody').on('click','.deleteRow1', function () {
+            $(this).parent().parent().remove();
+        }); 
+</script>      
 @endsection

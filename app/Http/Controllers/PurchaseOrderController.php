@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PurchaseOrderModel;
 use App\Models\SupplierModel;
 use App\Models\LineItemPOModel;
+use App\Models\ListKebutuhanMaklonModel;
 
 class PurchaseOrderController extends Controller
 {
@@ -29,11 +30,13 @@ class PurchaseOrderController extends Controller
                 ->where("purchase_order.status", "LIKE", $status)
                 ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
                 ->where("purchase_order.tanggal", "LIKE", $tanggal)
+                ->orderBy("purchase_order.id_purchaseorder","asc")
                 ->get();
             
         }else{
             $pobenang=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
                 ->where("purchase_order.id_purchaseorder", "like", "py%")
+                ->orderBy("purchase_order.id_purchaseorder","asc")
                 ->get();
         }
         return view('Purchase Order.PO benang.v_po_benang',compact('pobenang'));
@@ -119,11 +122,13 @@ class PurchaseOrderController extends Controller
                 ->where("purchase_order.status", "LIKE", $status)
                 ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
                 ->where("purchase_order.tanggal", "LIKE", $tanggal)
+                ->orderBy("purchase_order.id_purchaseorder","asc")
                 ->get();
             
         }else{
             $pogreige=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
                 ->where("purchase_order.id_purchaseorder", "like", "pg%")
+                ->orderBy("purchase_order.id_purchaseorder","asc")
                 ->get();
         }
         return view('Purchase Order.PO Greige.v_po_greige',compact('pogreige'));
@@ -194,5 +199,104 @@ class PurchaseOrderController extends Controller
         
 
         return redirect('/pogreige')->with('pesan','Data berhasil diupdate');
+    }
+
+    public function indexpotwisting(Request $request)
+    {
+        
+        // return $request->all();
+        $id_purchaseorder=$request->id_PurchaseOrder;
+        $tanggal=$request->tanggal;
+        $status=$request->status;
+        
+        //filter by id
+        if($id_purchaseorder OR $tanggal OR $status <> ""){
+            $potwisting=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+                ->where("purchase_order.status", "LIKE", $status)
+                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("purchase_order.tanggal", "LIKE", $tanggal)
+                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->get();
+            
+        }else{
+            $potwisting=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+                ->where("purchase_order.id_purchaseorder", "like", "MR%")
+                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->get();
+        }
+        return view('Purchase Order.PO Twisting.v_po_maklontwisting',compact('potwisting'));
+    }
+
+    public function addpotwisting()
+    {
+        $supplier = SupplierModel::all();
+        $data = [
+            'greige'=> $this->PurchaseOrderModel->GreigeallData(),
+            'benang'=> $this->PurchaseOrderModel->BenangallData(),
+        ];
+        return view('Purchase Order.PO Twisting.v_po_addtwisting',compact('supplier'),$data);
+    }
+
+    public function TwistingsubmitData(Request $request)
+    {
+        $data = [
+            'id_PurchaseOrder' => Request()->id_PurchaseOrder,
+            'tanggal' => Request()->tanggal,
+            'id_supplier' => Request()->id_supplier,
+            'total_harga' => Request()->total_harga,
+            'status' => Request()->status,
+            'jenis_bayar' => Request()->jenis_bayar,
+        ];
+        $this->PurchaseOrderModel->addData($data);
+        foreach($request->id_barang as $key=>$id_barang){
+            $datas = new LineItemPOModel();
+            $datas->id_barang =$id_barang;
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->harga = $request->harga[$key];
+            $datas->TotalHarga = $request->total[$key];
+            $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->save();
+        }
+        foreach($request->id_barangmaklon as $key=>$id_barangmaklon){
+            $datas = new ListKebutuhanMaklonModel();
+            $datas->id_barang =$id_barangmaklon;
+            $datas->jumlah = $request->total_maklon[$key];
+            $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->sisa = $request->total_maklon[$key];
+            $datas->save();
+        }
+        return redirect('/pomaklontwisting')->with('pesan', 'Data Berhasil Disimpan');
+    }
+    public function detailpotwisting($id_PurchaseOrder){
+        $data = [
+            'potwisting' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
+            'item' =>$this->PurchaseOrderModel->ItemdetailData($id_PurchaseOrder),
+            'list_kebutuhan'=>$this->PurchaseOrderModel->ItemMaklondetailData($id_PurchaseOrder),
+        ];
+        
+         
+        return view('Purchase Order.PO Twisting.v_po_detailtwisting', $data);
+    }
+
+    public function editpotwisting($id_PurchaseOrder)
+    {
+        $data = [
+            'potwisting' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
+            'item' =>$this->PurchaseOrderModel->ItemdetailData($id_PurchaseOrder),
+            'list_kebutuhan'=>$this->PurchaseOrderModel->ItemMaklondetailData($id_PurchaseOrder),
+        ];
+        
+        return view('Purchase Order.PO Twisting.v_po_edittwisting', $data);
+    }
+
+    public function updatepotwisting( $id_PurchaseOrder)
+    {
+        $data = [
+            'status' => Request()->status,
+        ];
+        $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+        
+
+        return redirect('/pomaklontwisting')->with('pesan','Data berhasil diupdate');
     }
 }

@@ -75,7 +75,15 @@ Route::get('/gudang/delete/{kode_gudang}', [GudangController::class, 'delete']);
 
 
 Route::view('/maklondf', 'Purchase Order.v_po_maklondf');
-Route::view('/maklontwisting', 'Purchase Order.v_po_maklontwisting');
+
+
+Route::get('/pomaklontwisting', [PurchaseOrderController::class, 'indexpotwisting']);
+Route::get('/pomaklontwisting/add', [PurchaseOrderController::class, 'addpotwisting']);
+Route::post('/submitData2', [PurchaseOrderController::class, 'TwistingsubmitData'])->name('submitData2');
+Route::get('/pomaklontwisting/edit/{id}', [PurchaseOrderController::class, 'editpotwisting']);
+Route::post('/pomaklontwisting/update/{id}', [PurchaseOrderController::class, 'updatepotwisting']);
+Route::get('/pomaklontwisting/detailpotwisting/{id}', [PurchaseOrderController::class, 'detailpotwisting']);
+
 
 Route::get('/pogreige', [PurchaseOrderController::class, 'indexpogreige']);
 Route::get('/pogreige/add', [PurchaseOrderController::class, 'addpogreige']);

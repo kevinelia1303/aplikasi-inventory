@@ -97,8 +97,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item {{ request()->is('pobenang*','pogreige*','maklontwisting*','maklondf*') ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->is('pobenang*','pogreige*','maklontwisting*','maklondf*') ? 'active' : '' }}"">
+          <li class="nav-item {{ request()->is('pobenang*','pogreige*','pomaklontwisting*','maklondf*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('pobenang*','pogreige*','pomaklontwisting*','maklondf*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-cart-plus"></i>
               <p>
                 Purchase Order
@@ -119,7 +119,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/maklontwisting" class="nav-link {{ request()->is('maklontwisting*') ? 'active' : '' }}">
+                <a href="/pomaklontwisting" class="nav-link {{ request()->is('pomaklontwisting*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
                     Maklon Twisting
