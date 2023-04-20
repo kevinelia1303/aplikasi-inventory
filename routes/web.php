@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\TransaksiGudangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +75,12 @@ Route::post('/gudang/update/{kode_gudang}', [GudangController::class, 'update'])
 Route::get('/gudang/delete/{kode_gudang}', [GudangController::class, 'delete']);
 
 
-Route::view('/maklondf', 'Purchase Order.v_po_maklondf');
+Route::get('/pomaklondf', [PurchaseOrderController::class, 'indexpodf']);
+Route::get('/pomaklondf/add', [PurchaseOrderController::class, 'addpodf']);
+Route::post('/submitData3', [PurchaseOrderController::class, 'DFsubmitData'])->name('submitData3');
+Route::get('/pomaklondf/edit/{id}', [PurchaseOrderController::class, 'editpodf']);
+Route::post('/pomaklondf/update/{id}', [PurchaseOrderController::class, 'updatepodf']);
+Route::get('/pomaklondf/detailpodf/{id}', [PurchaseOrderController::class, 'detailpodf']);
 
 
 Route::get('/pomaklontwisting', [PurchaseOrderController::class, 'indexpotwisting']);
@@ -105,7 +111,15 @@ Route::view('/gipenjualan', 'Goods Issue.v_gi_penjualan');
 Route::view('/gitwisting', 'Goods Issue.v_gi_twisting');
 Route::view('/gidyeingfinishing', 'Goods Issue.v_gi_dyeingfinishing');
 
-Route::view('/grpobenang', 'Goods Receipt.v_gr_benang');
+
+Route::get('/grpobenang', [TransaksiGudangController::class, 'indexgrbenang']);
+Route::get('/grpobenang/add', [TransaksiGudangController::class, 'addgrbenang']);
+Route::post('/submitData4', [TransaksiGudangController::class, 'GrBenangsubmitData'])->name('submitData4');
+Route::get('/grpobenang/edit/{id}', [TransaksiGudangController::class, 'editgrbenang']);
+Route::post('/grpobenang/update/{id}', [TransaksiGudangController::class, 'updategrbenang']);
+Route::get('/grpobenang/detailgrbenang/{id}', [TransaksiGudangController::class, 'detailgrbenang']);
+
+
 Route::view('/grpogreige', 'Goods Receipt.v_gr_greige');
 Route::view('/grtwisting', 'Goods Receipt.v_gr_twisting');
 Route::view('/grdyeingfinishing', 'Goods Receipt.v_gr_dyeingfinishing');

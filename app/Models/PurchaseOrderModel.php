@@ -93,4 +93,15 @@ class PurchaseOrderModel extends Model
                 })
                 ->where('list_kebutuhan_maklon.id_purchaseorder', $id_PurchaseOrder)->get();
     }
+
+    public function FGallData(){
+        return DB::table("barang")
+                ->join("satuan", function($join){
+	                $join->on("barang.id_satuan", "=", "satuan.id_satuan");
+                })
+                ->join("jenis_barang", function($join){
+	                $join->on("jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang");
+                })
+                ->where("id_barang", "like", 'F%')->get();
+    }
 }

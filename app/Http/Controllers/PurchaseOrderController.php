@@ -299,4 +299,104 @@ class PurchaseOrderController extends Controller
 
         return redirect('/pomaklontwisting')->with('pesan','Data berhasil diupdate');
     }
+
+    public function indexpodf(Request $request)
+    {
+        
+        // return $request->all();
+        $id_purchaseorder=$request->id_PurchaseOrder;
+        $tanggal=$request->tanggal;
+        $status=$request->status;
+        
+        //filter by id
+        if($id_purchaseorder OR $tanggal OR $status <> ""){
+            $podf=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+                ->where("purchase_order.status", "LIKE", $status)
+                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("purchase_order.tanggal", "LIKE", $tanggal)
+                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->get();
+            
+        }else{
+            $podf=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+                ->where("purchase_order.id_purchaseorder", "like", "MF%")
+                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->get();
+        }
+        return view('Purchase Order.PO DF.v_po_maklondf',compact('podf'));
+    }
+
+    public function addpodf()
+    {
+        $supplier = SupplierModel::all();
+        $data = [
+            'greige'=> $this->PurchaseOrderModel->GreigeallData(),
+            'fg'=> $this->PurchaseOrderModel->FGallData(),
+        ];
+        return view('Purchase Order.PO DF.v_po_adddf',compact('supplier'),$data);
+    }
+
+    public function DFsubmitData(Request $request)
+    {
+        $data = [
+            'id_PurchaseOrder' => Request()->id_PurchaseOrder,
+            'tanggal' => Request()->tanggal,
+            'id_supplier' => Request()->id_supplier,
+            'total_harga' => Request()->total_harga,
+            'status' => Request()->status,
+            'jenis_bayar' => Request()->jenis_bayar,
+        ];
+        $this->PurchaseOrderModel->addData($data);
+        foreach($request->id_barang as $key=>$id_barang){
+            $datas = new LineItemPOModel();
+            $datas->id_barang =$id_barang;
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->harga = $request->harga[$key];
+            $datas->TotalHarga = $request->total[$key];
+            $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->save();
+        }
+        foreach($request->id_barangmaklon as $key=>$id_barangmaklon){
+            $datas = new ListKebutuhanMaklonModel();
+            $datas->id_barang =$id_barangmaklon;
+            $datas->jumlah = $request->total_maklon[$key];
+            $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->sisa = $request->total_maklon[$key];
+            $datas->save();
+        }
+        return redirect('/pomaklondf')->with('pesan', 'Data Berhasil Disimpan');
+    }
+
+    public function detailpodf($id_PurchaseOrder){
+        $data = [
+            'podf' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
+            'item' =>$this->PurchaseOrderModel->ItemdetailData($id_PurchaseOrder),
+            'list_kebutuhan'=>$this->PurchaseOrderModel->ItemMaklondetailData($id_PurchaseOrder),
+        ];
+        
+         
+        return view('Purchase Order.PO DF.v_po_detaildf', $data);
+    }
+
+    public function editpodf($id_PurchaseOrder)
+    {
+        $data = [
+            'podf' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
+            'item' =>$this->PurchaseOrderModel->ItemdetailData($id_PurchaseOrder),
+            'list_kebutuhan'=>$this->PurchaseOrderModel->ItemMaklondetailData($id_PurchaseOrder),
+        ];
+        
+        return view('Purchase Order.PO DF.v_po_editdf', $data);
+    }
+
+    public function updatepodf( $id_PurchaseOrder)
+    {
+        $data = [
+            'status' => Request()->status,
+        ];
+        $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+        
+
+        return redirect('/pomaklondf')->with('pesan','Data berhasil diupdate');
+    }
 }
