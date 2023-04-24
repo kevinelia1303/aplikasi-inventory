@@ -56,4 +56,14 @@ class TransaksiGudangModel extends Model
                 })
                 ->where('line_item_barang.ID_GR', $ID_Transaksi)->get();
     }
+    public function GreigeallData(){
+        return DB::table("barang")
+                ->join("satuan", function($join){
+	                $join->on("barang.id_satuan", "=", "satuan.id_satuan");
+                })
+                ->join("jenis_barang", function($join){
+	                $join->on("jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang");
+                })
+                ->where("id_barang", "like", 'ITJ%')->get();
+    }
 }

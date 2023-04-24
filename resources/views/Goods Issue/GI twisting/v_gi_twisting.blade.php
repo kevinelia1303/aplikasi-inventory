@@ -1,17 +1,17 @@
 @extends('layout.v_template')
-@section('title', 'GR Benang')
+@section('title', 'GI Twisting')
 @section('content')
-    <h1>Goods Receipt Purchase Order Benang</h1>
-    <form action="/grpobenang" method="get">
+    <h1>Goods Issue Maklon Twisting</h1> 
+    <form action="/gitwisting" method="get">
 		@csrf
 		<div class="row mb-3">
 			<div class="col-sm-2">
 				<label for="" class="form-label"></label>
-				<input type="text" name="ID_Transaksi" class="form-control" placeholder="Cari ID Goods Receipt Benang ...">
+				<input type="text" name="ID_Transaksi" class="form-control" placeholder="Cari ID Goods Issue Twisting ...">
 			</div>
 			<div class="col-sm-2">
 				<label for="" class="form-label"></label>
-				<input type="text" name="id_PurchaseOrder" class="form-control" placeholder="Cari ID PO Benang ...">
+				<input type="text" name="id_PurchaseOrder" class="form-control" placeholder="Cari ID PO Twisting ...">
 			</div>
 			<div class="col-sm-2">
 				<label for="" class="form-label"></label>
@@ -46,7 +46,7 @@
 								<div class="card-header">
 									<div class="d-flex align-items-center">
 										
-										<a href="/grpobenang/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Receipt PO Benang</a> <br>
+										<a href="/gitwisting/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Issue PO Twisting</a> <br>
 									</div>
 								</div>
 								<div class="card-body">
@@ -65,7 +65,7 @@
 											</thead>
 											
 											<tbody>
-                                                @foreach ($grbenang as $data )
+                                                @foreach ($gitwisting as $data )
 												<tr>
 													<td>{{ $data->ID_Transaksi }}</td>
                                                     <td>{{ $data->id_purchaseorder  }}</td>
@@ -74,7 +74,7 @@
 													<td>{{ $data->total_panjang  }}</td>
 													<td>{{ $data->total_roll  }}</td>
 													<td>
-														<a href="/grpobenang/detailgrbenang/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/gitwisting/detailgitwisting/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
 													</td>
 												</tr>
                                                 @endforeach
@@ -94,5 +94,5 @@
   $(document).ready(function() {
         $('#id_supplier').select2();
     });
-</script>     
+</script>  
 @endsection

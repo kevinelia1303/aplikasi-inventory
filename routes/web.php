@@ -108,19 +108,30 @@ Route::get('/pobenang/detailpobenang/{id}', [PurchaseOrderController::class, 'de
 
 
 Route::view('/gipenjualan', 'Goods Issue.v_gi_penjualan');
-Route::view('/gitwisting', 'Goods Issue.v_gi_twisting');
+
+
+Route::get('/gitwisting', [TransaksiGudangController::class, 'indexgitwisting']);
+Route::get('/gitwisting/add', [TransaksiGudangController::class, 'addgitwisting']);
+Route::post('/submitData6', [TransaksiGudangController::class, 'GiTwistingsubmitData'])->name('submitData6');
+Route::get('/gitwisting/detailgitwisting/{id}', [TransaksiGudangController::class, 'detailgitwisting']);
+Route::get('/gitwisting/ajax', [TransaksiGudangController::class, 'ajax']);
+Route::get('/gitwisting/ajax1', [TransaksiGudangController::class, 'ajax1']);
+
 Route::view('/gidyeingfinishing', 'Goods Issue.v_gi_dyeingfinishing');
 
 
 Route::get('/grpobenang', [TransaksiGudangController::class, 'indexgrbenang']);
 Route::get('/grpobenang/add', [TransaksiGudangController::class, 'addgrbenang']);
 Route::post('/submitData4', [TransaksiGudangController::class, 'GrBenangsubmitData'])->name('submitData4');
-Route::get('/grpobenang/edit/{id}', [TransaksiGudangController::class, 'editgrbenang']);
-Route::post('/grpobenang/update/{id}', [TransaksiGudangController::class, 'updategrbenang']);
 Route::get('/grpobenang/detailgrbenang/{id}', [TransaksiGudangController::class, 'detailgrbenang']);
 
 
-Route::view('/grpogreige', 'Goods Receipt.v_gr_greige');
+Route::get('/grpogreige', [TransaksiGudangController::class, 'indexgrgreige']);
+Route::get('/grpogreige/add', [TransaksiGudangController::class, 'addgrgreige']);
+Route::post('/submitData5', [TransaksiGudangController::class, 'GrGreigesubmitData'])->name('submitData5');
+Route::get('/grpogreige/detailgrgreige/{id}', [TransaksiGudangController::class, 'detailgrgreige']);
+
+
 Route::view('/grtwisting', 'Goods Receipt.v_gr_twisting');
 Route::view('/grdyeingfinishing', 'Goods Receipt.v_gr_dyeingfinishing');
 
