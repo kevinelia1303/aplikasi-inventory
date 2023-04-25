@@ -9,7 +9,7 @@
                 @csrf
                 <div class="card-body">
                    <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">ID Goods Receipt</label>
+                    <label class="col-sm-2 col-form-label">ID Goods Issue</label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" name="id_Transaksi" placeholder="ID Goods Issue .." required>
                     </div>
@@ -115,7 +115,7 @@
             // document.getElementById('total_roll').value = baris;
             
             console.log(baris);
-            $("#result"+baris).change(function(){
+            $("#result"+baris).keyup(function(){
                 var kode_barang = $("#result"+baris).val();
                 $.ajax({
                     type: "GET",
@@ -133,39 +133,22 @@
                     cache:false,
                     success: function (data) {
                         $('#totalpanjang'+baris).html(data);
+                        var arr = document.getElementsByName('jumlah[]');
+                        var tot=0;
+                        for(var i=0;i<arr.length;i++){
+                          if(parseInt(arr[i].value))
+                              tot += parseInt(arr[i].value);
+                        }
+                        document.getElementById('total_panjang').value = tot;
+                        var table = document.getElementById("tabel1");
+                        var totalRowCount = table.rows.length;
+                        var rows = totalRowCount - 1;
+                        console.log(totalRowCount);
+                        document.getElementById('total_roll').value = rows;
                     }
                 });
-                var arr = document.getElementsByName('jumlah[]');
-                var tot=0;
-                for(var i=1;i<arr.length;i++){
-                  if(parseInt(arr[i].value))
-                      tot += parseInt(arr[i].value);
-                }
-                console.log(tot);
-                document.getElementById('total_panjang').value = tot;
-                var table = document.getElementById("tabel1");
-                var totalRowCount = table.rows.length;
-                var rows = totalRowCount - 1;
-                console.log(totalRowCount);
-                document.getElementById('total_roll').value = rows;
             });
-            $(document).ready(function(){
-              $("#jumlah"+baris).keyup(function() {
-                var arr = document.getElementsByName('jumlah[]');
-                var tot=0;
-                for(var i=0;i<arr.length;i++){
-                  if(parseInt(arr[i].value))
-                      tot += parseInt(arr[i].value);
-                }
-                console.log(tot);
-                document.getElementById('total_panjang').value = tot;
-                var table = document.getElementById("tabel1");
-                var totalRowCount = table.rows.length;
-                var rows = totalRowCount - 1;
-                console.log(totalRowCount);
-                document.getElementById('total_roll').value = rows;
-              });
-            });
+              
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

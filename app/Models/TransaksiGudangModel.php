@@ -66,4 +66,14 @@ class TransaksiGudangModel extends Model
                 })
                 ->where("id_barang", "like", 'ITJ%')->get();
     }
+
+    public function GIItemdetailData($ID_Transaksi)
+    {
+        
+        return DB::table("line_item_barang")
+                ->join("transaksi_gudang", function($join){
+                    $join->on("transaksi_gudang.ID_Transaksi", "=", "line_item_barang.ID_GR");
+                })
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)->get();
+    }
 }

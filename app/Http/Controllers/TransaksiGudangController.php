@@ -203,4 +203,32 @@ class TransaksiGudangController extends Controller
 
         return view('Goods Issue.GI twisting.ajax_panjang', compact('ajax_barang'));
     }
+
+    public function GiTwistingsubmitData(Request $request)
+    {
+        $data = [
+            'ID_Transaksi' => Request()->id_Transaksi,
+            'id_purchaseorder' => Request()->id_PurchaseOrder,
+            'Tanggal' => Request()->tanggal,
+            'id_supp' => Request()->id_supplier,
+            'total_panjang' => Request()->total_panjang,
+            'total_roll' => Request()->total_roll,
+        ];
+        $this->TransaksiGudangModel->addData($data);
+        foreach($request->kode_barang as $key=>$kode_barang){
+            $kode = [$request->kode_barang[$key]];
+            line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
+        }
+
+        
+        return redirect('/gitwisting')->with('pesan', 'Data Berhasil Disimpan');
+    }
+
+    public function detailgitwisting($ID_Transaksi){
+        $data = [
+            'gitwisting' =>$this->TransaksiGudangModel->detailData($ID_Transaksi),
+            'item' =>$this->TransaksiGudangModel->GIItemdetailData($ID_Transaksi),
+        ];
+        return view('Goods Issue.GI twisting.v_gi_detailtwisting', $data);
+    }
 }

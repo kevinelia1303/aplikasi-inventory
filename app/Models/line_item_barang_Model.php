@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class line_item_barang_Model extends Model
 {
@@ -17,4 +18,9 @@ class line_item_barang_Model extends Model
         'ID_GR',
         'ID_GI'
     ];
+
+    public function editData($Kode_Barang, $data)
+    {
+        DB::table('line_item_barang')->where('Kode_Barang',$Kode_Barang)->update($data);
+    }
 }

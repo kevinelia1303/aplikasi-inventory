@@ -76,14 +76,14 @@
               <li class="nav-item">
                 <a href="/stockfg" class="nav-link {{ request()->is('stockfg') ? 'active' : '' }}">
                   <i class="far fas fa-info nav-icon"></i>
-                  <p>Stock Finished Goods</p>
+                  <p>01 Finished Goods</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/stockgreige" class="nav-link {{ request()->is('stockgreige') ? 'active' : '' }}">
                   <i class="far fas fa-info nav-icon"></i>
                   <p>
-                    Stock Greige
+                    02 Greige
                   </p>
                 </a>
               </li>
@@ -91,7 +91,7 @@
                 <a href="/stockbenang" class="nav-link {{ request()->is('stockbenang') ? 'active' : '' }}">
                   <i class="far fas fa-info nav-icon"></i>
                   <p>
-                    Stock Benang
+                    03 Benang
                   </p>
                 </a>
               </li>
@@ -109,20 +109,20 @@
               <li class="nav-item">
                 <a href="/pobenang" class="nav-link {{ request()->is('pobenang*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
-                  <p>PO Benang</p>
+                  <p>01 Benang</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/pogreige" class="nav-link {{ request()->is('pogreige*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
-                  <p>PO Greige</p>
+                  <p>02 Greige</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/pomaklontwisting" class="nav-link {{ request()->is('pomaklontwisting*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
-                    Maklon Twisting
+                    03 Maklon Twisting
                   </p>
                 </a>
               </li>
@@ -130,7 +130,7 @@
                 <a href="/pomaklondf" class="nav-link {{ request()->is('pomaklondf*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
-                    Maklon Dyeing Finishing
+                    04 Maklon Dyeing Finishing
                   </p>
                 </a>
               </li>
@@ -148,14 +148,14 @@
               <li class="nav-item">
                 <a href="/gipenjualan" class="nav-link {{ request()->is('gipenjualan') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
-                  <p>Goods Issue Penjualan</p>
+                  <p>01 Penjualan</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/gitwisting" class="nav-link {{ request()->is('gitwisting') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
-                    GI Maklon Twisting
+                    02 Maklon Twisting
                   </p>
                 </a>
               </li>
@@ -163,7 +163,7 @@
                 <a href="/gidyeingfinishing" class="nav-link {{ request()->is('gidyeingfinishing') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
-                    GI Maklon Dyeing Finishing
+                    03 Maklon Dyeing Finishing
                   </p>
                 </a>
               </li>
@@ -181,20 +181,20 @@
               <li class="nav-item">
                 <a href="/grpobenang" class="nav-link {{ request()->is('grpobenang*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
-                  <p>GR PO Benang</p>
+                  <p>01 Benang</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/grpogreige" class="nav-link {{ request()->is('grpogreige*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
-                  <p>GR PO Greige</p>
+                  <p>02 Greige</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/grtwisting" class="nav-link {{ request()->is('grtwisting*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
-                    GR Maklon Twisting
+                    03 Maklon Twisting
                   </p>
                 </a>
               </li>
@@ -202,7 +202,7 @@
                 <a href="/grdyeingfinishing" class="nav-link {{ request()->is('grdyeingfinishing*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
-                    GR Maklon Dyeing Finishing
+                    04 Maklon Dyeing Finishing
                   </p>
                 </a>
               </li>
