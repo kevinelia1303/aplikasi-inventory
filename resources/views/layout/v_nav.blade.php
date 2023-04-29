@@ -136,8 +136,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item {{ request()->is('gipenjualan','gitwisting','gidyeingfinishing') ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->is('gipenjualan','gitwisting','gidyeingfinishing') ? 'active' : '' }}"">
+          <li class="nav-item {{ request()->is('gipenjualan*','gitwisting*','gidf*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('gipenjualan*','gitwisting*','gidf*') ? 'active' : '' }}"">
               <i class="nav-icon fas fa-truck-loading"></i>
               <p>
                 Goods Issue
@@ -146,13 +146,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/gipenjualan" class="nav-link {{ request()->is('gipenjualan') ? 'active' : '' }}">
+                <a href="/gipenjualan" class="nav-link {{ request()->is('gipenjualan*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>01 Penjualan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/gitwisting" class="nav-link {{ request()->is('gitwisting') ? 'active' : '' }}">
+                <a href="/gitwisting" class="nav-link {{ request()->is('gitwisting*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
                     02 Maklon Twisting
@@ -160,7 +160,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/gidyeingfinishing" class="nav-link {{ request()->is('gidyeingfinishing') ? 'active' : '' }}">
+                <a href="/gidf" class="nav-link {{ request()->is('gidf*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>
                     03 Maklon Dyeing Finishing
