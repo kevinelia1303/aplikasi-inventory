@@ -107,7 +107,12 @@ Route::post('/pobenang/update/{id}', [PurchaseOrderController::class, 'updatepo'
 Route::get('/pobenang/detailpobenang/{id}', [PurchaseOrderController::class, 'detailpobenang']);
 
 
-Route::view('/gipenjualan', 'Goods Issue.v_gi_penjualan');
+Route::get('/gipenjualan', [TransaksiGudangController::class, 'indexgipenjualan']);
+Route::get('/gipenjualan/add', [TransaksiGudangController::class, 'addgipenjualan']);
+Route::post('/submitDataPenjualan', [TransaksiGudangController::class, 'GiPenjualansubmitData'])->name('submitDataPenjualan');
+Route::get('/gipenjualan/detailgipenjualan/{id}', [TransaksiGudangController::class, 'detailgipenjualan']);
+Route::get('/gipenjualan/ajax4', [TransaksiGudangController::class, 'ajax4']);
+Route::get('/gipenjualan/ajax5', [TransaksiGudangController::class, 'ajax5']);
 
 
 Route::get('/gitwisting', [TransaksiGudangController::class, 'indexgitwisting']);
@@ -121,7 +126,7 @@ Route::get('/gitwisting/ajax1', [TransaksiGudangController::class, 'ajax1']);
 Route::get('/gidf', [TransaksiGudangController::class, 'indexgidf']);
 Route::get('/gidf/add', [TransaksiGudangController::class, 'addgidf']);
 Route::post('/submitData8', [TransaksiGudangController::class, 'GiDFsubmitData'])->name('submitData8');
-Route::get('/gidf/detailgitwisting/{id}', [TransaksiGudangController::class, 'detailgidf']);
+Route::get('/gidf/detailgidf/{id}', [TransaksiGudangController::class, 'detailgidf']);
 Route::get('/gidf/ajax2', [TransaksiGudangController::class, 'ajax2']);
 Route::get('/gidf/ajax3', [TransaksiGudangController::class, 'ajax3']);
 
@@ -143,7 +148,11 @@ Route::post('/submitData7', [TransaksiGudangController::class, 'GrTwistingsubmit
 Route::get('/grtwisting/detailgrtwisting/{id}', [TransaksiGudangController::class, 'detailgrtwisting']);
 
 
-Route::view('/grdyeingfinishing', 'Goods Receipt.v_gr_dyeingfinishing');
+Route::get('/grdyeingfinishing', [TransaksiGudangController::class, 'indexgrdf']);
+Route::get('/grdyeingfinishing/add', [TransaksiGudangController::class, 'addgrdf']);
+Route::post('/submitData9', [TransaksiGudangController::class, 'GrDFsubmitData'])->name('submitData9');
+Route::get('/grdyeingfinishing/detailgrdf/{id}', [TransaksiGudangController::class, 'detailgrdf']);
+
 
 Route::view('/stockfg', 'stock information.v_stockfg');
 Route::view('/stockgreige', 'stock information.v_stockgreige');

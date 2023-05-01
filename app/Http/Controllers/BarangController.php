@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\BarangModel;
 use App\Models\JenisBarangModel;
+use App\Models\line_item_barang_Model;
 use App\Models\SatuanModel;
 use Illuminate\Support\Facades\DB;
 
@@ -59,9 +60,16 @@ class BarangController extends Controller
     public function detailfg($id_barang){
         $data = [
             'finished_goods' =>$this->BarangModel->FGdetailData($id_barang),
+            'list' =>$this->BarangModel->listItem($id_barang)
         ];
+        $total_roll = line_item_barang_Model::where('id_barang',$id_barang)
+                        ->whereNull("id_gi")
+                        ->count('id_barang');
+        $total_panjang = line_item_barang_Model::where('id_barang',$id_barang)
+                        ->whereNull("id_gi")
+                        ->sum('total_Panjang');
         
-        return view('master.finished goods.v_detailfg', $data);
+        return view('master.finished goods.v_detailfg', compact('total_roll','total_panjang'), $data);
     }
 
     public function editfg($id_barang)
@@ -175,10 +183,17 @@ class BarangController extends Controller
 
     public function detailgreige($id_barang){
         $data = [
-            'greige' =>$this->BarangModel->FGdetailData($id_barang),
+            'greige' =>$this->BarangModel->GreigedetailData($id_barang),
+            'list' =>$this->BarangModel->listItem($id_barang)
         ];
+        $total_roll = line_item_barang_Model::where('id_barang',$id_barang)
+                        ->whereNull("id_gi")
+                        ->count('id_barang');
+        $total_panjang = line_item_barang_Model::where('id_barang',$id_barang)
+                        ->whereNull("id_gi")
+                        ->sum('total_Panjang');
         
-        return view('master.greige.v_detailgreige', $data);
+        return view('master.greige.v_detailgreige', compact('total_roll','total_panjang'), $data);
     }
 
     public function indexbenang()
@@ -252,8 +267,15 @@ class BarangController extends Controller
     public function detailbenang($id_barang){
         $data = [
             'benang' =>$this->BarangModel->BenangdetailData($id_barang),
+            'list' =>$this->BarangModel->listItem($id_barang),
         ];
+        $total_roll = line_item_barang_Model::where('id_barang',$id_barang)
+                        ->whereNull("id_gi")
+                        ->count('id_barang');
+        $total_panjang = line_item_barang_Model::where('id_barang',$id_barang)
+                        ->whereNull("id_gi")
+                        ->sum('total_Panjang');
         
-        return view('master.benang.v_detailbenang', $data);
+        return view('master.benang.v_detailbenang', compact('total_roll','total_panjang'), $data);
     }
 }

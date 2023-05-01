@@ -1,28 +1,28 @@
 @extends('layout.v_template')
-@section('title', 'GI DF')
+@section('title', 'GR DF')
 @section('content')
-    <h1>Detail Goods Issue Maklon Dyeing Finishing</h1>    
+    <h1>Detail Goods Receipt Maklon Dyeing Finishing</h1>
     <div class="content">
         <div class="row">
             <div class="col-sm-6">
             <div class="modal-body">
                 <div class="form-group">
-                    <label>ID Goods Issue : {{ $gidf->ID_Transaksi }}</label>
+                    <label>ID Goods Receipt : {{ $grdf->ID_Transaksi }}</label>
                 </div>
                 <div class="form-group">
-                    <label>ID Purchase Order : {{ $gidf->id_purchaseorder }}</label>
+                    <label>ID Purchase Order : {{ $grdf->id_purchaseorder }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Tanggal : {{ $gidf->Tanggal }}</label>
+                    <label>Tanggal : {{ $grdf->Tanggal }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Supplier : {{ $gidf->nama_supplier }}</label>
+                    <label>Supplier : {{ $grdf->nama_supplier }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Panjang : {{ $gidf->total_panjang }} yard</label>
+                    <label>Total Panjang : {{ $grdf->total_panjang }} yard</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Roll : {{ $gidf->total_roll }}</label>
+                    <label>Total Roll : {{ $grdf->total_roll }}</label>
                 </div>
             </div>  
             <h5>List Barang</h5>
@@ -54,5 +54,5 @@
                 </div>
                 <!-- /.col -->
               </div>
-    </div>  
+    </div>     
 @endsection

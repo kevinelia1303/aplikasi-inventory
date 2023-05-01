@@ -121,4 +121,25 @@ class BarangModel extends Model
     {
         DB::table('barang')->where('id_barang',$id_barang)->delete();
     }
+
+    public function listItem($id_barang)
+    {
+        return DB::table("line_item_barang")
+                ->join("transaksi_gudang", function($join){
+                    $join->on("line_item_barang.id_gr", "=", "transaksi_gudang.id_transaksi");
+                })
+                ->where("id_barang", "=", $id_barang)
+                ->whereNull("id_gi")
+                ->orderBy("transaksi_gudang.tanggal","asc")
+                ->get();
+    }
+
+    public function countitem($id_barang)
+    {
+       return DB::table("line_item_barang")
+                ->where("id_barang", "=", $id_barang)
+                ->count();
+
+
+    }
 }

@@ -15,6 +15,7 @@ class TransaksiGudangModel extends Model
     protected $fillable = [
         'ID_Transaksi',
         'Tanggal',
+        'id_sales',
         'total_panjang',
         'total_roll',
         'id_purchaseorder',
@@ -75,5 +76,24 @@ class TransaksiGudangModel extends Model
                     $join->on("transaksi_gudang.ID_Transaksi", "=", "line_item_barang.ID_GR");
                 })
                 ->where('line_item_barang.ID_GI', $ID_Transaksi)->get();
+    }
+
+    public function FGallData(){
+        return DB::table("barang")
+                ->join("satuan", function($join){
+	                $join->on("barang.id_satuan", "=", "satuan.id_satuan");
+                })
+                ->join("jenis_barang", function($join){
+	                $join->on("jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang");
+                })
+                ->where("id_barang", "like", 'F%')->get();
+    }
+
+    public function GIPenjualanallData()
+    {
+        DB::table("transaksi_gudang")
+        ->where("id_transaksi", "like", 'jf%')
+        ->orderBy("id_transaksi","desc")
+        ->get();
     }
 }

@@ -22,10 +22,10 @@
                     <label>Satuan : {{ $finished_goods->satuan }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Roll : </label>
+                    <label>Total Roll : {{ $total_roll   }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Yard : </label>
+                    <label>Total Yard : {{ $total_panjang  }}</label>
                 </div>
             </div>  
             <h5>List Ketersediaan Barang</h5>
@@ -47,13 +47,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Call of Duty</td>
-                      <td>455-981-221</td>
-                      <td>El snort testosterone trophy driving gloves handsome</td>
-                      <td>$64.50</td>
-                    </tr>
+                    @foreach ($list as $data )
+												<tr>
+													<td>{{ $data->id_barang }}</td>
+													<td>{{ $data->total_Panjang }}</td>
+                          <td></td>
+                          <td>{{ $data->Tanggal }}</td>
+                          <td>{{ $data->Kode_Barang }}</td>
+													<td>
+													</td>
+												</tr>
+                    @endforeach
                     </tbody>
                   </table>
                 </div>
