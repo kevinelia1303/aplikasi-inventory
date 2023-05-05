@@ -39,6 +39,7 @@
                       <th style="border:1px solid">Kode Barang</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
+                      <th style="border:1px solid">Lokasi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,7 @@
                       <td>{{ $data->Kode_Barang }}</td>
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ $data->total_Panjang }}</td>
+                      <td>{{ $data->kode_gudang }}</td>
                     </tr>
                     @endforeach
                     </tbody>

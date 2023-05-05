@@ -14,16 +14,66 @@ class UserController extends Controller
     public function __construct()
     {
         $this->User = new User();
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = [
-            'user'=> $this->User->allData(),
-        ];
+        //return $request->all();
+        // DB::enableQueryLog();
+        $name=$request->name;
+        $Divisi1=$request->Divisi;
+        $Jabatan1=$request->Jabatan;
+        $divisi = divisiModel::all();
+        $jabatan = jabatan::all();
+        if (auth()->user()->id_jabatan == 1 ) {
+            if ($name OR $Divisi1 OR $Jabatan1 <> "") {
+            $user=User::join('jabatan', 'users.id_jabatan','=','jabatan.id_jabatan')
+                ->join("divisi", "users.id_divisi", '=',"divisi.id_divisi")
+                ->where("users.name", "like", '%'.$name.'%')
+                ->where("users.id_divisi", "like", '%'.$Divisi1)
+                ->where("users.id_jabatan", "like", '%'.$Jabatan1)
+                ->get();
+            }else{
+            $user=User::join('jabatan', 'users.id_jabatan','=','jabatan.id_jabatan')
+                    ->join("divisi", "users.id_divisi", '=',"divisi.id_divisi")
+                    ->where("users.id_divisi", "=", 1)
+                    ->get();
+            }
+        }elseif (auth()->user()->id_jabatan == 3 ) {
+            if ($name OR $Divisi1 OR $Jabatan1 <> "") {
+            $user=User::join('jabatan', 'users.id_jabatan','=','jabatan.id_jabatan')
+                ->join("divisi", "users.id_divisi", '=',"divisi.id_divisi")
+                ->where("users.name", "like", '%'.$name.'%')
+                ->where("users.id_divisi", "like", '%'.$Divisi1)
+                ->where("users.id_jabatan", "like", '%'.$Jabatan1)
+                ->get();
+            }else{
+            $user=User::join('jabatan', 'users.id_jabatan','=','jabatan.id_jabatan')
+                    ->join("divisi", "users.id_divisi", '=',"divisi.id_divisi")
+                    ->where("users.id_divisi", "=", 2)
+                    ->get();
+            }
+        }elseif (auth()->user()->id_jabatan == 5) {
+            if ($name OR $Divisi1 OR $Jabatan1 <> "") {
+            $user=User::join('jabatan', 'users.id_jabatan','=','jabatan.id_jabatan')
+                ->join("divisi", "users.id_divisi", '=',"divisi.id_divisi")
+                ->where("users.name", "like", '%'.$name.'%')
+                ->where("users.id_divisi", "like", '%'.$Divisi1)
+                ->where("users.id_jabatan", "like", '%'.$Jabatan1)
+                ->get();
+            }else{
+            $user=User::join('jabatan', 'users.id_jabatan','=','jabatan.id_jabatan')
+                    ->join("divisi", "users.id_divisi", '=',"divisi.id_divisi")
+                    ->get();
+            }
+        }else {
+            return redirect('/');
+        }
         
-        return view('master.user.v_user', $data);
+        
+        // dd(DB::getQueryLog());
+        return view('master.user.v_user',compact('user','divisi','jabatan'));
     }
 
     public function add()
@@ -79,16 +129,16 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'jabatan' => $request->Jabatan,
-            'divisi' => $request->Divisi,
+            'id_jabatan' => $request->Jabatan,
+            'id_divisi' => $request->Divisi,
         ];
         $this->User->editData($id,$data);
         }else{
            $data = [
             'name' => $request->name,
             'email' => $request->email,
-            'jabatan' => $request->Jabatan,
-            'divisi' => $request->Divisi,
+            'id_jabatan' => $request->Jabatan,
+            'id_divisi' => $request->Divisi,
         ];
         $this->User->editData($id,$data); 
         }

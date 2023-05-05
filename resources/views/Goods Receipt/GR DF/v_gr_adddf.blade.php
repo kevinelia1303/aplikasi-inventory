@@ -8,6 +8,8 @@
               <form method="post" action="{{ route('submitData9') }}" class="form-horizontal">
                 @csrf
                 <div class="card-body">
+                  <input type="hidden" value="{{ Auth::user()->id }}" name="id_user" required>
+                  
                    <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Goods Receipt</label>
                     <div class="col-sm-10">
@@ -69,6 +71,7 @@
                       <th style="border:1px solid">Kode Barang</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
+                      <th style="border:1px solid">Lokasi</th>
                       <th style="border:1px solid">
                             <a href="javascript:;" class="btn btn-info addRow">+</a></th>
                         </th> 
@@ -99,11 +102,11 @@
         $('thead').on('click', '.addRow', function () {
             baris = baris + 1
             var html = "<tr style='border:1px solid' id='baris'" +baris+  ">"
-                html += "<td style='border:1px solid;width:50%;'>"
-                html += "<input type='text' size=60 name='kode_barang[]' id='result" +baris+"'>"
+                html += "<td style='border:1px solid;width:40%;'>"
+                html += "<input type='text' size=40 name='kode_barang[]' id='result" +baris+"'>"
                 html += "</td>"
                 html += "<td style='border:1px solid;width:30%;'>"
-                html += "<select class='form-control' name='id_barang[]' class='id_barang' id='id_barang"+baris+"' required>"
+                html += "<select style='width:100%;' class='form-control' name='id_barang[]' class='id_barang' id='id_barang"+baris+"' required>"
                 html += "<option value='' hidden>-- Pilih Barang --</option>"
                 html += "@foreach ($fg as $data)"
                 html += "<option value='{{ $data->id_barang }}'>{{ $data->id_barang }}</option>"
@@ -112,6 +115,14 @@
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
                 html += "<input type='text' class='form-control' name='jumlah[]' id='jumlah" +baris+"' required>"
+                html += "</td>"
+                html += "<td style='border:1px solid;width:15%;'>"
+                html += "<select class='form-control' name='kode_gudang[]' class='kode_gudang' id='kode_gudang"+baris+"' required>"
+                html += "<option value='' hidden>-- Pilih Gudang --</option>"
+                html += "@foreach ($gudang as $data)"
+                html += "<option value='{{ $data->kode_gudang }}'>{{ $data->kode_gudang }}</option>"
+                html += "@endforeach"
+                html += "</select>"
                 html += "</td>"
                 html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"

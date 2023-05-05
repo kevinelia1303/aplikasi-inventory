@@ -2,6 +2,36 @@
 @section('title', 'User')
 @section('content')
     <h1>Data Master User</h1>
+	<form action="/user" method="get">
+	@csrf
+	<div class="row mb-3">
+		<div class="col-sm-3">
+			<label for="" class="form-label"></label>
+			<input type="text" name="name" class="form-control" placeholder="Cari Nama ...">
+		</div>
+		<div class="col-sm-3">
+			<label></label>
+			<select class="form-control" name="Divisi" >
+				<option value="" hidden>-- Pilih Divisi --</option>
+				@foreach ($divisi as $data)
+					<option value="{{ $data->id_divisi }}">{{ $data->nama_divisi }}</option>
+				@endforeach
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<label></label>
+			<select class="form-control" name="Jabatan" >
+				<option value="" hidden>-- Pilih Jabatan --</option>
+				@foreach ($jabatan as $data)
+					<option value="{{ $data->id_jabatan }}">{{ $data->nama_jabatan }}</option>
+				@endforeach
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<button type="submit" class="btn btn-primary mt-4">Search</button>
+		</div>
+	</div>
+</form>
 	@if (session('pesan'))
 	<div class="alert alert-success" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

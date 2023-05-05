@@ -10,6 +10,7 @@
               <form method="post" action="{{ route('submitData') }}" class="form-horizontal">
                 @csrf
                 <div class="card-body">
+                   <input type="hidden" value="{{ Auth::user()->id }}" name="id_user" required>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
@@ -70,7 +71,7 @@
                       
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah</th>
-                      <th style="border:1px solid">Harga Per Yard</th>
+                      <th style="border:1px solid">Harga</th>
                       <th style="border:1px solid">Total Harga</th>
                       <th >
                                 <a href="javascript:;" class="btn btn-info addRow">+</a></th>

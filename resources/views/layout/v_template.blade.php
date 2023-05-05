@@ -30,7 +30,7 @@
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <img src="{{ asset('AdminLTE-master/') }}/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
-          <span class="d-none d-md-inline">Alexander Pierce</span>
+          <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
 
               
         </a>
@@ -39,9 +39,27 @@
           <li class="user-header bg-primary">
             <img src="{{ asset('AdminLTE-master/') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
 
-            <p>
-              Alexander Pierce
-            </p>
+            <h6>
+              {{ Auth::user()->name }} - {{ Auth::user()->email }}
+            </h6>
+              @if (auth()->user()->id_divisi == 1)
+                  <small>Inventory - </small>
+              @elseif (auth()->user()->id_divisi == 2)
+                  <small>Marketing - </small>
+              @elseif(auth()->user()->id_divisi == 3)
+                  <small>Top Level Management - </small>
+              @endif
+              @if (auth()->user()->id_jabatan == 1)
+                  <small>Kepala Gudang</small>
+              @elseif (auth()->user()->id_jabatan == 2)
+                  <small>Staff Gudang</small>
+              @elseif(auth()->user()->id_jabatan == 3)
+                  <small>Kepala Marketing</small>
+              @elseif(auth()->user()->id_jabatan == 4)
+                  <small>Staff Marketing</small>
+              @elseif(auth()->user()->id_jabatan == 5)
+                  <small>Top Level Management</small>
+              @endif
           </li>
           <!-- Menu Body -->
 
@@ -56,7 +74,7 @@
                   </td>
                   <td>
                     <div class="pull-right">
-                      <form id="logout-form"  method="POST">
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST">
                       @csrf
                       
                         <button type="submit" class="btn btn-danger btn-flat">Log out</button>
@@ -97,10 +115,27 @@
           <img src="{{ asset('AdminLTE-master/') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-            <a href="#" class="d-block">
+          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            <a  class="d-block">
                 
-                Admin
+              @if (auth()->user()->id_divisi == 1)
+                  <small>Inventory - </small>
+              @elseif (auth()->user()->id_divisi == 2)
+                  <small>Marketing - </small>
+              @elseif(auth()->user()->id_divisi == 3)
+                  <small>Top Level Management - </small>
+              @endif
+              @if (auth()->user()->id_jabatan == 1)
+                  <small>Kepala Gudang</small>
+              @elseif (auth()->user()->id_jabatan == 2)
+                  <small>Staff Gudang</small>
+              @elseif(auth()->user()->id_jabatan == 3)
+                  <small>Kepala Marketing</small>
+              @elseif(auth()->user()->id_jabatan == 4)
+                  <small>Staff Marketing</small>
+              @elseif(auth()->user()->id_jabatan == 5)
+                  <small>Top Level Management</small>
+              @endif
                 
                 
             </a>

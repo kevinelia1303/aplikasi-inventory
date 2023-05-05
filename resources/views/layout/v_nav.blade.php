@@ -7,6 +7,9 @@
               <p>Home</p>
             </a>
           </li>
+          @if (auth()->user()->id_divisi == 2)
+              
+          @endif
           <li class="nav-item {{ request()->is('user*','finished-goods*','benang*','greige*','supplier*','gudang*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('user*','finished-goods*','benang*','greige*','supplier*','gudang*') ? 'active' : '' }}"">
               <i class="nav-icon fas fa-database"></i>
@@ -16,12 +19,15 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              @if (auth()->user()->id_jabatan == 1 OR auth()->user()->id_jabatan == 3 OR auth()->user()->id_jabatan == 5)
+                  <li class="nav-item">
                 <a href="/user" class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
                   <i class="far fa-user nav-icon"></i>
                   <p>01 User</p>
                 </a>
               </li>
+              @endif
+              
               <li class="nav-item">
                 <a href="/benang" class="nav-link {{ request()->is('benang*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
@@ -46,6 +52,7 @@
                   </p>
                 </a>
               </li>
+              @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
               <li class="nav-item">
                 <a href="/supplier" class="nav-link {{ request()->is('supplier*') ? 'active' : '' }}">
                   <i class="far far fa-handshake nav-icon"></i>
@@ -62,6 +69,7 @@
                   </p>
                 </a>
               </li>
+              @endif
             </ul>
           </li>
           <li class="nav-item {{ request()->is('stockfg','stockbenang','stockgreige') ? 'menu-open' : '' }}">
@@ -97,6 +105,7 @@
               </li>
             </ul>
           </li>
+          @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
           <li class="nav-item {{ request()->is('pobenang*','pogreige*','pomaklontwisting*','pomaklondf*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('pobenang*','pogreige*','pomaklontwisting*','pomaklondf*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-cart-plus"></i>
@@ -207,5 +216,6 @@
                 </a>
               </li>
             </ul>
-          </li>   
+          </li>
+          @endif   
         </ul>

@@ -14,16 +14,23 @@ class SupplierController extends Controller
     public function __construct()
     {
         $this->SupplierModel = new SupplierModel();
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $supplier = SupplierModel::all();
-        $data = [
-            'supp'=> $this->SupplierModel->allData(),
-        ];
-        return view('master.supplier.v_supplier',$data, compact('supplier'));
+        $nama=$request->nama;
+        if ($nama <> "") {
+            $supp=SupplierModel::join('provinces', "supplier.province_id", "=", "provinces.id")
+                                ->join("regencies","supplier.regencies_id", "=", "regencies.id")
+                                ->where("supplier.nama_supplier","like",'%'.$nama.'%')
+                                ->get();
+        }else{
+            $supp=SupplierModel::join('provinces', "supplier.province_id", "=", "provinces.id")
+                                ->join("regencies","supplier.regencies_id", "=", "regencies.id")
+                                ->get();
+        }
+        return view('master.supplier.v_supplier',compact('supp'));
     }
 
     public function add()

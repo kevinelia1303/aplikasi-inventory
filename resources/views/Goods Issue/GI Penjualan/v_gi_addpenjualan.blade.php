@@ -8,6 +8,8 @@
               <form method="post" action="{{ route('submitDataPenjualan') }}" class="form-horizontal">
                 @csrf
                 <div class="card-body">
+                  <input type="hidden" value="{{ Auth::user()->id }}" name="id_user" required>
+                  
                    <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Goods Issue</label>
                     <div class="col-sm-10">

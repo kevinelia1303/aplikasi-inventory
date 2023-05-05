@@ -2,6 +2,18 @@
 @section('title', 'Supplier')
 @section('content')
     <h1>Data Master Supplier</h1>
+	<form action="/supplier" method="get">
+		@csrf
+		<div class="row mb-3">
+			<div class="col-sm-4">
+				<label for="" class="form-label"></label>
+				<input type="text" name="nama" class="form-control" placeholder="Cari Nama Supplier ...">
+			</div>
+			<div class="col-sm-3">
+				<button type="submit" class="btn btn-primary mt-4">Search</button>
+			</div>
+		</div>
+	</form>
     @if (session('pesan'))
 	<div class="alert alert-success" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -58,7 +70,7 @@
 											</tbody>
 										</table>
 
-										@foreach ($supplier as $data)
+										@foreach ($supp as $data)
 
     
 										<div class="modal fade" id="delete{{$data->id_supp}}">

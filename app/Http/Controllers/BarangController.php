@@ -14,16 +14,31 @@ class BarangController extends Controller
     public function __construct()
     {
         $this->BarangModel = new BarangModel();
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
-    public function indexfg()
+    public function indexfg(Request $request)
     {
-
+        $id_barang=$request->id_barang;
+        $nama=$request->nama;
+        $warna=$request->warna;
+        if ($id_barang OR $nama OR $warna <> "") {
+            $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
+                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+                                ->where("barang.id_barang","like",'%'.$id_barang.'%')
+                                ->where("barang.keterangan1","like",'%'.$nama.'%')
+                                ->where("barang.keterangan2","like",'%'.$warna.'%')
+                                ->get();
+        }else{
+            $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
+                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+                                ->where("barang.id_barang","like",'F%')
+                                ->get();
+        }
         $data = [
             'finished_goods'=> $this->BarangModel->FGallData(),
         ];
-        return view('master.finished goods.v_fg',$data);
+        return view('master.finished goods.v_fg',compact('finished_goods'));
     }
 
     public function addfg()
@@ -105,13 +120,21 @@ class BarangController extends Controller
        return redirect('/finished-goods')->with('pesan','Data berhasil dihapus');
     }
 
-    public function indexgreige()
+    public function indexgreige(Request $request)
     {
-
-        $data = [
-            'greige'=> $this->BarangModel->GreigeallData(),
-        ];
-        return view('master.greige.v_greige',$data);
+        $id_barang=$request->id_barang;
+        if ($id_barang <> "") {
+            $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
+                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+                                ->where("barang.id_barang","like",'%'.$id_barang.'%')
+                                ->get();
+        }else{
+            $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
+                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+                                ->where("barang.id_barang","like",'ITJ%')
+                                ->get();
+        }
+        return view('master.greige.v_greige', compact('greige'));
     }
 
     public function addgreige()
@@ -196,13 +219,22 @@ class BarangController extends Controller
         return view('master.greige.v_detailgreige', compact('total_roll','total_panjang'), $data);
     }
 
-    public function indexbenang()
+    public function indexbenang(Request $request)
     {
-
-        $data = [
-            'benang'=> $this->BarangModel->BenangallData(),
-        ];
-        return view('master.benang.v_benang',$data);
+        $id_barang=$request->id_barang;
+        if ($id_barang <> "") {
+            $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
+                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+                                ->where("barang.id_barang","like",'%'.$id_barang.'%')
+                                ->get();
+        }else{
+            $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
+                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+                                ->where("barang.id_barang","like",'YA%')
+                                ->get();
+        }
+        
+        return view('master.benang.v_benang', compact('benang'));
     }
 
     public function addbenang()

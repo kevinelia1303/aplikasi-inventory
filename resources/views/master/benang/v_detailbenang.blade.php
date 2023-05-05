@@ -45,7 +45,7 @@
 												<tr>
 													<td>{{ $data->id_barang }}</td>
 													<td>{{ $data->total_Panjang }}</td>
-                          <td></td>
+                          <td>{{ $data->kode_gudang }}</td>
                           <td>{{ $data->Tanggal }}</td>
                           <td>{{ $data->Kode_Barang }}</td>
 													<td>

@@ -16,7 +16,8 @@ class line_item_barang_Model extends Model
         'total_Panjang',
         'id_barang',
         'ID_GR',
-        'ID_GI'
+        'ID_GI',
+        'kode_gudang'
     ];
 
     public function editData($Kode_Barang, $data)

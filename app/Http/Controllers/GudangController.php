@@ -12,7 +12,7 @@ class GudangController extends Controller
     public function __construct()
     {
         $this->GudangModel = new GudangModel();
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function index()

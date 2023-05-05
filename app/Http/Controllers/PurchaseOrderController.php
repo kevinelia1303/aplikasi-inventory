@@ -7,19 +7,21 @@ use App\Models\PurchaseOrderModel;
 use App\Models\SupplierModel;
 use App\Models\LineItemPOModel;
 use App\Models\ListKebutuhanMaklonModel;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
 {
     public function __construct()
     {
         $this->PurchaseOrderModel = new PurchaseOrderModel();
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function indexpobenang(Request $request)
     {
         
         // return $request->all();
+        //DB::enableQueryLog();
         $id_purchaseorder=$request->id_PurchaseOrder;
         $tanggal=$request->tanggal;
         $status=$request->status;
@@ -30,15 +32,16 @@ class PurchaseOrderController extends Controller
                 ->where("purchase_order.status", "LIKE", $status)
                 ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
                 ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
             
         }else{
             $pobenang=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
                 ->where("purchase_order.id_purchaseorder", "like", "py%")
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
         }
+        //dd(DB::getQueryLog());
         return view('Purchase Order.PO benang.v_po_benang',compact('pobenang'));
     }
 
@@ -60,6 +63,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => Request()->status,
             'jenis_bayar' => Request()->jenis_bayar,
+            'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
         foreach($request->id_barang as $key=>$id_barang){
@@ -122,13 +126,13 @@ class PurchaseOrderController extends Controller
                 ->where("purchase_order.status", "LIKE", $status)
                 ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
                 ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
             
         }else{
             $pogreige=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
                 ->where("purchase_order.id_purchaseorder", "like", "pg%")
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
         }
         return view('Purchase Order.PO Greige.v_po_greige',compact('pogreige'));
@@ -152,6 +156,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => Request()->status,
             'jenis_bayar' => Request()->jenis_bayar,
+            'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
         foreach($request->id_barang as $key=>$id_barang){
@@ -215,13 +220,13 @@ class PurchaseOrderController extends Controller
                 ->where("purchase_order.status", "LIKE", $status)
                 ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
                 ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
             
         }else{
             $potwisting=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
                 ->where("purchase_order.id_purchaseorder", "like", "MR%")
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
         }
         return view('Purchase Order.PO Twisting.v_po_maklontwisting',compact('potwisting'));
@@ -246,6 +251,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => Request()->status,
             'jenis_bayar' => Request()->jenis_bayar,
+            'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
         foreach($request->id_barang as $key=>$id_barang){
@@ -314,13 +320,13 @@ class PurchaseOrderController extends Controller
                 ->where("purchase_order.status", "LIKE", $status)
                 ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
                 ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
             
         }else{
             $podf=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
                 ->where("purchase_order.id_purchaseorder", "like", "MF%")
-                ->orderBy("purchase_order.id_purchaseorder","asc")
+                ->orderBy("purchase_order.id_purchaseorder","desc")
                 ->get();
         }
         return view('Purchase Order.PO DF.v_po_maklondf',compact('podf'));
@@ -345,6 +351,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => Request()->status,
             'jenis_bayar' => Request()->jenis_bayar,
+            'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
         foreach($request->id_barang as $key=>$id_barang){

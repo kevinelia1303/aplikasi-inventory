@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GudangModel;
 use Illuminate\Http\Request;
 use App\Models\SupplierModel;
 use App\Models\TransaksiGudangModel;
@@ -14,7 +15,7 @@ class TransaksiGudangController extends Controller
     public function __construct()
     {
         $this->TransaksiGudangModel = new TransaksiGudangModel();
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function indexgrbenang(Request $request)
@@ -48,10 +49,11 @@ class TransaksiGudangController extends Controller
     public function addgrbenang()
     {
         $supplier = SupplierModel::all();
+        $gudang = GudangModel::all();
         $data = [
             'benang'=> $this->TransaksiGudangModel->BenangallData(),
         ];
-        return view('Goods Receipt.GR benang.v_gr_addbenang',$data,compact('supplier'));
+        return view('Goods Receipt.GR benang.v_gr_addbenang',$data,compact('supplier','gudang'));
     }
 
     public function GrBenangsubmitData(Request $request)
@@ -63,6 +65,7 @@ class TransaksiGudangController extends Controller
             'id_supp' => Request()->id_supplier,
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user,
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
@@ -70,6 +73,7 @@ class TransaksiGudangController extends Controller
             $datas->Kode_Barang =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->total_Panjang = $request->jumlah[$key];
+            $datas->kode_gudang = $request->kode_gudang[$key];
             $datas->ID_GR = $request->id_Transaksi;
             $datas->save();
         }
@@ -115,10 +119,11 @@ class TransaksiGudangController extends Controller
     public function addgrgreige()
     {
         $supplier = SupplierModel::all();
+        $gudang = GudangModel::all();
         $data = [
             'greige'=> $this->TransaksiGudangModel->GreigeallData(),
         ];
-        return view('Goods Receipt.GR Greige.v_gr_addgreige',$data,compact('supplier'));
+        return view('Goods Receipt.GR Greige.v_gr_addgreige',$data,compact('supplier','gudang'));
     }
 
     public function GrGreigesubmitData(Request $request)
@@ -130,6 +135,7 @@ class TransaksiGudangController extends Controller
             'id_supp' => Request()->id_supplier,
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
@@ -137,6 +143,7 @@ class TransaksiGudangController extends Controller
             $datas->Kode_Barang =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->total_Panjang = $request->jumlah[$key];
+            $datas->kode_gudang = $request->kode_gudang[$key];
             $datas->ID_GR = $request->id_Transaksi;
             $datas->save();
         }
@@ -210,6 +217,7 @@ class TransaksiGudangController extends Controller
             'id_supp' => Request()->id_supplier,
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
@@ -264,10 +272,11 @@ class TransaksiGudangController extends Controller
     public function addgrtwisting()
     {
         $supplier = SupplierModel::all();
+        $gudang = GudangModel::all();
         $data = [
             'greige'=> $this->TransaksiGudangModel->GreigeallData(),
         ];
-        return view('Goods Receipt.GR Twisting.v_gr_addtwisting',$data,compact('supplier'));
+        return view('Goods Receipt.GR Twisting.v_gr_addtwisting',$data,compact('supplier','gudang'));
     }
 
     public function GrTwistingsubmitData(Request $request)
@@ -279,6 +288,7 @@ class TransaksiGudangController extends Controller
             'id_supp' => Request()->id_supplier,
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
@@ -286,6 +296,7 @@ class TransaksiGudangController extends Controller
             $datas->Kode_Barang =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->total_Panjang = $request->jumlah[$key];
+            $datas->kode_gudang = $request->kode_gudang[$key];
             $datas->ID_GR = $request->id_Transaksi;
             $datas->save();
         }
@@ -359,6 +370,7 @@ class TransaksiGudangController extends Controller
             'id_supp' => Request()->id_supplier,
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
@@ -413,10 +425,11 @@ class TransaksiGudangController extends Controller
     public function addgrdf()
     {
         $supplier = SupplierModel::all();
+        $gudang = GudangModel::all();
         $data = [
             'fg'=> $this->TransaksiGudangModel->FGallData(),
         ];
-        return view('Goods Receipt.GR DF.v_gr_adddf',$data,compact('supplier'));
+        return view('Goods Receipt.GR DF.v_gr_adddf',$data,compact('supplier','gudang'));
     }
 
     public function GrDFsubmitData(Request $request)
@@ -428,6 +441,7 @@ class TransaksiGudangController extends Controller
             'id_supp' => Request()->id_supplier,
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
@@ -435,6 +449,7 @@ class TransaksiGudangController extends Controller
             $datas->Kode_Barang =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->total_Panjang = $request->jumlah[$key];
+            $datas->kode_gudang = $request->kode_gudang[$key];
             $datas->ID_GR = $request->id_Transaksi;
             $datas->save();
         }
@@ -515,5 +530,16 @@ class TransaksiGudangController extends Controller
 
         
         return redirect('/gipenjualan')->with('pesan', 'Data Berhasil Disimpan');
+    }
+
+    public function detailgipenjualan($ID_Transaksi){
+        
+        $gipenjualan=TransaksiGudangModel::where("ID_Transaksi", "=", $ID_Transaksi)
+                        ->first();
+        $data = [
+            'item' =>$this->TransaksiGudangModel->GIItemdetailData($ID_Transaksi),
+        ];
+        
+        return view('Goods Issue.GI Penjualan.v_gi_detailpenjualan', compact('gipenjualan'), $data);
     }
 }
