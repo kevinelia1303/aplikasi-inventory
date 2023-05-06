@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\BarangController;
+use App\Http\Middleware\KepalaGudang;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\GudangController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StokController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\GudangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\TransaksiGudangController;
-use App\Http\Middleware\KepalaGudang;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,10 +58,9 @@ Route::get('/benang/deletebenang/{id_barang}', [BarangController::class, 'delete
 
 
 
-
-Route::view('/stockfg', 'stock information.v_stockfg');
-Route::view('/stockgreige', 'stock information.v_stockgreige');
-Route::view('/stockbenang', 'stock information.v_stockbenang');
+Route::get('/stockfg', [StokController::class, 'stokfg']);
+Route::get('/stockgreige', [StokController::class, 'stokgreige']);
+Route::get('/stockbenang', [StokController::class, 'stokbenang']);
 Auth::routes();
 
 

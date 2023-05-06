@@ -69,5 +69,7 @@
     $(document).ready(function() {
         $('#kota').select2();
     });
+    
 </script>
+
 @endsection
