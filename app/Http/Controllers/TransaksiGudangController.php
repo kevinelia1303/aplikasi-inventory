@@ -542,4 +542,20 @@ class TransaksiGudangController extends Controller
         
         return view('Goods Issue.GI Penjualan.v_gi_detailpenjualan', compact('gipenjualan'), $data);
     }
+
+    public function printsj($ID_Transaksi){
+
+        $gipenjualan=TransaksiGudangModel::where("ID_Transaksi", "=", $ID_Transaksi)
+                        ->first();
+        $item=DB::table("line_item_barang")
+                ->join("barang", function($join){
+                    $join->on("barang.id_barang", "=", "line_item_barang.id_barang");
+                })
+                ->select("line_item_barang.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(total_panjang)) as total_panjang"),DB::raw("count(kode_barang) as total_roll"))
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->groupBy("line_item_barang.id_barang")
+                ->get();
+        // dd($item);
+        return view('Goods Issue.GI Penjualan.v_printsj', compact('gipenjualan','item'));
+    }
 }

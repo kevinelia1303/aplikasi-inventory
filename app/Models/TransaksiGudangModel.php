@@ -96,4 +96,19 @@ class TransaksiGudangModel extends Model
         ->orderBy("id_transaksi","desc")
         ->get();
     }
+
+    public function itemprintsj($ID_Transaksi)
+    {
+        return 
+            DB::table("line_item_barang")
+            ->join("barang", function($join){
+                $join->on("line_item_barang.id_barang", "=", "barang.id_barang");
+            })
+            ->select("barang.keterangan1", "barang.keterangan2", DB::raw("(sum(line_item_barang.total_panjang)) as total_panjang"))
+            ->where("id_gi", "=", "'".$ID_Transaksi."'")
+            ->groupBy("line_item_barang.id_barang")
+            ->get();
+
+
+    }
 }

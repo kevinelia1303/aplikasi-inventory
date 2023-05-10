@@ -28,6 +28,8 @@ use App\Http\Controllers\TransaksiGudangController;
 Route::get('/', [HomeController::class, 'index']);
 
 
+
+
 Route::get('/finished-goods', [BarangController::class, 'indexfg']);
 Route::get('/finished-goods/detailfg/{id_barang}', [BarangController::class, 'detailfg']);
 Route::get('/finished-goods/addfg', [BarangController::class, 'addfg']);
@@ -131,6 +133,7 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/gipenjualan/detailgipenjualan/{id}', [TransaksiGudangController::class, 'detailgipenjualan']);
     Route::get('/gipenjualan/ajax4', [TransaksiGudangController::class, 'ajax4']);
     Route::get('/gipenjualan/ajax5', [TransaksiGudangController::class, 'ajax5']);
+    Route::get('/gipenjualan/printsj/{id}', [TransaksiGudangController::class, 'printsj']);
 
 
     Route::get('/gitwisting', [TransaksiGudangController::class, 'indexgitwisting']);
