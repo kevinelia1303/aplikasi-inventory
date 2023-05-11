@@ -3,7 +3,7 @@
 @section('content')
     <h1>Detail Goods Issue Penjualan</h1>
     <a href="/gipenjualan/printsj/{{ $gipenjualan->ID_Transaksi }}" target="_blank" class="btn btn-primary">Print Surat Jalan</a>
-    <a href="/gipenjualan/printpl" target="_blank" class="btn btn-primary">Print Packing List</a>    
+    <a href="/gipenjualan/printpl/{{ $gipenjualan->ID_Transaksi }}" target="_blank" class="btn btn-primary">Print Packing List</a>    
     <div class="content">
         <div class="row">
             <div class="col-sm-6">

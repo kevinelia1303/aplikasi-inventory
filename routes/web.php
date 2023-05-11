@@ -134,6 +134,7 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/gipenjualan/ajax4', [TransaksiGudangController::class, 'ajax4']);
     Route::get('/gipenjualan/ajax5', [TransaksiGudangController::class, 'ajax5']);
     Route::get('/gipenjualan/printsj/{id}', [TransaksiGudangController::class, 'printsj']);
+    Route::get('/gipenjualan/printpl/{id}', [TransaksiGudangController::class, 'printpl']);
 
 
     Route::get('/gitwisting', [TransaksiGudangController::class, 'indexgitwisting']);
