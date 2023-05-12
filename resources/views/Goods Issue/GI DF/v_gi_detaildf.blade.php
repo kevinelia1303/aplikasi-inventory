@@ -1,7 +1,9 @@
 @extends('layout.v_template')
 @section('title', 'GI DF')
 @section('content')
-    <h1>Detail Goods Issue Maklon Dyeing Finishing</h1>    
+    <h1>Detail Goods Issue Maklon Dyeing Finishing</h1>
+    <a href="/gidf/printsj/{{ $gidf->ID_Transaksi }}" target="_blank" class="btn btn-primary">Print Surat Jalan</a>
+    <a href="/gidf/printpl/{{ $gidf->ID_Transaksi }}" target="_blank" class="btn btn-primary">Print Packing List</a>      
     <div class="content">
         <div class="row">
             <div class="col-sm-6">

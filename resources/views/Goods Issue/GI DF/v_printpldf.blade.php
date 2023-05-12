@@ -16,31 +16,9 @@
 <div class="wrapper">
   <!-- Main content -->
   <section class="invoice">
-    <!-- title row -->
-    
-    <!-- info row -->
-    {{-- <div class="row invoice-info">
-      <div class="col-sm-4 invoice-col">
-        <h4>Kepada</h4> 
-        <address>
-            <h4>{{ $gipenjualan->customer }}</h4>
-        </address>
-      </div>
-      <!-- /.col -->
-      <div class="col-sm-4 invoice-col">
-      </div>
-      <!-- /.col -->
-      <div class="col-sm-4 invoice-col">
-        <b>Tanggal : {{ $gipenjualan->Tanggal }}</b><br>
-        <br>
-        <b>Order ID:</b> {{ $gipenjualan->id_sales }}<br>
-      </div>
-      <!-- /.col -->
-    </div> --}}
     <!-- /.row -->
 
     <!-- Table row -->
-    @foreach ($totalItem as $item)
     <div class="row">
       <div class="col-12">
         <h2 class="page-header">
@@ -49,23 +27,41 @@
           </center>
         </h2>
       </div>
+      
+      <div class="col-4">
+        <h5>
+        PT Indotex Tripadu Jaya<br>
+        KP. Garung RT 001 RW 007 Pataruman<br>
+        Cihampelas Kab Bandung Barat
+        </h5>
+        </div>
+        <div class="col-4"></div>
+      <div class="col-4">
+        <h5>
+        No Goods Issue : {{ $totalItem[0]->ID_Transaksi }}<br>
+        Tanggal : {{ $totalItem[0]->Tanggal }}
+        </h5>
+      </div>
+      
       <!-- /.col -->
     </div>
-        <div class="row">
-      <div class="col-12">
+    <hr color="black" size="10px"/>
+    <div class="col-12">
+            <h6>Tujuan : {{ $totalItem[0]->nama_supplier }}</h6>
+            <h6>Alamat : {{ $totalItem[0]->alamat }}</h6>
+            <h6>Kota : {{ $totalItem[0]->name_regency }}</h6>
+        </div>
+        <hr color="black" size="10px"/>
+    @foreach ($totalItem as $item)
+    
+    <div class="row">
+        
+        <div class="col-12">
+            <h6>{{ $item->id_barang }}</h6>
+        </div>
+      
+
         <table class="table">
-          <tr>
-            <th colspan='4'style="border:2px solid">Customer : {{ $item->customer }}</th>
-            <th colspan='3' style="border:2px solid">ID Goods Issue : {{ $item->ID_Transaksi }}</th>
-            <th colspan='3' style="border:2px solid">Tanggal : {{ $item->Tanggal }}</th>
-          </tr>
-          <tr >
-            <th colspan='3' style="border:2px solid">Nama Kain : {{ $item->keterangan1 }}</th>
-            <th colspan='2' style="border:2px solid">Warna : {{ $item->keterangan2 }}</th>
-            <th colspan='1' style="border:2px solid">Grade : {{ $item->keterangan3 }}</th>
-            <th colspan='2' style="border:2px solid">Jumlah Yard : {{ $item->total_panjang }}</th>
-            <th colspan='2' style="border:2px solid">Jumlah Roll : {{ $item->total_roll }}</th>
-          </tr>
           
           <tbody>
             <tr>
@@ -89,10 +85,18 @@
             @if (($key + 1) % 10 == 0)
               </tr>
             @endif
-            @endforeach\
+            @endforeach
           </tbody>
         </table>
-      </div>
+        <div class="col-4">
+            <h5>Total : {{ $item->total_panjang }}</h5>
+        </div>
+        <div class="col-4"></div>
+            <div class="col-4">
+                <h5>Total Roll : {{ $item->total_roll }}</h5>
+            </div>
+      
+      
       <!-- /.col -->
     </div>
     @endforeach
@@ -103,6 +107,22 @@
   </section>
   <!-- /.content -->
 </div>
+<div class="row">
+      <!-- accepted payments column -->
+      <div class="col-4">
+        <h5>Bagian Gudang</h5>
+        <br>
+        <br>
+        <br><br>
+      </div>
+      <!-- /.col -->
+      <div class="col-4">
+      </div>
+      <div class="col-4">
+        <h5>Penerima</h5>
+      </div>
+      <!-- /.col -->
+    </div>
 <!-- ./wrapper -->
 <!-- Page specific script -->
 <script>

@@ -579,5 +579,101 @@ class TransaksiGudangController extends Controller
         
         return view('Goods Issue.GI Penjualan.v_printpl', compact('a','totalItem'));
        
-}
+    }
+
+    public function printsjdf($ID_Transaksi){
+
+        $data = [
+            'gidf' =>$this->TransaksiGudangModel->detailData($ID_Transaksi),
+        ];
+        $item=DB::table("line_item_barang")
+                ->join("barang", function($join){
+                    $join->on("barang.id_barang", "=", "line_item_barang.id_barang");
+                })
+                ->join("satuan", function($join){
+                    $join->on("barang.id_satuan", "=", "satuan.id_satuan");
+                })
+                ->select("satuan","line_item_barang.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(total_panjang)) as total_panjang"),DB::raw("count(kode_barang) as total_roll"))
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->groupBy("line_item_barang.id_barang")
+                ->get();
+        // dd($item);
+        return view('Goods Issue.GI DF.v_printsjdf', compact('item'),$data);
+    }
+
+    public function printpldf(Request $request, $ID_Transaksi){
+        $totalItem = DB::table("line_item_barang")
+                ->join("barang", function($join){
+                            $join->on("barang.id_barang", "=", "line_item_barang.id_barang");
+                        })
+                ->join("transaksi_gudang", function($join){
+                    $join->on("transaksi_gudang.id_transaksi", "=", "line_item_barang.ID_GI");
+                })
+                ->join("supplier", function($join){
+                    $join->on("transaksi_gudang.id_supp", "=", "supplier.id_supp");
+                })
+                ->join("regencies", function($join){
+                    $join->on("supplier.regencies_id", "=", "regencies.id");
+                })
+                ->select("regencies.*","supplier.*","transaksi_gudang.*", "line_item_barang.id_barang","barang.*",DB::raw("(sum(line_item_barang.total_panjang)) as total_panjang"),DB::raw("count(line_item_barang.kode_barang) as total_roll"))
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->groupBy("line_item_barang.id_barang")
+                ->get();
+        $a = DB::table("line_item_barang")
+                ->select("id_barang","total_panjang")
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->get();
+                    
+        
+        return view('Goods Issue.GI DF.v_printpldf', compact('a','totalItem'));
+       
+    }
+
+    public function printsjtw($ID_Transaksi){
+
+        $data = [
+            'gitwisting' =>$this->TransaksiGudangModel->detailData($ID_Transaksi),
+        ];
+        $item=DB::table("line_item_barang")
+                ->join("barang", function($join){
+                    $join->on("barang.id_barang", "=", "line_item_barang.id_barang");
+                })
+                ->join("satuan", function($join){
+                    $join->on("barang.id_satuan", "=", "satuan.id_satuan");
+                })
+                ->select("satuan","line_item_barang.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(total_panjang)) as total_panjang"),DB::raw("count(kode_barang) as total_roll"))
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->groupBy("line_item_barang.id_barang")
+                ->get();
+        // dd($item);
+        return view('Goods Issue.GI twisting.v_printsjtw', compact('item'),$data);
+    }
+
+    public function printpltw(Request $request, $ID_Transaksi){
+        $totalItem = DB::table("line_item_barang")
+                ->join("barang", function($join){
+                            $join->on("barang.id_barang", "=", "line_item_barang.id_barang");
+                        })
+                ->join("transaksi_gudang", function($join){
+                    $join->on("transaksi_gudang.id_transaksi", "=", "line_item_barang.ID_GI");
+                })
+                ->join("supplier", function($join){
+                    $join->on("transaksi_gudang.id_supp", "=", "supplier.id_supp");
+                })
+                ->join("regencies", function($join){
+                    $join->on("supplier.regencies_id", "=", "regencies.id");
+                })
+                ->select("regencies.*","supplier.*","transaksi_gudang.*", "line_item_barang.id_barang","barang.*",DB::raw("(sum(line_item_barang.total_panjang)) as total_panjang"),DB::raw("count(line_item_barang.kode_barang) as total_roll"))
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->groupBy("line_item_barang.id_barang")
+                ->get();
+        $a = DB::table("line_item_barang")
+                ->select("id_barang","total_panjang")
+                ->where('line_item_barang.ID_GI', $ID_Transaksi)
+                ->get();
+                    
+        
+        return view('Goods Issue.GI twisting.v_printpltw', compact('a','totalItem'));
+       
+    }
 }

@@ -143,6 +143,8 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/gitwisting/detailgitwisting/{id}', [TransaksiGudangController::class, 'detailgitwisting']);
     Route::get('/gitwisting/ajax', [TransaksiGudangController::class, 'ajax']);
     Route::get('/gitwisting/ajax1', [TransaksiGudangController::class, 'ajax1']);
+    Route::get('/gitwisting/printsj/{id}', [TransaksiGudangController::class, 'printsjtw']);
+    Route::get('/gitwisting/printpl/{id}', [TransaksiGudangController::class, 'printpltw']);
 
 
     Route::get('/gidf', [TransaksiGudangController::class, 'indexgidf']);
@@ -151,6 +153,8 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/gidf/detailgidf/{id}', [TransaksiGudangController::class, 'detailgidf']);
     Route::get('/gidf/ajax2', [TransaksiGudangController::class, 'ajax2']);
     Route::get('/gidf/ajax3', [TransaksiGudangController::class, 'ajax3']);
+    Route::get('/gidf/printsj/{id}', [TransaksiGudangController::class, 'printsjdf']);
+    Route::get('/gidf/printpl/{id}', [TransaksiGudangController::class, 'printpldf']);
 
     Route::get('/grpobenang', [TransaksiGudangController::class, 'indexgrbenang']);
     Route::get('/grpobenang/add', [TransaksiGudangController::class, 'addgrbenang']);

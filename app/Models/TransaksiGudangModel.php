@@ -45,6 +45,9 @@ class TransaksiGudangModel extends Model
                 ->join("supplier", function($join){
                     $join->on("transaksi_gudang.id_supp", "=", "supplier.id_supp");
                 })
+                ->join("regencies", function($join){
+                    $join->on("supplier.regencies_id", "=", "regencies.id");
+                })
                 ->where('ID_Transaksi', $ID_Transaksi)->first();
     }
 
