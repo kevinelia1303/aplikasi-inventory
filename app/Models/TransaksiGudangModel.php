@@ -20,7 +20,11 @@ class TransaksiGudangModel extends Model
         'total_roll',
         'id_purchaseorder',
         'id_supp',
-        'customer'
+        'customer',
+        'no_tlp_cust',
+        'alamat_cust',
+        'created_at',
+        'updated_at'
     ];
 
     public function BenangallData(){
@@ -51,14 +55,19 @@ class TransaksiGudangModel extends Model
                 ->where('ID_Transaksi', $ID_Transaksi)->first();
     }
 
+    public function editData($ID_Transaksi, $data)
+    {
+        DB::table('transaksi_gudang')->where('ID_Transaksi',$ID_Transaksi)->update($data);
+    }
+
     public function GRItemdetailData($ID_Transaksi)
     {
         
-        return DB::table("line_item_barang")
+        return DB::table("tdetail_tran_bar")
                 ->join("transaksi_gudang", function($join){
-                    $join->on("transaksi_gudang.ID_Transaksi", "=", "line_item_barang.ID_GR");
+                    $join->on("transaksi_gudang.ID_Transaksi", "=", "tdetail_tran_bar.ID_TRAN");
                 })
-                ->where('line_item_barang.ID_GR', $ID_Transaksi)->get();
+                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)->get();
     }
     public function GreigeallData(){
         return DB::table("barang")
@@ -74,11 +83,11 @@ class TransaksiGudangModel extends Model
     public function GIItemdetailData($ID_Transaksi)
     {
         
-        return DB::table("line_item_barang")
+        return DB::table("tdetail_tran_bar")
                 ->join("transaksi_gudang", function($join){
-                    $join->on("transaksi_gudang.ID_Transaksi", "=", "line_item_barang.ID_GR");
+                    $join->on("transaksi_gudang.ID_Transaksi", "=", "tdetail_tran_bar.ID_TRAN");
                 })
-                ->where('line_item_barang.ID_GI', $ID_Transaksi)->get();
+                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)->get();
     }
 
     public function FGallData(){

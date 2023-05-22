@@ -7,6 +7,7 @@ use App\Http\Controllers\StokController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\GudangController;
+use App\Http\Controllers\KartuStokController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\TransaksiGudangController;
@@ -135,47 +136,63 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/gipenjualan/ajax5', [TransaksiGudangController::class, 'ajax5']);
     Route::get('/gipenjualan/printsj/{id}', [TransaksiGudangController::class, 'printsj']);
     Route::get('/gipenjualan/printpl/{id}', [TransaksiGudangController::class, 'printpl']);
+    Route::get('/gipenjualan/edit/{id}', [TransaksiGudangController::class, 'editgipenjualan']);
+    Route::post('/gipenjualan/update/{id}', [TransaksiGudangController::class, 'updategipenjualan']);
+
 
 
     Route::get('/gitwisting', [TransaksiGudangController::class, 'indexgitwisting']);
-    Route::get('/gitwisting/add', [TransaksiGudangController::class, 'addgitwisting']);
+    Route::get('/gitwisting/add/{id}', [TransaksiGudangController::class, 'addgitwisting']);
     Route::post('/submitData6', [TransaksiGudangController::class, 'GiTwistingsubmitData'])->name('submitData6');
     Route::get('/gitwisting/detailgitwisting/{id}', [TransaksiGudangController::class, 'detailgitwisting']);
     Route::get('/gitwisting/ajax', [TransaksiGudangController::class, 'ajax']);
     Route::get('/gitwisting/ajax1', [TransaksiGudangController::class, 'ajax1']);
     Route::get('/gitwisting/printsj/{id}', [TransaksiGudangController::class, 'printsjtw']);
     Route::get('/gitwisting/printpl/{id}', [TransaksiGudangController::class, 'printpltw']);
+    Route::get('/gitwisting/edit/{id}', [TransaksiGudangController::class, 'editgitwisting']);
+    Route::post('/gitwisting/update/{id}', [TransaksiGudangController::class, 'updategitwisting']);
 
 
     Route::get('/gidf', [TransaksiGudangController::class, 'indexgidf']);
-    Route::get('/gidf/add', [TransaksiGudangController::class, 'addgidf']);
+    Route::get('/gidf/add/{id}', [TransaksiGudangController::class, 'addgidf']);
     Route::post('/submitData8', [TransaksiGudangController::class, 'GiDFsubmitData'])->name('submitData8');
     Route::get('/gidf/detailgidf/{id}', [TransaksiGudangController::class, 'detailgidf']);
     Route::get('/gidf/ajax2', [TransaksiGudangController::class, 'ajax2']);
     Route::get('/gidf/ajax3', [TransaksiGudangController::class, 'ajax3']);
     Route::get('/gidf/printsj/{id}', [TransaksiGudangController::class, 'printsjdf']);
     Route::get('/gidf/printpl/{id}', [TransaksiGudangController::class, 'printpldf']);
+    Route::get('/gidf/edit/{id}', [TransaksiGudangController::class, 'editgidf']);
+    Route::post('/gidf/update/{id}', [TransaksiGudangController::class, 'updategidf']);
+
+    Route::get('/ajax-lokasi', [TransaksiGudangController::class, 'ajaxlokasi']);
+    Route::get('/ajax-tanggal', [TransaksiGudangController::class, 'ajaxtanggal']);
 
     Route::get('/grpobenang', [TransaksiGudangController::class, 'indexgrbenang']);
-    Route::get('/grpobenang/add', [TransaksiGudangController::class, 'addgrbenang']);
+    Route::get('/grpobenang/add', [TransaksiGudangController::class, 'addgrbenang1']);
+    Route::get('/grpobenang/add/{id}', [TransaksiGudangController::class, 'addgrbenang']);
     Route::post('/submitData4', [TransaksiGudangController::class, 'GrBenangsubmitData'])->name('submitData4');
     Route::get('/grpobenang/detailgrbenang/{id}', [TransaksiGudangController::class, 'detailgrbenang']);
 
 
     Route::get('/grpogreige', [TransaksiGudangController::class, 'indexgrgreige']);
-    Route::get('/grpogreige/add', [TransaksiGudangController::class, 'addgrgreige']);
+    // Route::get('/grpogreige/add', [TransaksiGudangController::class, 'addgrgreige']);
+    Route::get('/grpogreige/add/{id}', [TransaksiGudangController::class, 'addgrgreige']);
     Route::post('/submitData5', [TransaksiGudangController::class, 'GrGreigesubmitData'])->name('submitData5');
     Route::get('/grpogreige/detailgrgreige/{id}', [TransaksiGudangController::class, 'detailgrgreige']);
 
 
     Route::get('/grtwisting', [TransaksiGudangController::class, 'indexgrtwisting']);
-    Route::get('/grtwisting/add', [TransaksiGudangController::class, 'addgrtwisting']);
+    Route::get('/grtwisting/add/{id}', [TransaksiGudangController::class, 'addgrtwisting']);
     Route::post('/submitData7', [TransaksiGudangController::class, 'GrTwistingsubmitData'])->name('submitData7');
     Route::get('/grtwisting/detailgrtwisting/{id}', [TransaksiGudangController::class, 'detailgrtwisting']);
 
 
     Route::get('/grdyeingfinishing', [TransaksiGudangController::class, 'indexgrdf']);
-    Route::get('/grdyeingfinishing/add', [TransaksiGudangController::class, 'addgrdf']);
+    Route::get('/grdyeingfinishing/add/{id}', [TransaksiGudangController::class, 'addgrdf']);
     Route::post('/submitData9', [TransaksiGudangController::class, 'GrDFsubmitData'])->name('submitData9');
     Route::get('/grdyeingfinishing/detailgrdf/{id}', [TransaksiGudangController::class, 'detailgrdf']);
+
+    Route::get('/kartustok', [KartuStokController::class, 'indexkartustok']);
+    Route::post('/kartustok/hitung', [KartuStokController::class, 'hitungkartustok']);
+    Route::get('/laporan_kartuStok/cetak', [KartuStokController::class, 'cetak']);
 });

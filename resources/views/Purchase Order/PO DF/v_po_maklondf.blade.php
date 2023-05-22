@@ -65,18 +65,23 @@
 													<td>{{ $data->id_PurchaseOrder }}</td>
 													<td>{{ $data->tanggal }}</td>
                                                     <td>{{ $data->nama_supplier }}</td>
-													<td>{{ $data->total_harga  }}</td>
+													<td>{{ formatRupiah($data->total_harga)  }}</td>
 													<td>{{ $data->status  }}</td>
                                                     <td>{{ $data->jenis_bayar  }}</td>
 													@if ( $data->status =="Done")
 													<td>
-														<a href="/pomaklondf/detailpodf/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/pomaklondf/edit/{{ $data->id_PurchaseOrder }}" disabled  class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a href="/pomaklondf/detailpodf/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/grdyeingfinishing/add/{{ $data->id_PurchaseOrder }}" class="btn disabled btn-success btn-xs"><i class="fas fa-hand-receiving"></i> Terima Barang</a>
+														<a href="/gidf/add/{{ $data->id_PurchaseOrder }}" class="btn disabled btn-success btn-xs"><i class="fas fa-hand-receiving"></i> Kirim Bahan</a>
 													</td>
 													@else
 													<td>
 														<a href="/pomaklondf/edit/{{ $data->id_PurchaseOrder }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
                                                         <a href="/pomaklondf/detailpodf/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
-													</td>	
+														<a href="/grdyeingfinishing/add/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fas fa-hand-receiving"></i> Terima Barang</a>
+														<a href="/gidf/add/{{ $data->id_PurchaseOrder }}" class="btn btn-success btn-xs"><i class="fas fa-hand-receiving"></i> Kirim Bahan</a>
+													</td>
 													@endif
 													
 												</tr>

@@ -71,7 +71,7 @@
           @foreach ($item as $data )
             <tr>
                 <td style="border:1px solid">{{ $data->id_barang }}</td>
-                <td style="border:1px solid">{{ $data->total_panjang }}</td>
+                <td style="border:1px solid">{{ formatTotal($data->total_panjang) }}</td>
                 <td style="border:1px solid">{{ $data->total_roll }}</td>
                 <td style="border:1px solid">{{ $data->satuan }}</td>
             </tr>

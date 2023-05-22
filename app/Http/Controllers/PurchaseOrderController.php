@@ -9,6 +9,8 @@ use App\Models\LineItemPOModel;
 use App\Models\ListKebutuhanMaklonModel;
 use Illuminate\Support\Facades\DB;
 
+date_default_timezone_set('Asia/Jakarta');
+
 class PurchaseOrderController extends Controller
 {
     public function __construct()
@@ -47,11 +49,29 @@ class PurchaseOrderController extends Controller
 
     public function addpobenang()
     {
+        $bulan = date('m');
+        $tahun = date('Y');
+        $q = DB::table('purchase_order')
+                ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
+                ->where("id_purchaseorder", "like", "py%")
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun);
+        $kd = "";
+        if($q->count()>0){
+            foreach($q->get() as $k){
+                $tmp = ((int)$k->kode)+1;
+                $kd = sprintf("%03s", $tmp);
+            }
+        }
+        else{
+            $kd= "001";
+        }
+
         $supplier = SupplierModel::all();
         $data = [
             'benang'=> $this->PurchaseOrderModel->BenangallData(),
         ];
-        return view('Purchase Order.PO benang.v_addpobenang',$data,compact('supplier'));
+        return view('Purchase Order.PO benang.v_addpobenang',$data,compact('supplier','kd'));
     }
 
     public function BenangsubmitData(Request $request)
@@ -61,7 +81,7 @@ class PurchaseOrderController extends Controller
             'tanggal' => Request()->tanggal,
             'id_supplier' => Request()->id_supplier,
             'total_harga' => Request()->total_harga,
-            'status' => Request()->status,
+            'status' => 'In Progress',
             'jenis_bayar' => Request()->jenis_bayar,
             'id_user' => Request()->id_user
         ];
@@ -91,6 +111,7 @@ class PurchaseOrderController extends Controller
     public function editpo($id_PurchaseOrder)
     {
         $data = [
+            'benang'=> $this->PurchaseOrderModel->BenangallData(),
             'po' =>$this->PurchaseOrderModel->detailData($id_PurchaseOrder),
         ];
         $item = [
@@ -101,12 +122,28 @@ class PurchaseOrderController extends Controller
         return view('Purchase Order.PO benang.v_editpobenang', $data,$item,$supplier);
     }
 
-    public function updatepo( $id_PurchaseOrder)
+    public function updatepo(Request $request, $id_PurchaseOrder)
     {
         $data = [
             'status' => Request()->status,
+            // 'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+
+        // $id_barang = $request->id_barang;
+        // $id = $request->id;
+        // $jumlah = $request->jumlah;
+        // $harga = $request->harga;
+        
+        // foreach ($id_barang as $key=>$dt) {
+        //     $datas['id_barang'] = $dt;
+        //     $datas['jumlah'] = $jumlah[$key];
+        //     $datas['harga'] = $harga[$key];
+        //     $datas['TotalHarga'] = $harga[$key]*$jumlah[$key];
+        //     $line = $id[$key];
+        //     LineItemPOModel::where('id',$line)->update($datas);
+        // }
+        
         
 
         return redirect('/pobenang')->with('pesan','Data berhasil diupdate');
@@ -140,11 +177,28 @@ class PurchaseOrderController extends Controller
 
     public function addpogreige()
     {
+        $bulan = date('m');
+        $tahun = date('Y');
+        $q = DB::table('purchase_order')
+                ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
+                ->where("id_purchaseorder", "like", "pg%")
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun);
+        $kd = "";
+        if($q->count()>0){
+            foreach($q->get() as $k){
+                $tmp = ((int)$k->kode)+1;
+                $kd = sprintf("%03s", $tmp);
+            }
+        }
+        else{
+            $kd= "001";
+        }
         $supplier = SupplierModel::all();
         $data = [
             'greige'=> $this->PurchaseOrderModel->GreigeallData(),
         ];
-        return view('Purchase Order.PO Greige.v_addpogreige',$data,compact('supplier'));
+        return view('Purchase Order.PO Greige.v_addpogreige',$data,compact('supplier','kd'));
     }
 
     public function GreigesubmitData(Request $request)
@@ -154,7 +208,7 @@ class PurchaseOrderController extends Controller
             'tanggal' => Request()->tanggal,
             'id_supplier' => Request()->id_supplier,
             'total_harga' => Request()->total_harga,
-            'status' => Request()->status,
+            'status' => 'In Progress',
             'jenis_bayar' => Request()->jenis_bayar,
             'id_user' => Request()->id_user
         ];
@@ -234,12 +288,29 @@ class PurchaseOrderController extends Controller
 
     public function addpotwisting()
     {
+        $bulan = date('m');
+        $tahun = date('Y');
+        $q = DB::table('purchase_order')
+                ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
+                ->where("id_purchaseorder", "like", "MR%")
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun);
+        $kd = "";
+        if($q->count()>0){
+            foreach($q->get() as $k){
+                $tmp = ((int)$k->kode)+1;
+                $kd = sprintf("%03s", $tmp);
+            }
+        }
+        else{
+            $kd= "001";
+        }
         $supplier = SupplierModel::all();
         $data = [
             'greige'=> $this->PurchaseOrderModel->GreigeallData(),
             'benang'=> $this->PurchaseOrderModel->BenangallData(),
         ];
-        return view('Purchase Order.PO Twisting.v_po_addtwisting',compact('supplier'),$data);
+        return view('Purchase Order.PO Twisting.v_po_addtwisting',compact('supplier','kd'),$data);
     }
 
     public function TwistingsubmitData(Request $request)
@@ -249,7 +320,7 @@ class PurchaseOrderController extends Controller
             'tanggal' => Request()->tanggal,
             'id_supplier' => Request()->id_supplier,
             'total_harga' => Request()->total_harga,
-            'status' => Request()->status,
+            'status' => 'In Progress',
             'jenis_bayar' => Request()->jenis_bayar,
             'id_user' => Request()->id_user
         ];
@@ -334,12 +405,29 @@ class PurchaseOrderController extends Controller
 
     public function addpodf()
     {
+        $bulan = date('m');
+        $tahun = date('Y');
+        $q = DB::table('purchase_order')
+                ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
+                ->where("id_purchaseorder", "like", "MF%")
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun);
+        $kd = "";
+        if($q->count()>0){
+            foreach($q->get() as $k){
+                $tmp = ((int)$k->kode)+1;
+                $kd = sprintf("%03s", $tmp);
+            }
+        }
+        else{
+            $kd= "001";
+        }
         $supplier = SupplierModel::all();
         $data = [
             'greige'=> $this->PurchaseOrderModel->GreigeallData(),
             'fg'=> $this->PurchaseOrderModel->FGallData(),
         ];
-        return view('Purchase Order.PO DF.v_po_adddf',compact('supplier'),$data);
+        return view('Purchase Order.PO DF.v_po_adddf',compact('supplier','kd'),$data);
     }
 
     public function DFsubmitData(Request $request)
@@ -349,7 +437,7 @@ class PurchaseOrderController extends Controller
             'tanggal' => Request()->tanggal,
             'id_supplier' => Request()->id_supplier,
             'total_harga' => Request()->total_harga,
-            'status' => Request()->status,
+            'status' => "In Progress",
             'jenis_bayar' => Request()->jenis_bayar,
             'id_user' => Request()->id_user
         ];

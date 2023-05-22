@@ -11,7 +11,7 @@
               
           @endif
           <li class="nav-item {{ request()->is('user*','finished-goods*','benang*','greige*','supplier*','gudang*') ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ request()->is('user*','finished-goods*','benang*','greige*','supplier*','gudang*') ? 'active' : '' }}"">
+            <a href="#" class="nav-link {{ request()->is('user*','finished-goods*','benang*','greige*','supplier*','gudang*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-database"></i>
               <p>
                 Data Master
@@ -213,6 +213,24 @@
                   <p>
                     04 Maklon Dyeing Finishing
                   </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+            
+          <li class="nav-item {{ request()->is('kartustok*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('kartustok*') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-file-invoice fa-flip-horizontal"></i>
+              <p>
+                Laporan
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/kartustok" class="nav-link {{ request()->is('kartustok*') ? 'active' : '' }}">
+                  <i class="far fab fa-adobe nav-icon"></i>
+                  <p>01 Kartu Stok</p>
                 </a>
               </li>
             </ul>

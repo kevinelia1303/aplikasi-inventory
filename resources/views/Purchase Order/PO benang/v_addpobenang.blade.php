@@ -14,7 +14,7 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
+                      <input type="text" class="form-control" name="id_PurchaseOrder" readonly="" value="{{ 'PY'.date('Y').'-'.date('m').$kd }}" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -43,12 +43,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Status</label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" name="status" placeholder="Status ..">
                     </div>
-                  </div>
+                  </div> --}}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Jenis Bayar</label>
                     <div class="col-sm-10">
@@ -116,6 +116,7 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="dist/jquery.inputmask.js"></script>
 <script>
   $(document).ready(function() {
         $('#id_barang').select2();

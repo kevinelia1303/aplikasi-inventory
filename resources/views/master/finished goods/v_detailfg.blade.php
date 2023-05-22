@@ -41,7 +41,7 @@
                     <tr>
                       <th>ID Barang</th>
                       <th>Jumlah</th>
-                      <th>Lokasi #</th>
+                      <th>Lokasi</th>
                       <th>Tanggal Masuk</th>
                       <th>Kode Barang</th>
                     </tr>
@@ -49,11 +49,11 @@
                     <tbody>
                     @foreach ($list as $data )
 												<tr>
-													<td>{{ $data->id_barang }}</td>
-													<td>{{ $data->total_Panjang }}</td>
-                          <td>{{ $data->kode_gudang }}</td>
+													<td>{{ $data->ID_BARANG }}</td>
+													<td>{{ $data->JUMLAH }}</td>
+                          <td>{{ $data->ID_LOKASI }}</td>
                           <td>{{ $data->Tanggal }}</td>
-                          <td>{{ $data->Kode_Barang }}</td>
+                          <td>{{ $data->BARCODE }}</td>
 													<td>
 													</td>
 												</tr>

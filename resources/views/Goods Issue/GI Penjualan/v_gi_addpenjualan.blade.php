@@ -13,7 +13,7 @@
                    <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Goods Issue</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_Transaksi" placeholder="ID Goods Issue .." required>
+                      <input type="text" class="form-control" name="id_Transaksi" readonly="" value="{{ 'JF'.date('Y').'-'.date('m').$kd }}" placeholder="ID Goods Issue .." required>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -34,6 +34,28 @@
                       <input type="text" class="form-control" name="customer" placeholder="Customer .." required>
                     </div>
                   </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">No Tlp Customer</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="no_tlp_cust" placeholder="No Telepon Customer .." required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Alamat Customer</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="alamat_cust" placeholder="Alamat Customer .." required>
+                    </div>
+                  </div>
+                  {{-- <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="status" required>
+                        <option value="" hidden>-- Pilih Status --</option>
+                        <option value="Persiapan Kirim">Persiapan Kirim</option>
+                        <option value="Terkirim">Terkirim</option>
+                    </select>
+                    </div>
+                  </div> --}}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Total Panjang</label>
                     <div class="col-sm-10">
@@ -66,6 +88,8 @@
                       <th style="border:1px solid">Kode Barang</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
+                      <th style="border:1px solid">Lokasi</th>
+                      <th style="border:1px solid">Tanggal Masuk</th>
                       <th style="border:1px solid">
                             <a href="javascript:;" class="btn btn-info addRow">+</a></th>
                         </th> 
@@ -104,6 +128,12 @@
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
                 html += "<div id='totalpanjang" +baris+"'></div>"
+                html += "</td>"
+                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<div id='kode_gudang"+baris+"'></div>"
+                html += "</td>"
+                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<div id='Tanggal"+baris+"'></div>"
                 html += "</td>"
                 html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"
@@ -144,6 +174,24 @@
                         document.getElementById('total_roll').value = rows;
                     }
                 });
+                $.ajax({
+                    type: "GET",
+                    url: "/ajax-lokasi",
+                    data: "kode_barang="+kode_barang,
+                    cache:false,
+                    success: function (data) {
+                        $('#kode_gudang'+baris).html(data);
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: "/ajax-tanggal",
+                    data: "kode_barang="+kode_barang,
+                    cache:false,
+                    success: function (data) {
+                        $('#Tanggal'+baris).html(data);
+                    }
+                });
             });
               
             $.ajaxSetup({
@@ -182,21 +230,41 @@ function onScanSuccess(decodedText, decodedResult) {
         cache:false,
         success: function (data) {
             $('#totalpanjang'+baris).html(data);
+            var arr = document.getElementsByName('jumlah[]');
+            var tot=0;
+            for(var i=0;i<arr.length;i++){
+                if(parseInt(arr[i].value))
+                    tot += parseInt(arr[i].value);
+            }
+            document.getElementById('total_panjang').value = tot;
+            var table = document.getElementById("tabel1");
+            var totalRowCount = table.rows.length;
+            var rows = totalRowCount - 1;
+            console.log(totalRowCount);
+            document.getElementById('total_roll').value = rows;
         }
     })
 
-    var arr = document.getElementsByName('jumlah[]');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('total_panjang').value = tot;
-    var table = document.getElementById("tabel1");
-    var totalRowCount = table.rows.length;
-    var rows = totalRowCount - 1;
-    console.log(totalRowCount);
-    document.getElementById('total_roll').value = rows;
+    
+
+    $.ajax({
+        type: "GET",
+        url: "/ajax-lokasi",
+        data: "kode_barang="+kode_barang,
+        cache:false,
+        success: function (data) {
+            $('#kode_gudang'+baris).html(data);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "/ajax-tanggal",
+        data: "kode_barang="+kode_barang,
+        cache:false,
+        success: function (data) {
+            $('#Tanggal'+baris).html(data);
+        }
+    });
     
 }
 

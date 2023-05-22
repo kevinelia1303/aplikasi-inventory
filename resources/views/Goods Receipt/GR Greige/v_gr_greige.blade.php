@@ -46,7 +46,7 @@
 								<div class="card-header">
 									<div class="d-flex align-items-center">
 										
-										<a href="/grpogreige/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Receipt PO Greige</a> <br>
+										{{-- <a href="/grpogreige/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Receipt PO Greige</a> <br> --}}
 									</div>
 								</div>
 								<div class="card-body">
@@ -71,8 +71,8 @@
                                                     <td>{{ $data->id_purchaseorder  }}</td>
 													<td>{{ $data->Tanggal }}</td>
                                                     <td>{{ $data->nama_supplier }}</td>
-													<td>{{ $data->total_panjang  }}</td>
-													<td>{{ $data->total_roll  }}</td>
+													<td>{{ formatTotal($data->total_panjang)  }}</td>
+													<td>{{ formatTotal($data->total_roll) }}</td>
 													<td>
 														<a href="/grpogreige/detailgrgreige/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
 													</td>

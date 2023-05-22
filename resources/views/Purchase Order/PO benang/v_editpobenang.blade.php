@@ -58,23 +58,56 @@
                 </div>
                 <div class="row">
                 <div class="col-12 table-responsive">
-                  <table class="table table-striped">
+                  <table class="table table-striped" id="tabel1">
                     <thead>
                     <tr>
                       <th>ID Barang</th>
                       <th>Jumlah (Yard)</th>
                       <th>Harga (Per Yard)</th>
                       <th>Total Harga</th>
+                      <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($item as $data )
+                    @php
+                        $no=1;
+                    @endphp
+                    @foreach ($item as $datas )
+                    
                     <tr>
+                      <td hidden>
+                        <input type="hidden" value="{{ $datas->id }}" name="id" id="id"  required>
+                      </td>
+                      <td style="border:1px solid;width:50%;" contenteditable="true">
+                         {{-- <select class="form-control" name="id_barang[]" class="id_barang" id="id_barang" required>
+                            <option value="" hidden>-- Pilih Barang --</option>
+                          @foreach ($benang as $data)
+                              <option value="{{ $data->id_barang }}" {{ $data->id_barang == $datas->id_barang ? 'selected' : '' }}>{{ $datas->id_barang }}</option>
+                          @endforeach
+                          </select> --}}
+                          <input type="text"  value="{{ $datas->id_barang }}" class="form-control" name="id_barang[]" id="id_barang" required>
+                      </td>
+                      <td style="border:1px solid">
+                        <input type="text"  value="{{ $datas->jumlah }}" class="form-control" name="jumlah[]" id="jumlah" required>
+                      </td>
+                      <td style="border:1px solid">
+                        <input type="text"  value="{{ $datas->harga }}" class="form-control" name="harga[]" id="harga" name="harga" required>
+                      </td>
+                      <td style="border:1px solid" >
+                        <input type="text"  value="{{ $datas->TotalHarga }}" class="form-control" name='total[]' id="total" required>
+                      </td>
+                      <td></td>
+                    </tr>
+                    {{-- <tr>
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ $data->jumlah }}</td>
                       <td>{{ $data->harga }}</td>
                       <td>{{ $data->TotalHarga }}</td>
-                    </tr>
+                      <td>
+														<a href="#modalEditBarang{{ $data->id }}" data-toggle="modal" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+                            <a href="#modalHapusBarang{{ $data->id }}" data-toggle="modal" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Hapus</a>
+                      </td>
+                    </tr> --}}
                     @endforeach
                     </tbody>
                   </table>
@@ -83,5 +116,10 @@
               </div>
               </form>
               
-    </div>    
+    </div>  
+
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     --}}
+
 @endsection

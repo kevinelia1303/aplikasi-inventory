@@ -16,7 +16,7 @@
                     <label>Supplier : {{ $potwisting->nama_supplier }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Harga : Rp {{ $potwisting->total_harga }}</label>
+                    <label>Total Harga : {{ formatRupiah($potwisting->total_harga) }}</label>
                 </div>
                 <div class="form-group">
                     <label>Jenis Bayar : {{ $potwisting->jenis_bayar }}</label>
@@ -46,9 +46,9 @@
                     @foreach ($item as $data )
                     <tr>
                       <td>{{ $data->id_barang }}</td>
-                      <td>{{ $data->jumlah }}</td>
-                      <td>{{ $data->harga }}</td>
-                      <td>{{ $data->TotalHarga }}</td>
+                      <td>{{ formatTotal($data->jumlah) }}</td>
+                      <td>{{ formatRupiah($data->harga) }}</td>
+                      <td>{{ formatRupiah($data->TotalHarga) }}</td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -71,8 +71,8 @@
                     @foreach ($list_kebutuhan as $data )
                     <tr>
                       <td>{{ $data->id_barang }}</td>
-                      <td>{{ $data->jumlah }}</td>
-                      <td>{{ $data->sisa }}</td>
+                      <td>{{ formatTotal($data->jumlah) }}</td>
+                      <td>{{ formatTotal($data->sisa) }}</td>
                     </tr>
                     @endforeach
                     </tbody>

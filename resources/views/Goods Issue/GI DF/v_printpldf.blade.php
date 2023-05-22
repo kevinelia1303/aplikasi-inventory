@@ -81,7 +81,7 @@
             @if ($key % 10 == 0)
               <tr>
             @endif
-            <td style="border:1px solid">{{ $data->total_panjang }}</td>
+            <td style="border:1px solid">{{ $data->JUMLAH }}</td>
             @if (($key + 1) % 10 == 0)
               </tr>
             @endif
@@ -89,7 +89,7 @@
           </tbody>
         </table>
         <div class="col-4">
-            <h5>Total : {{ $item->total_panjang }}</h5>
+            <h5>Total : {{ formatTotal($item->total_panjang) }}</h5>
         </div>
         <div class="col-4"></div>
             <div class="col-4">

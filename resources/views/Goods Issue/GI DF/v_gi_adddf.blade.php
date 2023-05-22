@@ -13,13 +13,13 @@
                    <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Goods Issue</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_Transaksi" placeholder="ID Goods Issue .." required>
+                      <input type="text" class="form-control" name="id_Transaksi" readonly="" value="{{ 'DF'.date('Y').'-'.date('m').$kd }}" placeholder="ID Goods Issue .." required>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
+                      <input type="text" value="{{ $purchase->id_PurchaseOrder }}" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -30,15 +30,25 @@
                   </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Supplier</label>
-                    <div class="col-sm-10">
-                    <select class="form-control" id="id_supplier" name="id_supplier" required>
-                        <option value="" hidden>-- Pilih Supplier --</option>
+                    <div class="col-sm-10"> 
+                      <select readonly class="form-control" id="id_supplier" name="id_supplier" required>
+                        <option  value="" hidden>-- Pilih Supplier --</option>
                         @foreach ($supplier as $data)
-                            <option value="{{ $data->id_supp }}">{{ $data->nama_supplier }}</option>
+                            <option value="{{ $data->id_supp }}" {{ $data->id_supp == $purchase->id_supplier ? 'selected' : '' }}>{{ $data->nama_supplier }}</option>
                         @endforeach
                     </select>
                     </div>
                 </div>
+                {{-- <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="status" required>
+                        <option value="" hidden>-- Pilih Status --</option>
+                        <option value="Persiapan Kirim">Persiapan Kirim</option>
+                        <option value="Terkirim">Terkirim</option>
+                    </select>
+                    </div>
+                  </div> --}}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Total Panjang</label>
                     <div class="col-sm-10">
@@ -68,9 +78,11 @@
                     <thead>
                     <tr >
                       
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
+                      <th style="border:1px solid">Lokasi</th>
+                      <th style="border:1px solid">Tanggal Masuk</th>
                       <th style="border:1px solid">
                             <a href="javascript:;" class="btn btn-info addRow">+</a></th>
                         </th> 
@@ -101,14 +113,20 @@
         $('thead').on('click', '.addRow', function () {
             baris = baris + 1
             var html = "<tr style='border:1px solid' id='baris'" +baris+  ">"
-                html += "<td style='border:1px solid;width:50%;'>"
+                html += "<td style='border:1px solid;'>"
                 html += "<input type='text' size=40 name='kode_barang[]' id='result" +baris+"'>"
                 html += "</td>"
-                html += "<td style='border:1px solid;width:30%;'>"
+                html += "<td style='border:1px solid;'>"
                 html += "<div id='detail_barang" +baris+"'></div>"
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
                 html += "<div id='totalpanjang" +baris+"'></div>"
+                html += "</td>"
+                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<div id='kode_gudang"+baris+"'></div>"
+                html += "</td>"
+                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<div id='Tanggal"+baris+"'></div>"
                 html += "</td>"
                 html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"
@@ -147,6 +165,24 @@
                         var rows = totalRowCount - 1;
                         console.log(totalRowCount);
                         document.getElementById('total_roll').value = rows;
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: "/ajax-lokasi",
+                    data: "kode_barang="+kode_barang,
+                    cache:false,
+                    success: function (data) {
+                        $('#kode_gudang'+baris).html(data);
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: "/ajax-tanggal",
+                    data: "kode_barang="+kode_barang,
+                    cache:false,
+                    success: function (data) {
+                        $('#Tanggal'+baris).html(data);
                     }
                 });
             });
@@ -202,6 +238,25 @@ function onScanSuccess(decodedText, decodedResult) {
     var rows = totalRowCount - 1;
     console.log(totalRowCount);
     document.getElementById('total_roll').value = rows;
+
+    $.ajax({
+        type: "GET",
+        url: "/ajax-lokasi",
+        data: "kode_barang="+kode_barang,
+        cache:false,
+        success: function (data) {
+            $('#kode_gudang'+baris).html(data);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "/ajax-tanggal",
+        data: "kode_barang="+kode_barang,
+        cache:false,
+        success: function (data) {
+            $('#Tanggal'+baris).html(data);
+        }
+    });
     
 }
 

@@ -13,7 +13,7 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
+                      <input type="text" class="form-control" name="id_PurchaseOrder" readonly="" value="{{ 'MF'.date('Y').'-'.date('m').$kd }}" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Status</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="status" required>
@@ -51,7 +51,7 @@
                         <option value="Done">Done</option>
                     </select>
                     </div>
-                  </div>
+                  </div> --}}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Jenis Bayar</label>
                     <div class="col-sm-10">

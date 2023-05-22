@@ -55,6 +55,7 @@
 													<th>Customer</th>
 													<th>Total Panjang</th>
 													<th>Total Roll</th>
+													<th>Status</th>
                                                     <th>Action</th>
 												</tr>
 											</thead>
@@ -66,11 +67,20 @@
                                                     <td>{{ $data->id_sales  }}</td>
 													<td>{{ $data->Tanggal }}</td>
                                                     <td>{{ $data->customer }}</td>
-													<td>{{ $data->total_panjang  }}</td>
+													<td>{{ formatTotal($data->total_panjang)  }}</td>
 													<td>{{ $data->total_roll  }}</td>
+													<td>{{ $data->status  }}</td>
+													@if ( $data->status =="Terkirim")
 													<td>
+														<a href="/gipenjualan/edit/{{ $data->ID_Transaksi }}"  class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
 														<a href="/gipenjualan/detailgipenjualan/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
-													</td>
+													@else
+													<td>
+														<a href="/gipenjualan/edit/{{ $data->ID_Transaksi }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+														<a href="/gipenjualan/detailgipenjualan/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+													</td>	
+													@endif
+													<td></td>
 												</tr>
                                                 @endforeach
 											</tbody>

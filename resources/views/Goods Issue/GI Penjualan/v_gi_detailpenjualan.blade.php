@@ -21,7 +21,7 @@
                     <label>Customer : {{ $gipenjualan->customer }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Panjang : {{ $gipenjualan->total_panjang }} yard</label>
+                    <label>Total Panjang : {{ formatTotal($gipenjualan->total_panjang)}} yard</label>
                 </div>
                 <div class="form-group">
                     <label>Total Roll : {{ $gipenjualan->total_roll }}</label>
@@ -38,7 +38,7 @@
                   <table class="table table-striped">
                     <thead>
                     <tr>
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                     </tr>
@@ -46,9 +46,9 @@
                     <tbody>
                     @foreach ($item as $data )
                     <tr>
-                      <td>{{ $data->Kode_Barang }}</td>
-                      <td>{{ $data->id_barang }}</td>
-                      <td>{{ $data->total_Panjang }}</td>
+                      <td>{{ $data->BARCODE }}</td>
+                      <td>{{ $data->ID_BARANG }}</td>
+                      <td>{{ $data->JUMLAH }}</td>
                     </tr>
                     @endforeach
                     </tbody>

@@ -63,7 +63,7 @@
             <tr>
                 <td style="border:1px solid">{{ $data->keterangan1 }}</td>
                 <td style="border:1px solid">{{ $data->keterangan2 }}</td>
-                <td style="border:1px solid">{{ $data->total_panjang }}</td>
+                <td style="border:1px solid">{{ formatTotal($data->total_panjang) }}</td>
                 <td style="border:1px solid">{{ $data->total_roll }}</td>
             </tr>
             @endforeach

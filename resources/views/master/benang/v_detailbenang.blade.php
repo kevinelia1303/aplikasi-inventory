@@ -35,7 +35,7 @@
                     <tr>
                       <th>ID Barang</th>
                       <th>Jumlah</th>
-                      <th>Lokasi #</th>
+                      <th>Lokasi</th>
                       <th>Tanggal Masuk</th>
                       <th>Kode Barang</th>
                     </tr>

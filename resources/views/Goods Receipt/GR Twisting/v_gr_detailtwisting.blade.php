@@ -19,10 +19,10 @@
                     <label>Supplier : {{ $grtwisting->nama_supplier }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Panjang : {{ $grtwisting->total_panjang }} yard</label>
+                    <label>Total Panjang : {{ formatTotal($grtwisting->total_panjang) }} yard</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Roll : {{ $grtwisting->total_roll }}</label>
+                    <label>Total Roll : {{ formatTotal($grtwisting->total_roll) }}</label>
                 </div>
             </div>  
             <h5>List Barang</h5>
@@ -36,7 +36,7 @@
                   <table class="table table-striped">
                     <thead>
                     <tr>
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                       <th style="border:1px solid">Lokasi</th>
@@ -45,10 +45,10 @@
                     <tbody>
                     @foreach ($item as $data )
                     <tr>
-                      <td>{{ $data->Kode_Barang }}</td>
-                      <td>{{ $data->id_barang }}</td>
-                      <td>{{ $data->total_Panjang }}</td>
-                      <td>{{ $data->kode_gudang }}</td>
+                      <td>{{ $data->BARCODE }}</td>
+                      <td>{{ $data->ID_BARANG }}</td>
+                      <td>{{ formatTotal($data->JUMLAH) }}</td>
+                      <td>{{ $data->ID_LOKASI }}</td>
                     </tr>
                     @endforeach
                     </tbody>

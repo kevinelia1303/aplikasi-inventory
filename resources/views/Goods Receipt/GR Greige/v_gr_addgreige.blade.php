@@ -13,13 +13,13 @@
                    <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Goods Receipt</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_Transaksi" placeholder="ID Goods Receipts .." required>
+                      <input type="text" class="form-control" name="id_Transaksi" readonly="" value="{{ 'RG'.date('Y').'-'.date('m').$kd }}" placeholder="ID Goods Receipts .." required>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
+                      <input type="text" value="{{ $purchase->id_PurchaseOrder }}" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -30,11 +30,10 @@
                   </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Supplier</label>
-                    <div class="col-sm-10">
-                    <select class="form-control" id="id_supplier" name="id_supplier" required>
+                    <div class="col-sm-10"> <select class="form-control" id="id_supplier" name="id_supplier" required>
                         <option value="" hidden>-- Pilih Supplier --</option>
                         @foreach ($supplier as $data)
-                            <option value="{{ $data->id_supp }}">{{ $data->nama_supplier }}</option>
+                            <option value="{{ $data->id_supp }}" {{ $data->id_supp == $purchase->id_supplier ? 'selected' : '' }}>{{ $data->nama_supplier }}</option>
                         @endforeach
                     </select>
                     </div>

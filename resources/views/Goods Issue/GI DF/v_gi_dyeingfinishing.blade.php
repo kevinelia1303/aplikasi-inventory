@@ -46,7 +46,7 @@
 								<div class="card-header">
 									<div class="d-flex align-items-center">
 										
-										<a href="/gidf/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Issue Maklon DF</a> <br>
+										{{-- <a href="/gidf/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Issue Maklon DF</a> <br> --}}
 									</div>
 								</div>
 								<div class="card-body">
@@ -60,6 +60,7 @@
 													<th>Supplier</th>
 													<th>Total Panjang</th>
 													<th>Total Roll</th>
+													<th>Status</th>
                                                     <th>Action</th>
 												</tr>
 											</thead>
@@ -71,11 +72,19 @@
                                                     <td>{{ $data->id_purchaseorder  }}</td>
 													<td>{{ $data->Tanggal }}</td>
                                                     <td>{{ $data->nama_supplier }}</td>
-													<td>{{ $data->total_panjang  }}</td>
+													<td>{{ formatTotal($data->total_panjang)  }}</td>
 													<td>{{ $data->total_roll  }}</td>
+													<td>{{ $data->status  }}</td>
+													@if ( $data->status =="Terkirim")
 													<td>
+														<a href="/gidf/edit/{{ $data->ID_Transaksi }}"  class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
 														<a href="/gidf/detailgidf/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
-													</td>
+													@else
+													<td>
+														<a href="/gidf/edit/{{ $data->ID_Transaksi }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+														<a href="/gidf/detailgidf/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+													</td>	
+													@endif
 												</tr>
                                                 @endforeach
 											</tbody>

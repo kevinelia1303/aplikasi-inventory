@@ -124,19 +124,19 @@ class BarangModel extends Model
 
     public function listItem($id_barang)
     {
-        return DB::table("line_item_barang")
+        return DB::table("tstok")
                 ->join("transaksi_gudang", function($join){
-                    $join->on("line_item_barang.id_gr", "=", "transaksi_gudang.id_transaksi");
+                    $join->on("transaksi_gudang.id_Transaksi", "=", "tstok.ID_TRAN");
                 })
                 ->where("id_barang", "=", $id_barang)
-                ->whereNull("id_gi")
+                ->where("tstok.jumlah", ">",0)
                 ->orderBy("transaksi_gudang.tanggal","asc")
                 ->get();
     }
 
     public function countitem($id_barang)
     {
-       return DB::table("line_item_barang")
+       return DB::table("tstok")
                 ->where("id_barang", "=", $id_barang)
                 ->count();
 

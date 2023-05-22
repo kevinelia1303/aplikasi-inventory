@@ -7,6 +7,7 @@ use App\Models\BarangModel;
 use App\Models\JenisBarangModel;
 use App\Models\line_item_barang_Model;
 use App\Models\SatuanModel;
+use App\Models\TStokModel;
 use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
@@ -77,12 +78,12 @@ class BarangController extends Controller
             'finished_goods' =>$this->BarangModel->FGdetailData($id_barang),
             'list' =>$this->BarangModel->listItem($id_barang)
         ];
-        $total_roll = line_item_barang_Model::where('id_barang',$id_barang)
-                        ->whereNull("id_gi")
+        $total_roll = TStokModel::where('id_barang',$id_barang)
+                        ->where("tstok.jumlah", ">",0)
                         ->count('id_barang');
-        $total_panjang = line_item_barang_Model::where('id_barang',$id_barang)
-                        ->whereNull("id_gi")
-                        ->sum('total_Panjang');
+        $total_panjang = TStokModel::where('id_barang',$id_barang)
+                        ->where("tstok.jumlah", ">",0)
+                        ->sum('tstok.jumlah');
         
         return view('master.finished goods.v_detailfg', compact('total_roll','total_panjang'), $data);
     }
@@ -209,12 +210,12 @@ class BarangController extends Controller
             'greige' =>$this->BarangModel->GreigedetailData($id_barang),
             'list' =>$this->BarangModel->listItem($id_barang)
         ];
-        $total_roll = line_item_barang_Model::where('id_barang',$id_barang)
-                        ->whereNull("id_gi")
+        $total_roll = TStokModel::where('id_barang',$id_barang)
+                        ->where("tstok.jumlah", ">",0)
                         ->count('id_barang');
-        $total_panjang = line_item_barang_Model::where('id_barang',$id_barang)
-                        ->whereNull("id_gi")
-                        ->sum('total_Panjang');
+        $total_panjang = TStokModel::where('id_barang',$id_barang)
+                        ->where("tstok.jumlah", ">",0)
+                        ->sum('tstok.jumlah');
         
         return view('master.greige.v_detailgreige', compact('total_roll','total_panjang'), $data);
     }
@@ -301,12 +302,12 @@ class BarangController extends Controller
             'benang' =>$this->BarangModel->BenangdetailData($id_barang),
             'list' =>$this->BarangModel->listItem($id_barang),
         ];
-        $total_roll = line_item_barang_Model::where('id_barang',$id_barang)
-                        ->whereNull("id_gi")
+        $total_roll = TStokModel::where('id_barang',$id_barang)
+                        ->where("tstok.jumlah", ">",0)
                         ->count('id_barang');
-        $total_panjang = line_item_barang_Model::where('id_barang',$id_barang)
-                        ->whereNull("id_gi")
-                        ->sum('total_Panjang');
+        $total_panjang = TStokModel::where('id_barang',$id_barang)
+                        ->where("tstok.jumlah", ">",0)
+                        ->sum('tstok.jumlah');
         
         return view('master.benang.v_detailbenang', compact('total_roll','total_panjang'), $data);
     }

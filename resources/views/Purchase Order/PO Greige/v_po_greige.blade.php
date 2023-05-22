@@ -65,17 +65,20 @@
 													<td>{{ $data->id_PurchaseOrder }}</td>
 													<td>{{ $data->tanggal }}</td>
                                                     <td>{{ $data->nama_supplier }}</td>
-													<td>{{ $data->total_harga  }}</td>
+													<td>{{ formatRupiah($data->total_harga)  }}</td>
 													<td>{{ $data->status  }}</td>
                                                     <td>{{ $data->jenis_bayar  }}</td>
 													@if ( $data->status =="Done")
 													<td>
-														<a href="/pogreige/detailpogreige/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/pogreige/edit/{{ $data->id_PurchaseOrder }}"   class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a href="/pogreige/detailpogreige/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/grpogreige/add/{{ $data->id_PurchaseOrder }}"  class="btn disabled btn-success btn-xs"><i class="fas fa-hand-receiving"></i> Terima Barang</a>
 													</td>
 													@else
 													<td>
 														<a href="/pogreige/edit/{{ $data->id_PurchaseOrder }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
                                                         <a href="/pogreige/detailpogreige/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/grpogreige/add/{{ $data->id_PurchaseOrder }}"  class="btn btn-success btn-xs"><i class="fas fa-hand-receiving"></i> Terima Barang</a>
 													</td>	
 													@endif
 													

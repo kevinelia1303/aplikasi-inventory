@@ -18,7 +18,9 @@ class PurchaseOrderModel extends Model
         'status',
         'jenis_bayar',
         'id_user',
-        'id_supplier'
+        'id_supplier',
+        'created_at',
+        'updated_at'
     ];
 
     public function pobenangallData()

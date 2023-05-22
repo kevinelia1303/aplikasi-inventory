@@ -63,7 +63,7 @@
             <th colspan='3' style="border:2px solid">Nama Kain : {{ $item->keterangan1 }}</th>
             <th colspan='2' style="border:2px solid">Warna : {{ $item->keterangan2 }}</th>
             <th colspan='1' style="border:2px solid">Grade : {{ $item->keterangan3 }}</th>
-            <th colspan='2' style="border:2px solid">Jumlah Yard : {{ $item->total_panjang }}</th>
+            <th colspan='2' style="border:2px solid">Jumlah Yard : {{ formatTotal($item->total_panjang) }}</th>
             <th colspan='2' style="border:2px solid">Jumlah Roll : {{ $item->total_roll }}</th>
           </tr>
           
@@ -85,7 +85,7 @@
             @if ($key % 10 == 0)
               <tr>
             @endif
-            <td style="border:1px solid">{{ $data->total_panjang }}</td>
+            <td style="border:1px solid">{{ formatTotal($data->JUMLAH) }}</td>
             @if (($key + 1) % 10 == 0)
               </tr>
             @endif
