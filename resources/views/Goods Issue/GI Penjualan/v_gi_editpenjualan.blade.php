@@ -50,8 +50,8 @@
                     <label class="col-sm-2 col-form-label">Status</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="status" required>
-                        <option {{ $gipenjualan->status == 'Terkirim' ? 'selected' : '' }} value="Terkirim">Terkirim</option>
-                        <option {{ $gipenjualan->status == 'Persiapan Kirim' ? 'selected' : '' }} value="Persiapan Kirim">Persiapan Kirim</option>
+                        <option {{ $gipenjualan->status == 'ACTIVE' ? 'selected' : '' }} value="ACTIVE">ACTIVE</option>
+                        <option {{ $gipenjualan->status == 'CLOSED' ? 'selected' : '' }} value="CLOSED">CLOSED</option>
                     </select>
                     </div>
                   </div>
@@ -65,7 +65,7 @@
                   <table class="table table-striped">
                     <thead>
                     <tr>
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                     </tr>
@@ -73,9 +73,9 @@
                     <tbody>
                     @foreach ($item as $data )
                     <tr>
-                      <td>{{ $data->Kode_Barang }}</td>
+                      <td>{{ $data->barcode }}</td>
                       <td>{{ $data->id_barang }}</td>
-                      <td>{{ $data->total_Panjang }}</td>
+                      <td>{{ $data->jumlah }}</td>
                     </tr>
                     @endforeach
                     </tbody>

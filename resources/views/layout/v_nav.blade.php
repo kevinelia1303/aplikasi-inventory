@@ -218,7 +218,7 @@
             </ul>
           </li>
             
-          <li class="nav-item {{ request()->is('kartustok*') ? 'menu-open' : '' }}">
+          <li class="nav-item {{ request()->is('kartustok*','stokopname*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('kartustok*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-file-invoice fa-flip-horizontal"></i>
               <p>
@@ -231,6 +231,14 @@
                 <a href="/kartustok" class="nav-link {{ request()->is('kartustok*') ? 'active' : '' }}">
                   <i class="far fab fa-adobe nav-icon"></i>
                   <p>01 Kartu Stok</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/stokopname" class="nav-link {{ request()->is('stokopname*') ? 'active' : '' }}">
+                  <i class="far fab fa-adobe nav-icon"></i>
+                  <p>02 Stock Opname Awal</p>
                 </a>
               </li>
             </ul>

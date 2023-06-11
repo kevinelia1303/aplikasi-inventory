@@ -75,7 +75,7 @@
 													<td>{{ formatTotal($data->total_panjang)  }}</td>
 													<td>{{ $data->total_roll  }}</td>
 													<td>{{ $data->status  }}</td>
-													@if ( $data->status =="Terkirim")
+													@if ( $data->status =="CLOSED")
 													<td>
 														<a href="/gidf/edit/{{ $data->ID_Transaksi }}"  class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
 														<a href="/gidf/detailgidf/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>

@@ -11,6 +11,7 @@ use App\Models\ListKebutuhanMaklonModel;
 use App\Models\PurchaseOrderModel;
 use App\Models\TranDetailModel;
 use App\Models\TStokModel;
+use App\Models\LineItemPOModel;
 use Illuminate\Support\Facades\DB;
 
 class TransaksiGudangController extends Controller
@@ -32,18 +33,18 @@ class TransaksiGudangController extends Controller
         $supplier1 = SupplierModel::all();
         //filter by id
         if($ID_Transaksi OR $id_PurchaseOrder OR $tanggal OR $supplier <> ""){
-            $grbenang=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.id_supp", "LIKE", '%'.$supplier.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grbenang=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.id_supp", "LIKE", '%'.$supplier.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $grbenang=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.ID_Transaksi", "like", "ry%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grbenang=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.ID_Transaksi", "like", "ry%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Receipt.GR benang.v_gr_benang',compact('grbenang','supplier1'));
@@ -53,7 +54,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(id_Transaksi,3)) as kode'))
                 ->where("id_Transaksi", "like", "ry%")
                 ->whereMonth('tanggal', $bulan)
@@ -68,7 +69,7 @@ class TransaksiGudangController extends Controller
         else{
             $kd= "001";
         }
-        $purchase = PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+        $purchase = PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
@@ -83,7 +84,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(id_Transaksi,3)) as kode'))
                 ->where("id_Transaksi", "like", "ry%")
                 ->whereMonth('tanggal', $bulan)
@@ -122,10 +123,10 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->kode_gudang[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->kode_gudang[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
         }
@@ -151,18 +152,18 @@ class TransaksiGudangController extends Controller
         $supplier1 = SupplierModel::all();
         //filter by id
         if($ID_Transaksi OR $id_PurchaseOrder OR $tanggal OR $supplier <> ""){
-            $grgreige=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.id_supp", "LIKE", '%'.$supplier.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grgreige=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.id_supp", "LIKE", '%'.$supplier.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $grgreige=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.ID_Transaksi", "like", "rg%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grgreige=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.ID_Transaksi", "like", "rg%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Receipt.GR Greige.v_gr_greige',compact('grgreige','supplier1'));
@@ -172,7 +173,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(id_Transaksi,3)) as kode'))
                 ->where("id_Transaksi", "like", "rg%")
                 ->whereMonth('tanggal', $bulan)
@@ -187,7 +188,7 @@ class TransaksiGudangController extends Controller
         else{
             $kd= "001";
         }
-        $purchase = PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+        $purchase = PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
@@ -214,10 +215,10 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->kode_gudang[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->kode_gudang[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
         }
@@ -243,18 +244,18 @@ class TransaksiGudangController extends Controller
         $supplier1 = SupplierModel::all();
         //filter by id
         if($ID_Transaksi OR $id_PurchaseOrder OR $tanggal OR $supplier <> ""){
-            $gitwisting=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.id_supp", "LIKE", '%'.$supplier.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $gitwisting=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.id_supp", "LIKE", '%'.$supplier.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $gitwisting=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.ID_Transaksi", "like", "dm%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $gitwisting=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.ID_Transaksi", "like", "dm%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Issue.GI twisting.v_gi_twisting',compact('gitwisting','supplier1'));
@@ -264,7 +265,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(ID_Transaksi,3)) as kode'))
                 ->where("ID_Transaksi", "like", "dm%")
                 ->whereMonth('Tanggal', $bulan)
@@ -279,7 +280,7 @@ class TransaksiGudangController extends Controller
         else{
             $kd= "001";
         }
-        $purchase = PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+        $purchase = PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
@@ -288,16 +289,16 @@ class TransaksiGudangController extends Controller
 
     public function ajax(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_barang = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_barang = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.GI twisting.ajax', compact('ajax_barang'));
     }
 
     public function ajax1(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_barang = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_barang = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.GI twisting.ajax_panjang', compact('ajax_barang'));
     }
@@ -320,15 +321,16 @@ class TransaksiGudangController extends Controller
             $kode = [$request->kode_barang[$key]];
             $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->id_lokasi[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->id_lokasi[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
-            ListKebutuhanMaklonModel::whereIn('id_barang', $request-> id_barang)
+            LineItemPOModel::whereIn('id_barang', $request-> id_barang)
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
+                                    ->where('trx_po_detail.keterangan', 'ItemMaklon')
                                     ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
 
@@ -377,18 +379,18 @@ class TransaksiGudangController extends Controller
         $supplier1 = SupplierModel::all();
         //filter by id
         if($ID_Transaksi OR $id_PurchaseOrder OR $tanggal OR $supplier <> ""){
-            $grtwisting=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.id_supp", "LIKE", '%'.$supplier.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grtwisting=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.id_supp", "LIKE", '%'.$supplier.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $grtwisting=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.ID_Transaksi", "like", "rm%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grtwisting=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.ID_Transaksi", "like", "rm%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Receipt.GR Twisting.v_gr_twisting',compact('grtwisting','supplier1'));
@@ -398,7 +400,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(id_Transaksi,3)) as kode'))
                 ->where("id_Transaksi", "like", "rm%")
                 ->whereMonth('tanggal', $bulan)
@@ -413,7 +415,7 @@ class TransaksiGudangController extends Controller
         else{
             $kd= "001";
         }
-        $purchase = PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+        $purchase = PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
@@ -440,10 +442,10 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->kode_gudang[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->kode_gudang[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
         }
@@ -469,18 +471,18 @@ class TransaksiGudangController extends Controller
         $supplier1 = SupplierModel::all();
         //filter by id
         if($ID_Transaksi OR $id_PurchaseOrder OR $tanggal OR $supplier <> ""){
-            $gidf=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.id_supp", "LIKE", '%'.$supplier.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $gidf=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.id_supp", "LIKE", '%'.$supplier.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $gidf=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.ID_Transaksi", "like", "df%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $gidf=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.ID_Transaksi", "like", "df%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Issue.GI DF.v_gi_dyeingfinishing',compact('gidf','supplier1'));
@@ -490,7 +492,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(ID_Transaksi,3)) as kode'))
                 ->where("ID_Transaksi", "like", "df%")
                 ->whereMonth('Tanggal', $bulan)
@@ -505,7 +507,7 @@ class TransaksiGudangController extends Controller
         else{
             $kd= "001";
         }
-        $purchase = PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+        $purchase = PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
@@ -514,33 +516,33 @@ class TransaksiGudangController extends Controller
 
     public function ajax2(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_barang = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_barang = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.GI DF.ajax', compact('ajax_barang'));
     }
 
     public function ajax3(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_barang = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_barang = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.GI DF.ajax_panjang', compact('ajax_barang'));
     }
 
     public function ajaxlokasi(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_lokasi = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_lokasi = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.ajax_lokasi', compact('ajax_lokasi'));
     }
 
     public function ajaxtanggal(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_tanggal = TStokModel::join('transaksi_gudang', 'transaksi_gudang.ID_Transaksi','=','tstok.ID_TRAN')
-                        ->where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_tanggal = TStokModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_stok.ID_TRAN')
+                        ->where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.ajax_tanggal', compact('ajax_tanggal'));
     }
@@ -563,15 +565,16 @@ class TransaksiGudangController extends Controller
             $kode = [$request->kode_barang[$key]];
             $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->id_lokasi[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->id_lokasi[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
-            ListKebutuhanMaklonModel::whereIn('id_barang', $request-> id_barang)
+            LineItemPOModel::whereIn('id_barang', $request-> id_barang)
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
+                                    ->where('trx_po_detail.keterangan', 'ItemMaklon')
                                     ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
 
@@ -619,18 +622,18 @@ class TransaksiGudangController extends Controller
         $supplier1 = SupplierModel::all();
         //filter by id
         if($ID_Transaksi OR $id_PurchaseOrder OR $tanggal OR $supplier <> ""){
-            $grdf=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.id_supp", "LIKE", '%'.$supplier.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grdf=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.id_supp", "LIKE", '%'.$supplier.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_purchaseorder", "like", '%'.$id_PurchaseOrder.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $grdf=TransaksiGudangModel::join('supplier', 'transaksi_gudang.id_supp','=','supplier.id_supp')
-                ->where("transaksi_gudang.ID_Transaksi", "like", "rj%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $grdf=TransaksiGudangModel::join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->where("trx_gudang.ID_Transaksi", "like", "rj%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Receipt.GR DF.v_gr_dyeingfinishing',compact('grdf','supplier1'));
@@ -640,7 +643,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(id_Transaksi,3)) as kode'))
                 ->where("id_Transaksi", "like", "rj%")
                 ->whereMonth('tanggal', $bulan)
@@ -655,7 +658,7 @@ class TransaksiGudangController extends Controller
         else{
             $kd= "001";
         }
-        $purchase = PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
+        $purchase = PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
@@ -668,6 +671,15 @@ class TransaksiGudangController extends Controller
 
     public function GrDFsubmitData(Request $request)
     {
+    //     Request()->validate([
+    //         'kode_gudang' => 'required|unique:trx_stok,barcode',
+    //         'jumlah' => 'required|numeric'
+    //     ],[
+    //         'kode_gudang.unique' => 'Barcode ini sudah ada',
+    //         'jumlah.required' => 'Wajib Diisi !',
+    //         'jumlah.numeric' => 'Wajib Diisi Angka !',
+    //     ]
+    // );
         $data = [
             'ID_Transaksi' => Request()->id_Transaksi,
             'TRANSAKSI' => 'TAMBAH',
@@ -682,10 +694,10 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->kode_gudang[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->kode_gudang[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
         }
@@ -710,17 +722,17 @@ class TransaksiGudangController extends Controller
         $id_sales=$request->id_sales;
         //filter by id
         if($ID_Transaksi OR $id_sales OR $tanggal OR $customer <> ""){
-            $gipenjualan=TransaksiGudangModel::where("transaksi_gudang.ID_Transaksi", "like", "jf%")
-                ->where("transaksi_gudang.customer", "LIKE", '%'.$customer.'%')
-                ->where("transaksi_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
-                ->where("transaksi_gudang.id_sales", "like", '%'.$id_sales.'%')
-                ->where("transaksi_gudang.tanggal", "LIKE", $tanggal)
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $gipenjualan=TransaksiGudangModel::where("trx_gudang.ID_Transaksi", "like", "jf%")
+                ->where("trx_gudang.customer", "LIKE", '%'.$customer.'%')
+                ->where("trx_gudang.ID_Transaksi", "like", '%'.$ID_Transaksi.'%')
+                ->where("trx_gudang.id_sales", "like", '%'.$id_sales.'%')
+                ->where("trx_gudang.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
             
         }else{
-            $gipenjualan=TransaksiGudangModel::where("transaksi_gudang.ID_Transaksi", "like", "jf%")
-                ->orderBy("transaksi_gudang.ID_Transaksi","desc")
+            $gipenjualan=TransaksiGudangModel::where("trx_gudang.ID_Transaksi", "like", "jf%")
+                ->orderBy("trx_gudang.ID_Transaksi","desc")
                 ->get();
         }
         return view('Goods Issue.GI Penjualan.v_gi_penjualan',compact('gipenjualan'));
@@ -730,7 +742,7 @@ class TransaksiGudangController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('transaksi_gudang')
+        $q = DB::table('trx_gudang')
                 ->select(DB::raw('MAX(RIGHT(ID_Transaksi,3)) as kode'))
                 ->where("ID_Transaksi", "like", "jf%")
                 ->whereMonth('Tanggal', $bulan)
@@ -752,16 +764,16 @@ class TransaksiGudangController extends Controller
 
     public function ajax4(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_barang = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_barang = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.GI Penjualan.ajax', compact('ajax_barang'));
     }
 
     public function ajax5(Request $request)
     {
-        $kode_barang['BARCODE'] = $request->kode_barang;
-        $ajax_barang = TStokModel::where('BARCODE', $kode_barang)->get();
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_barang = TStokModel::where('barcode', $kode_barang)->get();
 
         return view('Goods Issue.GI Penjualan.ajax_panjang', compact('ajax_barang'));
     }
@@ -779,16 +791,17 @@ class TransaksiGudangController extends Controller
             'status' => 'ACTIVE',
             'total_panjang' => Request()->total_panjang,
             'total_roll' => Request()->total_roll,
+            'id_user' => Request()->id_user
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $kode = [$request->kode_barang[$key]];
             
             $datas = new TranDetailModel();
-            $datas->BARCODE =$kode_barang;
-            $datas->ID_BARANG = $request->id_barang[$key];
-            $datas->JUMLAH = $request->jumlah[$key];
-            $datas->ID_LOKASI = $request->id_lokasi[$key];
+            $datas->barcode =$kode_barang;
+            $datas->id_barang = $request->id_barang[$key];
+            $datas->jumlah = $request->jumlah[$key];
+            $datas->id_lokasi = $request->id_lokasi[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
@@ -835,33 +848,33 @@ class TransaksiGudangController extends Controller
 
         $gipenjualan=TransaksiGudangModel::where("ID_Transaksi", "=", $ID_Transaksi)
                         ->first();
-        $item=DB::table("tdetail_tran_bar")
+        $item=DB::table("trx_gudang_detail")
                 ->join("barang", function($join){
-                    $join->on("barang.id_barang", "=", "tdetail_tran_bar.id_barang");
+                    $join->on("barang.id_barang", "=", "trx_gudang_detail.id_barang");
                 })
-                ->select("tdetail_tran_bar.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(JUMLAH)) as total_panjang"),DB::raw("count(BARCODE) as total_roll"))
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
-                ->groupBy("tdetail_tran_bar.id_barang")
+                ->select("trx_gudang_detail.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(jumlah)) as total_panjang"),DB::raw("count(barcode) as total_roll"))
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
+                ->groupBy("trx_gudang_detail.id_barang")
                 ->get();
         // dd($item);
         return view('Goods Issue.GI Penjualan.v_printsj', compact('gipenjualan','item'));
     }
 
     public function printpl(Request $request, $ID_Transaksi){
-        $totalItem = DB::table("tdetail_tran_bar")
+        $totalItem = DB::table("trx_gudang_detail")
                 ->join("barang", function($join){
-                            $join->on("barang.id_barang", "=", "tdetail_tran_bar.id_barang");
+                            $join->on("barang.id_barang", "=", "trx_gudang_detail.id_barang");
                         })
-                ->join("transaksi_gudang", function($join){
-                    $join->on("transaksi_gudang.id_transaksi", "=", "tdetail_tran_bar.ID_TRAN");
+                ->join("trx_gudang", function($join){
+                    $join->on("trx_gudang.id_transaksi", "=", "trx_gudang_detail.ID_TRAN");
                 })
-                ->select("transaksi_gudang.*", "tdetail_tran_bar.id_barang","barang.*",DB::raw("(sum(tdetail_tran_bar.JUMLAH)) as total_panjang"),DB::raw("count(tdetail_tran_bar.BARCODE) as total_roll"))
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
-                ->groupBy("tdetail_tran_bar.id_barang")
+                ->select("trx_gudang.*", "trx_gudang_detail.id_barang","barang.*",DB::raw("(sum(trx_gudang_detail.jumlah)) as total_panjang"),DB::raw("count(trx_gudang_detail.barcode) as total_roll"))
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
+                ->groupBy("trx_gudang_detail.id_barang")
                 ->get();
-        $a = DB::table("tdetail_tran_bar")
-                ->select("id_barang","JUMLAH")
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
+        $a = DB::table("trx_gudang_detail")
+                ->select("id_barang","jumlah")
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
                 ->get();
                     
         
@@ -874,42 +887,42 @@ class TransaksiGudangController extends Controller
         $data = [
             'gidf' =>$this->TransaksiGudangModel->detailData($ID_Transaksi),
         ];
-        $item=DB::table("tdetail_tran_bar")
+        $item=DB::table("trx_gudang_detail")
                 ->join("barang", function($join){
-                    $join->on("barang.id_barang", "=", "tdetail_tran_bar.id_barang");
+                    $join->on("barang.id_barang", "=", "trx_gudang_detail.id_barang");
                 })
                 ->join("satuan", function($join){
                     $join->on("barang.id_satuan", "=", "satuan.id_satuan");
                 })
-                ->select("satuan","tdetail_tran_bar.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(JUMLAH)) as total_panjang"),DB::raw("count(BARCODE) as total_roll"))
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
-                ->groupBy("tdetail_tran_bar.id_barang")
+                ->select("satuan","trx_gudang_detail.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(jumlah)) as total_panjang"),DB::raw("count(barcode) as total_roll"))
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
+                ->groupBy("trx_gudang_detail.id_barang")
                 ->get();
         // dd($item);
         return view('Goods Issue.GI DF.v_printsjdf', compact('item'),$data);
     }
 
     public function printpldf(Request $request, $ID_Transaksi){
-        $totalItem = DB::table("tdetail_tran_bar")
+        $totalItem = DB::table("trx_gudang_detail")
                 ->join("barang", function($join){
-                            $join->on("barang.id_barang", "=", "tdetail_tran_bar.id_barang");
+                            $join->on("barang.id_barang", "=", "trx_gudang_detail.id_barang");
                         })
-                ->join("transaksi_gudang", function($join){
-                    $join->on("transaksi_gudang.id_transaksi", "=", "tdetail_tran_bar.ID_TRAN");
+                ->join("trx_gudang", function($join){
+                    $join->on("trx_gudang.id_transaksi", "=", "trx_gudang_detail.ID_TRAN");
                 })
                 ->join("supplier", function($join){
-                    $join->on("transaksi_gudang.id_supp", "=", "supplier.id_supp");
+                    $join->on("trx_gudang.id_supp", "=", "supplier.id_supp");
                 })
                 ->join("regencies", function($join){
                     $join->on("supplier.regencies_id", "=", "regencies.id");
                 })
-                ->select("regencies.*","supplier.*","transaksi_gudang.*", "tdetail_tran_bar.id_barang","barang.*",DB::raw("(sum(tdetail_tran_bar.JUMLAH)) as total_panjang"),DB::raw("count(tdetail_tran_bar.BARCODE) as total_roll"))
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
-                ->groupBy("tdetail_tran_bar.id_barang")
+                ->select("regencies.*","supplier.*","trx_gudang.*", "trx_gudang_detail.id_barang","barang.*",DB::raw("(sum(trx_gudang_detail.jumlah)) as total_panjang"),DB::raw("count(trx_gudang_detail.barcode) as total_roll"))
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
+                ->groupBy("trx_gudang_detail.id_barang")
                 ->get();
-        $a = DB::table("tdetail_tran_bar")
-                ->select("id_barang","JUMLAH")
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
+        $a = DB::table("trx_gudang_detail")
+                ->select("id_barang","jumlah")
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
                 ->get();
                     
         
@@ -922,42 +935,42 @@ class TransaksiGudangController extends Controller
         $data = [
             'gitwisting' =>$this->TransaksiGudangModel->detailData($ID_Transaksi),
         ];
-        $item=DB::table("tdetail_tran_bar")
+        $item=DB::table("trx_gudang_detail")
                 ->join("barang", function($join){
-                    $join->on("barang.id_barang", "=", "tdetail_tran_bar.id_barang");
+                    $join->on("barang.id_barang", "=", "trx_gudang_detail.id_barang");
                 })
                 ->join("satuan", function($join){
                     $join->on("barang.id_satuan", "=", "satuan.id_satuan");
                 })
-                ->select("satuan","tdetail_tran_bar.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(JUMLAH)) as total_panjang"),DB::raw("count(BARCODE) as total_roll"))
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
-                ->groupBy("tdetail_tran_bar.id_barang")
+                ->select("satuan","trx_gudang_detail.id_barang", "barang.keterangan1", "barang.keterangan2", DB::raw("(sum(jumlah)) as total_panjang"),DB::raw("count(barcode) as total_roll"))
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
+                ->groupBy("trx_gudang_detail.id_barang")
                 ->get();
         // dd($item);
         return view('Goods Issue.GI twisting.v_printsjtw', compact('item'),$data);
     }
 
     public function printpltw(Request $request, $ID_Transaksi){
-        $totalItem = DB::table("tdetail_tran_bar")
+        $totalItem = DB::table("trx_gudang_detail")
                 ->join("barang", function($join){
-                            $join->on("barang.id_barang", "=", "tdetail_tran_bar.id_barang");
+                            $join->on("barang.id_barang", "=", "trx_gudang_detail.id_barang");
                         })
-                ->join("transaksi_gudang", function($join){
-                    $join->on("transaksi_gudang.id_transaksi", "=", "tdetail_tran_bar.ID_TRAN");
+                ->join("trx_gudang", function($join){
+                    $join->on("trx_gudang.id_transaksi", "=", "trx_gudang_detail.ID_TRAN");
                 })
                 ->join("supplier", function($join){
-                    $join->on("transaksi_gudang.id_supp", "=", "supplier.id_supp");
+                    $join->on("trx_gudang.id_supp", "=", "supplier.id_supp");
                 })
                 ->join("regencies", function($join){
                     $join->on("supplier.regencies_id", "=", "regencies.id");
                 })
-                ->select("regencies.*","supplier.*","transaksi_gudang.*", "tdetail_tran_bar.id_barang","barang.*",DB::raw("(sum(tdetail_tran_bar.JUMLAH)) as total_panjang"),DB::raw("count(tdetail_tran_bar.BARCODE) as total_roll"))
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
-                ->groupBy("tdetail_tran_bar.id_barang")
+                ->select("regencies.*","supplier.*","trx_gudang.*", "trx_gudang_detail.id_barang","barang.*",DB::raw("(sum(trx_gudang_detail.jumlah)) as total_panjang"),DB::raw("count(trx_gudang_detail.barcode) as total_roll"))
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
+                ->groupBy("trx_gudang_detail.id_barang")
                 ->get();
-        $a = DB::table("tdetail_tran_bar")
-                ->select("id_barang","JUMLAH")
-                ->where('tdetail_tran_bar.ID_TRAN', $ID_Transaksi)
+        $a = DB::table("trx_gudang_detail")
+                ->select("id_barang","jumlah")
+                ->where('trx_gudang_detail.ID_TRAN', $ID_Transaksi)
                 ->get();
                     
         

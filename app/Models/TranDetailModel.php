@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class TranDetailModel extends Model
 {
     use HasFactory;
-    protected $table = 'tdetail_tran_bar';
+    protected $table = 'trx_gudang_detail';
 
     protected $fillable = [
         'ID_TRAN',
-        'ID_BARANG',
-        'ID_LOKASI',
+        'id_barang',
+        'id_lokasi',
         'BARCODE',
-        'JUMLAH'
+        'jumlah'
     ];
 }

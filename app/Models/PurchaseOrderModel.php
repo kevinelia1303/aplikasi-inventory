@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class PurchaseOrderModel extends Model
 {
     use HasFactory;
-    protected $table = 'purchase_order';
+    protected $table = 'trx_po';
 
     protected $fillable = [
         'id_PurchaseOrder',
@@ -25,11 +25,11 @@ class PurchaseOrderModel extends Model
 
     public function pobenangallData()
     {
-        return DB::table("purchase_order")
+        return DB::table("trx_po")
                 ->join("supplier", function($join){
-                    $join->on("purchase_order.id_supplier", "=", "supplier.id_supp");
+                    $join->on("trx_po.id_supplier", "=", "supplier.id_supp");
                 })
-                ->where("purchase_order.id_purchaseorder", "like", "py%")
+                ->where("trx_po.id_purchaseorder", "like", "py%")
                 ->get();
     }
 
@@ -48,31 +48,34 @@ class PurchaseOrderModel extends Model
 
     public function addData($data)
     {
-        DB::table('purchase_order')->insert($data);
+        DB::table('trx_po')->insert($data);
     }
 
     public function detailData($id_PurchaseOrder)
     {
         
-        return DB::table("purchase_order")
+        return DB::table("trx_po")
                 ->join("supplier", function($join){
-                    $join->on("purchase_order.id_supplier", "=", "supplier.id_supp");
+                    $join->on("trx_po.id_supplier", "=", "supplier.id_supp");
                 })
                 ->where('id_purchaseorder', $id_PurchaseOrder)->first();
     }
     public function ItemdetailData($id_PurchaseOrder)
     {
         
-        return DB::table("line_item_po")
-                ->join("purchase_order", function($join){
-                    $join->on("purchase_order.id_PurchaseOrder", "=", "line_item_po.id_PurchaseOrder");
+        return DB::table("trx_po_detail")
+                ->join("trx_po", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
                 })
-                ->where('line_item_po.id_purchaseorder', $id_PurchaseOrder)->get();
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemPO')
+                ->get();
     }
 
     public function editData($id_PurchaseOrder, $data)
     {
-        DB::table('purchase_order')->where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
+        DB::table('trx_po')->where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
     }
 
     public function GreigeallData(){
@@ -89,11 +92,13 @@ class PurchaseOrderModel extends Model
     public function ItemMaklondetailData($id_PurchaseOrder)
     {
         
-        return DB::table("list_kebutuhan_maklon")
-                ->join("purchase_order", function($join){
-                    $join->on("purchase_order.id_PurchaseOrder", "=", "list_kebutuhan_maklon.id_PurchaseOrder");
+        return DB::table("trx_po_detail")
+                ->join("trx_po", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
                 })
-                ->where('list_kebutuhan_maklon.id_purchaseorder', $id_PurchaseOrder)->get();
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemMaklon')
+                ->get();
     }
 
     public function FGallData(){

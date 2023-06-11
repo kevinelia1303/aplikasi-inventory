@@ -30,17 +30,17 @@ class PurchaseOrderController extends Controller
         
         //filter by id
         if($id_purchaseorder OR $tanggal OR $status <> ""){
-            $pobenang=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.status", "LIKE", $status)
-                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
-                ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $pobenang=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.status", "LIKE", $status)
+                ->where("trx_po.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("trx_po.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
             
         }else{
-            $pobenang=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.id_purchaseorder", "like", "py%")
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $pobenang=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.id_purchaseorder", "like", "py%")
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
         }
         //dd(DB::getQueryLog());
@@ -51,7 +51,7 @@ class PurchaseOrderController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('purchase_order')
+        $q = DB::table('trx_po')
                 ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
                 ->where("id_purchaseorder", "like", "py%")
                 ->whereMonth('tanggal', $bulan)
@@ -93,6 +93,7 @@ class PurchaseOrderController extends Controller
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->keterangan = "ItemPO";
             $datas->save();
         }
         return redirect('/pobenang')->with('pesan', 'Data Berhasil Disimpan');
@@ -126,7 +127,7 @@ class PurchaseOrderController extends Controller
     {
         $data = [
             'status' => Request()->status,
-            // 'total_harga' => 0
+            'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
 
@@ -135,14 +136,16 @@ class PurchaseOrderController extends Controller
         // $jumlah = $request->jumlah;
         // $harga = $request->harga;
         
-        // foreach ($id_barang as $key=>$dt) {
-        //     $datas['id_barang'] = $dt;
-        //     $datas['jumlah'] = $jumlah[$key];
-        //     $datas['harga'] = $harga[$key];
-        //     $datas['TotalHarga'] = $harga[$key]*$jumlah[$key];
-        //     $line = $id[$key];
-        //     LineItemPOModel::where('id',$line)->update($datas);
-        // }
+        foreach($request->id_barang as $key=>$id_barang){
+            $datas['id_barang'] = $request->id_barang[$key];
+            $datas['jumlah'] = $request->jumlah[$key];
+            $datas['harga'] = $request->harga[$key];
+            $datas['TotalHarga'] = $request->harga[$key] * $request->jumlah[$key];
+            $line = $request->id[$key];
+            LineItemPOModel::where('id',$line)->update($datas);
+            $data['total_harga'] += ($request->harga[$key] * $request->jumlah[$key]);
+            PurchaseOrderModel::where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
+        }
         
         
 
@@ -159,17 +162,17 @@ class PurchaseOrderController extends Controller
         
         //filter by id
         if($id_purchaseorder OR $tanggal OR $status <> ""){
-            $pogreige=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.status", "LIKE", $status)
-                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
-                ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $pogreige=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.status", "LIKE", $status)
+                ->where("trx_po.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("trx_po.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
             
         }else{
-            $pogreige=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.id_purchaseorder", "like", "pg%")
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $pogreige=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.id_purchaseorder", "like", "pg%")
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
         }
         return view('Purchase Order.PO Greige.v_po_greige',compact('pogreige'));
@@ -179,7 +182,7 @@ class PurchaseOrderController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('purchase_order')
+        $q = DB::table('trx_po')
                 ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
                 ->where("id_purchaseorder", "like", "pg%")
                 ->whereMonth('tanggal', $bulan)
@@ -220,6 +223,7 @@ class PurchaseOrderController extends Controller
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->keterangan = "ItemPO";
             $datas->save();
         }
         return redirect('/pogreige')->with('pesan', 'Data Berhasil Disimpan');
@@ -249,13 +253,29 @@ class PurchaseOrderController extends Controller
         return view('Purchase Order.PO Greige.v_editpogreige', $data,$item,$supplier);
     }
 
-    public function updatepogreige( $id_PurchaseOrder)
+    public function updatepogreige(Request $request, $id_PurchaseOrder)
     {
         $data = [
             'status' => Request()->status,
+            'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+
+        // $id_barang = $request->id_barang;
+        // $id = $request->id;
+        // $jumlah = $request->jumlah;
+        // $harga = $request->harga;
         
+        foreach($request->id_barang as $key=>$id_barang){
+            $datas['id_barang'] = $request->id_barang[$key];
+            $datas['jumlah'] = $request->jumlah[$key];
+            $datas['harga'] = $request->harga[$key];
+            $datas['TotalHarga'] = $request->harga[$key] * $request->jumlah[$key];
+            $line = $request->id[$key];
+            LineItemPOModel::where('id',$line)->update($datas);
+            $data['total_harga'] += ($request->harga[$key] * $request->jumlah[$key]);
+            PurchaseOrderModel::where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
+        }
 
         return redirect('/pogreige')->with('pesan','Data berhasil diupdate');
     }
@@ -270,17 +290,17 @@ class PurchaseOrderController extends Controller
         
         //filter by id
         if($id_purchaseorder OR $tanggal OR $status <> ""){
-            $potwisting=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.status", "LIKE", $status)
-                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
-                ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $potwisting=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.status", "LIKE", $status)
+                ->where("trx_po.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("trx_po.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
             
         }else{
-            $potwisting=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.id_purchaseorder", "like", "MR%")
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $potwisting=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.id_purchaseorder", "like", "MR%")
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
         }
         return view('Purchase Order.PO Twisting.v_po_maklontwisting',compact('potwisting'));
@@ -290,7 +310,7 @@ class PurchaseOrderController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('purchase_order')
+        $q = DB::table('trx_po')
                 ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
                 ->where("id_purchaseorder", "like", "MR%")
                 ->whereMonth('tanggal', $bulan)
@@ -332,14 +352,16 @@ class PurchaseOrderController extends Controller
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->keterangan = "ItemPO";
             $datas->save();
         }
         foreach($request->id_barangmaklon as $key=>$id_barangmaklon){
-            $datas = new ListKebutuhanMaklonModel();
+            $datas = new LineItemPOModel();
             $datas->id_barang =$id_barangmaklon;
             $datas->jumlah = $request->total_maklon[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
             $datas->sisa = $request->total_maklon[$key];
+            $datas->keterangan = "ItemMaklon";
             $datas->save();
         }
         return redirect('/pomaklontwisting')->with('pesan', 'Data Berhasil Disimpan');
@@ -366,13 +388,29 @@ class PurchaseOrderController extends Controller
         return view('Purchase Order.PO Twisting.v_po_edittwisting', $data);
     }
 
-    public function updatepotwisting( $id_PurchaseOrder)
+    public function updatepotwisting(Request $request, $id_PurchaseOrder)
     {
         $data = [
             'status' => Request()->status,
+            'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+
+        // $id_barang = $request->id_barang;
+        // $id = $request->id;
+        // $jumlah = $request->jumlah;
+        // $harga = $request->harga;
         
+        foreach($request->id_barang as $key=>$id_barang){
+            $datas['id_barang'] = $request->id_barang[$key];
+            $datas['jumlah'] = $request->jumlah[$key];
+            $datas['harga'] = $request->harga[$key];
+            $datas['TotalHarga'] = $request->harga[$key] * $request->jumlah[$key];
+            $line = $request->id[$key];
+            LineItemPOModel::where('id',$line)->update($datas);
+            $data['total_harga'] += ($request->harga[$key] * $request->jumlah[$key]);
+            PurchaseOrderModel::where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
+        }
 
         return redirect('/pomaklontwisting')->with('pesan','Data berhasil diupdate');
     }
@@ -387,17 +425,17 @@ class PurchaseOrderController extends Controller
         
         //filter by id
         if($id_purchaseorder OR $tanggal OR $status <> ""){
-            $podf=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.status", "LIKE", $status)
-                ->where("purchase_order.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
-                ->where("purchase_order.tanggal", "LIKE", $tanggal)
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $podf=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.status", "LIKE", $status)
+                ->where("trx_po.id_purchaseorder", "like", '%'.$id_purchaseorder.'%')
+                ->where("trx_po.tanggal", "LIKE", $tanggal)
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
             
         }else{
-            $podf=PurchaseOrderModel::join('supplier', 'purchase_order.id_supplier','=','supplier.id_supp')
-                ->where("purchase_order.id_purchaseorder", "like", "MF%")
-                ->orderBy("purchase_order.id_purchaseorder","desc")
+            $podf=PurchaseOrderModel::join('supplier', 'trx_po.id_supplier','=','supplier.id_supp')
+                ->where("trx_po.id_purchaseorder", "like", "MF%")
+                ->orderBy("trx_po.id_purchaseorder","desc")
                 ->get();
         }
         return view('Purchase Order.PO DF.v_po_maklondf',compact('podf'));
@@ -407,7 +445,7 @@ class PurchaseOrderController extends Controller
     {
         $bulan = date('m');
         $tahun = date('Y');
-        $q = DB::table('purchase_order')
+        $q = DB::table('trx_po')
                 ->select(DB::raw('MAX(RIGHT(id_PurchaseOrder,3)) as kode'))
                 ->where("id_purchaseorder", "like", "MF%")
                 ->whereMonth('tanggal', $bulan)
@@ -449,14 +487,16 @@ class PurchaseOrderController extends Controller
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
+            $datas->keterangan = "ItemPO";
             $datas->save();
         }
         foreach($request->id_barangmaklon as $key=>$id_barangmaklon){
-            $datas = new ListKebutuhanMaklonModel();
+            $datas = new LineItemPOModel();
             $datas->id_barang =$id_barangmaklon;
             $datas->jumlah = $request->total_maklon[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
             $datas->sisa = $request->total_maklon[$key];
+            $datas->keterangan = "ItemMaklon";
             $datas->save();
         }
         return redirect('/pomaklondf')->with('pesan', 'Data Berhasil Disimpan');
@@ -484,13 +524,29 @@ class PurchaseOrderController extends Controller
         return view('Purchase Order.PO DF.v_po_editdf', $data);
     }
 
-    public function updatepodf( $id_PurchaseOrder)
+    public function updatepodf(Request $request, $id_PurchaseOrder)
     {
         $data = [
             'status' => Request()->status,
+            'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
+
+        // $id_barang = $request->id_barang;
+        // $id = $request->id;
+        // $jumlah = $request->jumlah;
+        // $harga = $request->harga;
         
+        foreach($request->id_barang as $key=>$id_barang){
+            $datas['id_barang'] = $request->id_barang[$key];
+            $datas['jumlah'] = $request->jumlah[$key];
+            $datas['harga'] = $request->harga[$key];
+            $datas['TotalHarga'] = $request->harga[$key] * $request->jumlah[$key];
+            $line = $request->id[$key];
+            LineItemPOModel::where('id',$line)->update($datas);
+            $data['total_harga'] += ($request->harga[$key] * $request->jumlah[$key]);
+            PurchaseOrderModel::where('id_PurchaseOrder',$id_PurchaseOrder)->update($data);
+        }
 
         return redirect('/pomaklondf')->with('pesan','Data berhasil diupdate');
     }

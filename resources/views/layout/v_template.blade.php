@@ -50,7 +50,7 @@
                   <small>Top Level Management - </small>
               @endif
               @if (auth()->user()->id_jabatan == 1)
-                  <small>Kepala Gudang</small>
+                  <small>Manager PPIC</small>
               @elseif (auth()->user()->id_jabatan == 2)
                   <small>Staff Gudang</small>
               @elseif(auth()->user()->id_jabatan == 3)
@@ -126,7 +126,7 @@
                   <small>Top Level Management - </small>
               @endif
               @if (auth()->user()->id_jabatan == 1)
-                  <small>Kepala Gudang</small>
+                  <small>Manager PPIC</small>
               @elseif (auth()->user()->id_jabatan == 2)
                   <small>Staff Gudang</small>
               @elseif(auth()->user()->id_jabatan == 3)

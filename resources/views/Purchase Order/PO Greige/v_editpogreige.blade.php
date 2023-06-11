@@ -68,12 +68,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($item as $data )
+                    @foreach ($item as $datas )
+                    
                     <tr>
-                      <td>{{ $data->id_barang }}</td>
-                      <td>{{ $data->jumlah }}</td>
-                      <td>{{ $data->harga }}</td>
-                      <td>{{ $data->TotalHarga }}</td>
+                      <td hidden>
+                        <input type="" value="{{ $datas->id  }}" name="id[]" id="id"  required>
+                      </td>
+                      <td style="border:1px solid;width:50%;" contenteditable="true">
+                          <input type="text"  value="{{ $datas->id_barang }}" class="form-control" name="id_barang[]" id="id_barang" required>
+                      </td>
+                      <td style="border:1px solid">
+                        <input type="text"  value="{{ $datas->jumlah }}" class="form-control" name="jumlah[]" id="jumlah" required>
+                      </td>
+                      <td style="border:1px solid">
+                        <input type="text"  value="{{ $datas->harga }}" class="form-control" name="harga[]" id="harga" name="harga" required>
+                      </td>
+                      <td style="border:1px solid" >
+                        <input readonly type="text"  value="{{ $datas->TotalHarga }}" class="form-control" name='total[]' id="total" required>
+                      </td>
+                      <td></td>
                     </tr>
                     @endforeach
                     </tbody>

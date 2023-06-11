@@ -9,7 +9,7 @@ class LineItemPOModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'line_item_po';
+    protected $table = 'trx_po_detail';
 
     protected $fillable = [
         'jumlah',

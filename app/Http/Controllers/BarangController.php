@@ -29,11 +29,18 @@ class BarangController extends Controller
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
                                 ->where("barang.keterangan1","like",'%'.$nama.'%')
                                 ->where("barang.keterangan2","like",'%'.$warna.'%')
+                                ->where("barang.id_jenis_barang",1)
+                                ->orderBy("barang.keterangan1","asc")
+                                ->orderBy("barang.keterangan2","asc")
+                                ->orderBy("barang.keterangan3","asc")
                                 ->get();
         }else{
             $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
                                 ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
                                 ->where("barang.id_barang","like",'F%')
+                                ->orderBy("barang.keterangan1","asc")
+                                ->orderBy("barang.keterangan2","asc")
+                                ->orderBy("barang.keterangan3","asc")
                                 ->get();
         }
         $data = [
@@ -79,11 +86,11 @@ class BarangController extends Controller
             'list' =>$this->BarangModel->listItem($id_barang)
         ];
         $total_roll = TStokModel::where('id_barang',$id_barang)
-                        ->where("tstok.jumlah", ">",0)
+                        ->where("trx_stok.jumlah", ">",0)
                         ->count('id_barang');
         $total_panjang = TStokModel::where('id_barang',$id_barang)
-                        ->where("tstok.jumlah", ">",0)
-                        ->sum('tstok.jumlah');
+                        ->where("trx_stok.jumlah", ">",0)
+                        ->sum('trx_stok.jumlah');
         
         return view('master.finished goods.v_detailfg', compact('total_roll','total_panjang'), $data);
     }
@@ -128,11 +135,14 @@ class BarangController extends Controller
             $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
                                 ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
+                                ->where("barang.id_jenis_barang",2)
+                                ->orderBy("barang.id_barang","asc")
                                 ->get();
         }else{
             $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
                                 ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
                                 ->where("barang.id_barang","like",'ITJ%')
+                                ->orderBy("barang.id_barang","asc")
                                 ->get();
         }
         return view('master.greige.v_greige', compact('greige'));
@@ -211,11 +221,11 @@ class BarangController extends Controller
             'list' =>$this->BarangModel->listItem($id_barang)
         ];
         $total_roll = TStokModel::where('id_barang',$id_barang)
-                        ->where("tstok.jumlah", ">",0)
+                        ->where("trx_stok.jumlah", ">",0)
                         ->count('id_barang');
         $total_panjang = TStokModel::where('id_barang',$id_barang)
-                        ->where("tstok.jumlah", ">",0)
-                        ->sum('tstok.jumlah');
+                        ->where("trx_stok.jumlah", ">",0)
+                        ->sum('trx_stok.jumlah');
         
         return view('master.greige.v_detailgreige', compact('total_roll','total_panjang'), $data);
     }
@@ -227,6 +237,7 @@ class BarangController extends Controller
             $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
                                 ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
+                                ->where("barang.id_jenis_barang",3)
                                 ->get();
         }else{
             $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
@@ -261,7 +272,10 @@ class BarangController extends Controller
         BarangModel::create([
             'id_barang' => $request->id_barang,
             'id_jenis_barang' => $request->id_jenis_barang,
-            'id_satuan' => $request->id_satuan
+            'id_satuan' => $request->id_satuan,
+            'keterangan1' => $request->keterangan1,
+            'keterangan2' => $request->keterangan2,
+            'keterangan3' => $request->keterangan3,
         ]);
 
         return redirect('/benang')->with('pesan', 'Data Berhasil Disimpan');
@@ -283,7 +297,10 @@ class BarangController extends Controller
         $data = [
             'id_barang' => $request->id_barang,
             'id_jenis_barang' => $request->id_jenis_barang,
-            'id_satuan' => $request->id_satuan
+            'id_satuan' => $request->id_satuan,
+            'keterangan1' => $request->keterangan1,
+            'keterangan2' => $request->keterangan2,
+            'keterangan3' => $request->keterangan3,
         ];
         $this->BarangModel->BenangeditData($id_barang,$data);
         
@@ -303,11 +320,11 @@ class BarangController extends Controller
             'list' =>$this->BarangModel->listItem($id_barang),
         ];
         $total_roll = TStokModel::where('id_barang',$id_barang)
-                        ->where("tstok.jumlah", ">",0)
+                        ->where("trx_stok.jumlah", ">",0)
                         ->count('id_barang');
         $total_panjang = TStokModel::where('id_barang',$id_barang)
-                        ->where("tstok.jumlah", ">",0)
-                        ->sum('tstok.jumlah');
+                        ->where("trx_stok.jumlah", ">",0)
+                        ->sum('trx_stok.jumlah');
         
         return view('master.benang.v_detailbenang', compact('total_roll','total_panjang'), $data);
     }

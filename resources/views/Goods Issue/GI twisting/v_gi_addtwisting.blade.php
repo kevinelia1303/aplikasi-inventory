@@ -223,21 +223,20 @@ function onScanSuccess(decodedText, decodedResult) {
         cache:false,
         success: function (data) {
             $('#totalpanjang'+baris).html(data);
+            var arr = document.getElementsByName('jumlah[]');
+            var tot=0;
+            for(var i=0;i<arr.length;i++){
+                if(parseInt(arr[i].value))
+                    tot += parseInt(arr[i].value);
+            }
+            document.getElementById('total_panjang').value = tot;
+            var table = document.getElementById("tabel1");
+            var totalRowCount = table.rows.length;
+            var rows = totalRowCount - 1;
+            console.log(totalRowCount);
+            document.getElementById('total_roll').value = rows;
         }
     })
-
-    var arr = document.getElementsByName('jumlah[]');
-    var tot=0;
-    for(var i=0;i<arr.length;i++){
-        if(parseInt(arr[i].value))
-            tot += parseInt(arr[i].value);
-    }
-    document.getElementById('total_panjang').value = tot;
-    var table = document.getElementById("tabel1");
-    var totalRowCount = table.rows.length;
-    var rows = totalRowCount - 1;
-    console.log(totalRowCount);
-    document.getElementById('total_roll').value = rows;
 
     $.ajax({
         type: "GET",

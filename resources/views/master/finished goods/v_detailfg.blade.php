@@ -49,11 +49,11 @@
                     <tbody>
                     @foreach ($list as $data )
 												<tr>
-													<td>{{ $data->ID_BARANG }}</td>
-													<td>{{ $data->JUMLAH }}</td>
-                          <td>{{ $data->ID_LOKASI }}</td>
+													<td>{{ $data->id_barang }}</td>
+													<td>{{ $data->jumlah }}</td>
+                          <td>{{ $data->id_lokasi }}</td>
                           <td>{{ $data->Tanggal }}</td>
-                          <td>{{ $data->BARCODE }}</td>
+                          <td>{{ $data->barcode }}</td>
 													<td>
 													</td>
 												</tr>

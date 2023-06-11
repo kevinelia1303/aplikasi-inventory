@@ -1,28 +1,25 @@
 @extends('layout.v_template')
-@section('title', 'GR Twisting')
+@section('title', 'Stock Opname')
 @section('content')
-    <h1>Detail Goods Receipt Maklon Twisting</h1>    
+    <h1>Detail Stock Opname</h1>
     <div class="content">
         <div class="row">
             <div class="col-sm-6">
             <div class="modal-body">
                 <div class="form-group">
-                    <label>ID Goods Receipt : {{ $grtwisting->ID_Transaksi }}</label>
+                    <label>ID Stock Opname : {{ $so->ID_Transaksi }}</label>
                 </div>
                 <div class="form-group">
-                    <label>ID Purchase Order : {{ $grtwisting->id_purchaseorder }}</label>
+                    <label>Tanggal : {{ $so->Tanggal }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Tanggal : {{ $grtwisting->Tanggal }}</label>
+                    <label>Barang : {{ $item[0]->id_barang }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Supplier : {{ $grtwisting->nama_supplier }}</label>
+                    <label>Lokasi : {{ $item[0]->id_lokasi }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Total Panjang : {{ formatTotal($grtwisting->total_panjang) }} yard</label>
-                </div>
-                <div class="form-group">
-                    <label>Total Roll : {{ formatTotal($grtwisting->total_roll) }}</label>
+                    <label>Total Panjang : {{ formatTotal($so->total_panjang) }} yard</label>
                 </div>
             </div>  
             <h5>List Barang</h5>
@@ -56,5 +53,5 @@
                 </div>
                 <!-- /.col -->
               </div>
-    </div> 
+    </div>     
 @endsection

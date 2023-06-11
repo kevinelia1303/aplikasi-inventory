@@ -13,6 +13,18 @@
                     <input type="text" class="form-control" name="id_barang" placeholder="ID Barang .." required>
                 </div>
                 <div class="form-group">
+                    <label>Yarn Count</label>
+                    <input type="text" class="form-control" name="keterangan1" placeholder="Yarn Count .." required>
+                </div>
+                <div class="form-group">
+                    <label>Composition</label>
+                    <input type="text" class="form-control" name="keterangan2" placeholder="Composition .." required>
+                </div>
+                <div class="form-group">
+                    <label>Yarn Type</label>
+                    <input type="text" class="form-control" name="keterangan3" placeholder="Yarn Type .." required>
+                </div>
+                <div class="form-group">
                     <label>Satuan</label>
                     <select class="form-control" name="id_satuan" required>
                         <option value="" hidden>-- Pilih Satuan --</option>

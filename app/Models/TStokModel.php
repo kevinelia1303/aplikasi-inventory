@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class TStokModel extends Model
 {
     use HasFactory;
-    protected $table = 'tstok';
+    protected $table = 'trx_stok';
 
     protected $fillable = [
         'BARCODE',
-        'JUMLAH',
-        'ID_BARANG',
-        'ID_LOKASI',
+        'jumlah',
+        'id_barang',
+        'id_lokasi',
         'ID_TRAN'
     ];
 }

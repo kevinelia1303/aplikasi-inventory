@@ -40,6 +40,9 @@
 												<tr>
                                                     <th>ID Barang</th>
 													<th>Jenis Barang</th>
+													<th>Yarn Count</th>
+													<th>Composition</th>
+													<th>Yarn Type</th>
                                                     <th>Satuan</th>
                                                     <th>Action</th>
 												</tr>
@@ -50,6 +53,9 @@
 												<tr>
 													<td>{{ $data->id_barang }}</td>
 													<td>{{ $data->jenis_barang }}</td>
+													<td>{{ $data->keterangan1 }}</td>
+													<td>{{ $data->keterangan2 }}</td>
+                                                    <td>{{ $data->keterangan3 }}</td>
                                                     <td>{{ $data->satuan }}</td>
 													<td>
 														@if (auth()->user()->id_divisi == 2 OR auth()->user()->id_divisi == 3 )

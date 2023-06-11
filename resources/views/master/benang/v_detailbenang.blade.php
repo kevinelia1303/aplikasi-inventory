@@ -13,6 +13,15 @@
                     <label>Satuan : {{ $benang->satuan }}</label>
                 </div>
                 <div class="form-group">
+                    <label>Yarn Count : {{ $benang->keterangan1 }}</label>
+                </div>
+                <div class="form-group">
+                    <label>Composition : {{ $benang->keterangan2 }}</label>
+                </div>
+                <div class="form-group">
+                    <label>Yarn Type : {{ $benang->keterangan3 }}</label>
+                </div>
+                <div class="form-group">
                     <label>Jenis Barang : {{ $benang->jenis_barang }}</label>
                 </div>
                 <div class="form-group">
@@ -44,10 +53,10 @@
                     @foreach ($list as $data )
 												<tr>
 													<td>{{ $data->id_barang }}</td>
-													<td>{{ $data->total_Panjang }}</td>
-                          <td>{{ $data->kode_gudang }}</td>
+													<td>{{ $data->jumlah }}</td>
+                          <td>{{ $data->id_lokasi }}</td>
                           <td>{{ $data->Tanggal }}</td>
-                          <td>{{ $data->Kode_Barang }}</td>
+                          <td>{{ $data->barcode }}</td>
 													<td>
 													</td>
 												</tr>

@@ -60,14 +60,14 @@
 											<tbody>
                                                 @foreach ($KartuStok as $data )
 												<tr>
-													<td>{{ $data->TAHUN }}</td>
-													<td>{{ $data->BULAN }}</td>
-                                                    <td>{{ $data->ID_BARANG }}</td>
-													<td>{{ $data->KODE_GUDANG }}</td>
-                                                    <td>{{ $data->AWAL }}</td>
-                                                    <td>{{ $data->MASUK }}</td>
-													<td>{{ $data->KELUAR }}</td>
-													<td>{{ $data->AKHIR }}</td>
+													<td>{{ $data->tahun }}</td>
+													<td>{{ $data->bulan }}</td>
+                                                    <td>{{ $data->id_barang }}</td>
+													<td>{{ $data->kode_gudang }}</td>
+                                                    <td>{{ $data->awal }}</td>
+                                                    <td>{{ $data->masuk }}</td>
+													<td>{{ $data->keluar }}</td>
+													<td>{{ $data->akhir }}</td>
 												</tr>
                                                 @endforeach
 											</tbody>

@@ -114,7 +114,7 @@
                 html += "</select>"
                 html += "</td>"
                 html += "<td style='border:1px solid;'>"
-                html += "<input size=25 type='text' class='form-control' name='jumlah[]' id='jumlah" +baris+"' required>"
+                html += "<input size=25 type='number' class='form-control' name='jumlah[]' id='jumlah" +baris+"' required>"
                 html += "</td>"
                 html += "<td style='border:1px solid;width:15%;'>"
                 html += "<select class='form-control' name='kode_gudang[]' class='kode_gudang' id='kode_gudang"+baris+"' required>"

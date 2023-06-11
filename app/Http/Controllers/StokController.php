@@ -22,31 +22,31 @@ class StokController extends Controller
         $kode_barang=$request->kode_barang;
         if ($id_barang OR $kode_barang  <> "") {
             $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("tstok","tstok.ID_BARANG", "=", "barang.id_barang")
+                                ->join("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
-                                ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                                ->where("tstok.JUMLAH",">",0)
+                                ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                                ->where("trx_stok.jumlah",">",0)
                                 ->get();
-            $total_roll = TStokModel::where("tstok.JUMLAH",">",0)
-                        ->where("ID_BARANG","like",'%'.$id_barang.'%')
-                        ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                        ->count('ID_BARANG');
-            $total_panjang = TStokModel::where("tstok.JUMLAH",">",0)
-                            ->where("ID_BARANG","like",'%'.$id_barang.'%')
-                            ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                            ->sum('JUMLAH');
+            $total_roll = TStokModel::where("trx_stok.jumlah",">",0)
+                        ->where("id_barang","like",'%'.$id_barang.'%')
+                        ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                        ->count('id_barang');
+            $total_panjang = TStokModel::where("trx_stok.jumlah",">",0)
+                            ->where("id_barang","like",'%'.$id_barang.'%')
+                            ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                            ->sum('jumlah');
         }else{
             $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("tstok","tstok.ID_BARANG", "=", "barang.id_barang")
+                                ->join("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
                                 ->where("barang.id_barang","like",'F%')
-                                ->where("tstok.JUMLAH",">",0)
+                                ->where("trx_stok.jumlah",">",0)
                                 ->get();
-            $total_roll = TStokModel::where("tstok.JUMLAH",">",0)
-                        ->where("ID_BARANG","like",'F%')
-                        ->count('ID_BARANG');
-            $total_panjang = TStokModel::where("tstok.JUMLAH",">",0)
-                            ->where("ID_BARANG","like",'F%')
-                            ->sum('JUMLAH');
+            $total_roll = TStokModel::where("trx_stok.jumlah",">",0)
+                        ->where("id_barang","like",'F%')
+                        ->count('id_barang');
+            $total_panjang = TStokModel::where("trx_stok.jumlah",">",0)
+                            ->where("id_barang","like",'F%')
+                            ->sum('jumlah');
         }
         
         return view('stock information.v_stockfg',compact('finished_goods','total_roll','total_panjang'));
@@ -58,31 +58,31 @@ class StokController extends Controller
         $kode_barang=$request->kode_barang;
         if ($id_barang OR $kode_barang  <> "") {
             $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("tstok","tstok.ID_BARANG", "=", "barang.id_barang")
+                                ->join("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
-                                ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                                ->where("tstok.JUMLAH",">",0)
+                                ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                                ->where("trx_stok.jumlah",">",0)
                                 ->get();
-            $total_roll = TStokModel::where("tstok.JUMLAH",">",0)
-                        ->where("ID_BARANG","like",'%'.$id_barang.'%')
-                        ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                        ->count('ID_BARANG');
-            $total_panjang = TStokModel::where("tstok.JUMLAH",">",0)
-                            ->where("ID_BARANG","like",'%'.$id_barang.'%')
-                            ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                            ->sum('JUMLAH');
+            $total_roll = TStokModel::where("trx_stok.jumlah",">",0)
+                        ->where("id_barang","like",'%'.$id_barang.'%')
+                        ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                        ->count('id_barang');
+            $total_panjang = TStokModel::where("trx_stok.jumlah",">",0)
+                            ->where("id_barang","like",'%'.$id_barang.'%')
+                            ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                            ->sum('jumlah');
         }else{
             $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("tstok","tstok.ID_BARANG", "=", "barang.id_barang")
+                                ->join("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
                                 ->where("barang.id_barang","like",'Y%')
-                                ->where("tstok.JUMLAH",">",0)
+                                ->where("trx_stok.jumlah",">",0)
                                 ->get();
-            $total_roll = TStokModel::where("tstok.JUMLAH",">",0)
-                        ->where("ID_BARANG","like",'Y%')
-                        ->count('ID_BARANG');
-            $total_panjang = TStokModel::where("tstok.JUMLAH",">",0)
-                            ->where("ID_BARANG","like",'Y%')
-                            ->sum('JUMLAH');
+            $total_roll = TStokModel::where("trx_stok.jumlah",">",0)
+                        ->where("id_barang","like",'Y%')
+                        ->count('id_barang');
+            $total_panjang = TStokModel::where("trx_stok.jumlah",">",0)
+                            ->where("id_barang","like",'Y%')
+                            ->sum('jumlah');
         }
         
         return view('stock information.v_stockbenang',compact('benang','total_roll','total_panjang'));
@@ -94,31 +94,31 @@ class StokController extends Controller
         $kode_barang=$request->kode_barang;
         if ($id_barang OR $kode_barang  <> "") {
             $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("tstok","tstok.ID_BARANG", "=", "barang.id_barang")
+                                ->join("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
-                                ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                                ->where("tstok.JUMLAH",">",0)
+                                ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                                ->where("trx_stok.jumlah",">",0)
                                 ->get();
-            $total_roll = TStokModel::where("tstok.JUMLAH",">",0)
-                        ->where("ID_BARANG","like",'%'.$id_barang.'%')
-                        ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                        ->count('ID_BARANG');
-            $total_panjang = TStokModel::where("tstok.JUMLAH",">",0)
-                            ->where("ID_BARANG","like",'%'.$id_barang.'%')
-                            ->where("tstok.BARCODE","like",'%'.$kode_barang.'%')
-                            ->sum('JUMLAH');
+            $total_roll = TStokModel::where("trx_stok.jumlah",">",0)
+                        ->where("id_barang","like",'%'.$id_barang.'%')
+                        ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                        ->count('id_barang');
+            $total_panjang = TStokModel::where("trx_stok.jumlah",">",0)
+                            ->where("id_barang","like",'%'.$id_barang.'%')
+                            ->where("trx_stok.barcode","like",'%'.$kode_barang.'%')
+                            ->sum('jumlah');
         }else{
             $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("tstok","tstok.ID_BARANG", "=", "barang.id_barang")
+                                ->join("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
                                 ->where("barang.id_barang","like",'ITJ%')
-                                ->where("tstok.JUMLAH",">",0)
+                                ->where("trx_stok.jumlah",">",0)
                                 ->get();
-            $total_roll = TStokModel::where("tstok.JUMLAH",">",0)
-                        ->where("ID_BARANG","like",'ITJ%')
-                        ->count('ID_BARANG');
-            $total_panjang = TStokModel::where("tstok.JUMLAH",">",0)
-                            ->where("ID_BARANG","like",'ITJ%')
-                            ->sum('JUMLAH');
+            $total_roll = TStokModel::where("trx_stok.jumlah",">",0)
+                        ->where("id_barang","like",'ITJ%')
+                        ->count('id_barang');
+            $total_panjang = TStokModel::where("trx_stok.jumlah",">",0)
+                            ->where("id_barang","like",'ITJ%')
+                            ->sum('jumlah');
         }
         
         return view('stock information.v_stockgreige',compact('greige','total_roll','total_panjang'));

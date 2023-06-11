@@ -211,7 +211,7 @@
         });
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
-    //   console.log(`Code matched = ${decodedText}`, decodedResult);
+      // console.log(`Code matched = ${decodedText}`, decodedResult);
     $("#result"+baris).val(decodedText)
     var kode_barang = $("#result"+baris).val();
     $.ajax({

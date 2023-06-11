@@ -36,7 +36,7 @@ class KartuStokController extends Controller
         $tahun_akhir = $request->tahun_akhir;
         $bulan_akhir = $request->bulan_akhir;
 
-        $KartuStok = KartuStokModel::where('ID_BARANG',$id_barang)
+        $KartuStok = KartuStokModel::where('id_barang',$id_barang)
                         ->whereBetween('TAHUN',[$tahun_awal,$tahun_akhir])
                         ->whereBetween('BULAN',[$bulan_awal,$bulan_akhir])
                         ->get();

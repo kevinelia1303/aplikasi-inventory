@@ -65,7 +65,7 @@
                   <table class="table table-striped">
                     <thead>
                     <tr>
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                     </tr>
@@ -73,9 +73,9 @@
                     <tbody>
                     @foreach ($item as $data )
                     <tr>
-                      <td>{{ $data->Kode_Barang }}</td>
+                      <td>{{ $data->barcode }}</td>
                       <td>{{ $data->id_barang }}</td>
-                      <td>{{ formatTotal($data->total_panjang) }}</td>
+                      <td>{{ formatTotal($data->jumlah) }}</td>
                     </tr>
                     @endforeach
                     </tbody>

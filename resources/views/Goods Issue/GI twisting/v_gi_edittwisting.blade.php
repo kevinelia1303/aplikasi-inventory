@@ -73,9 +73,9 @@
                     <tbody>
                     @foreach ($item as $data )
                     <tr>
-                      <td>{{ $data->BARCODE }}</td>
-                      <td>{{ $data->ID_BARANG }}</td>
-                      <td>{{ formatTotal($data->JUMLAH) }}</td>
+                      <td>{{ $data->barcode }}</td>
+                      <td>{{ $data->id_barang }}</td>
+                      <td>{{ formatTotal($data->jumlah) }}</td>
                     </tr>
                     @endforeach
                     </tbody>

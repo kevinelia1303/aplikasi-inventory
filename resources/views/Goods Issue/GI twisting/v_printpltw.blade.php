@@ -81,7 +81,7 @@
             @if ($key % 10 == 0)
               <tr>
             @endif
-            <td style="border:1px solid">{{ $data->JUMLAH }}</td>
+            <td style="border:1px solid">{{ $data->jumlah }}</td>
             @if (($key + 1) % 10 == 0)
               </tr>
             @endif

@@ -48,10 +48,11 @@
                         <td>{{ $data->keterangan1 }}</td>
                         <td>{{ $data->keterangan2 }}</td>
                         <td>{{ $data->keterangan3 }}</td>
-                        <td>{{ $data->total_Panjang }}</td>
+                        <td>{{ $data->keterangan4 }}</td>
+                        <td>{{ $data->jumlah }}</td>
                         <td>{{ $data->satuan }}</td>
-                        <td>{{ $data->kode_gudang }}</td>
-                        <td>{{ $data->Kode_Barang }}</td>
+                        <td>{{ $data->id_lokasi }}</td>
+                        <td>{{ $data->barcode }}</td>
                     </tr>
                     @endforeach
                 </tbody>

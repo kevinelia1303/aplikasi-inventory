@@ -10,6 +10,7 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KartuStokController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\TransaksiGudangController;
 
 /*
@@ -195,4 +196,10 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/kartustok', [KartuStokController::class, 'indexkartustok']);
     Route::post('/kartustok/hitung', [KartuStokController::class, 'hitungkartustok']);
     Route::get('/laporan_kartuStok/cetak', [KartuStokController::class, 'cetak']);
+
+    Route::get('/stokopname', [StockOpnameController::class, 'indexso']);
+    Route::get('/stokopname/add', [StockOpnameController::class, 'addso']);
+    Route::post('/SOsubmitData', [StockOpnameController::class, 'SOsubmitData'])->name('submitDataSO');
+    Route::get('/stokopname/detailso/{id}', [StockOpnameController::class, 'detailso']);
+
 });

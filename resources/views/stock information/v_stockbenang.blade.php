@@ -42,10 +42,10 @@
                     @foreach ($benang as $data )
                     <tr>
                         <td>{{ $data->id_barang }}</td>
-                        <td>{{ $data->total_Panjang }}</td>
+                        <td>{{ $data->jumlah }}</td>
                         <td>{{ $data->satuan }}</td>
-                        <td>{{ $data->kode_gudang }}</td>
-                        <td>{{ $data->Kode_Barang }}</td>
+                        <td>{{ $data->id_lokasi }}</td>
+                        <td>{{ $data->barcode }}</td>
                     </tr>
                     @endforeach
                 </tbody>

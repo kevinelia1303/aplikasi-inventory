@@ -77,7 +77,7 @@
 												<tr>
 													<td>{{ $data->TAHUN }}</td>
 													<td>{{ $data->BULAN }}</td>
-                                                    <td>{{ $data->ID_BARANG }}</td>
+                                                    <td>{{ $data->id_barang }}</td>
 													<td>{{ $data->KODE_GUDANG }}</td>
                                                     <td>{{ $data->AWAL }}</td>
                                                     <td>{{ $data->MASUK }}</td>
