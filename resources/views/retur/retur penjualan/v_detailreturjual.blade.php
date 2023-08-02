@@ -1,28 +1,30 @@
 @extends('layout.v_template')
-@section('title', 'GR Benang')
+@section('title', 'Retur Beli')
 @section('content')
-    <h1>Detail Goods Receipt Purchase Order Benang</h1>    
+    <h1>Detail Retur Beli</h1>
+    
+    <a href="/gitwisting/printsj/{{ $gitwisting->ID_Transaksi }}" target="_blank" class="btn btn-primary">Print Surat Jalan</a>
+    <a href="/gitwisting/printpl/{{ $gitwisting->ID_Transaksi }}" target="_blank" class="btn btn-primary">Print Packing List</a>      
+       
     <div class="content">
         <div class="row">
             <div class="col-sm-6">
             <div class="modal-body">
                 <div class="form-group">
-                    <label>ID Goods Receipt : {{ $grpobenang->ID_Transaksi }}</label>
+                    <label>ID Goods Issue : {{ $gitwisting->ID_Transaksi }}</label>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tanggal : {{ $gitwisting->Tanggal }}</label>
                 </div>
                 <div class="form-group">
-                    <label>ID Purchase Order : {{ $grpobenang->id_purchaseorder }}</label>
+                    <label>Supplier : {{ $gitwisting->nama_supplier }}</label>
                 </div>
                 <div class="form-group">
-                    <label>Tanggal : {{ $grpobenang->Tanggal }}</label>
+                    <label>Total Panjang : {{ formatTotal($gitwisting->total_panjang) }} yard</label>
                 </div>
                 <div class="form-group">
-                    <label>Supplier : {{ $grpobenang->nama_supplier }}</label>
-                </div>
-                <div class="form-group">
-                    <label>Total Panjang : {{ formatTotal($grpobenang->total_panjang) }} yard</label>
-                </div>
-                <div class="form-group">
-                    <label>Total Roll : {{ formatTotal($grpobenang->total_roll) }}</label>
+                    <label>Total Roll : {{ $gitwisting->total_roll }}</label>
                 </div>
             </div>  
             <h5>List Barang</h5>
@@ -39,7 +41,6 @@
                       <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
-                      <th style="border:1px solid">Lokasi</th>
                       <th style="border:1px solid">Keterangan</th>
                     </tr>
                     </thead>
@@ -49,7 +50,6 @@
                       <td>{{ $data->barcode }}</td>
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ formatTotal($data->jumlah) }}</td>
-                      <td>{{ $data->id_lokasi }}</td>
                       <td>{{ $data->keterangan }}</td>
                     </tr>
                     @endforeach

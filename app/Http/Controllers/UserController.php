@@ -99,16 +99,6 @@ class UserController extends Controller
 
     public function insert(Request $request)
     {
-        // Request()->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|unique:users,email',
-        //     'password' => 'required',
-        //     'jabatan' => 'required',
-        //     'divisi' => 'required',
-
-        // ],[
-        //     'name.required' => 'wajib diisi',
-        // ]);
 
         User::create([
             'name' => $request->name,

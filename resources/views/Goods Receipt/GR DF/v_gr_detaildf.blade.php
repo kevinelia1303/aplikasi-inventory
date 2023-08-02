@@ -40,6 +40,7 @@
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                       <th style="border:1px solid">Lokasi</th>
+                      <th style="border:1px solid">Keterangan</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,7 @@
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ formatTotal($data->jumlah) }}</td>
                       <td>{{ $data->id_lokasi }}</td>
+                      <td>{{ $data->keterangan }}</td>
                     </tr>
                     @endforeach
                     </tbody>

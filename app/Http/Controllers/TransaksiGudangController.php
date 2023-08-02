@@ -19,6 +19,7 @@ class TransaksiGudangController extends Controller
     public function __construct()
     {
         $this->TransaksiGudangModel = new TransaksiGudangModel();
+        $this->PurchaseOrderModel = new PurchaseOrderModel();
         $this->middleware('auth');
     }
 
@@ -77,7 +78,14 @@ class TransaksiGudangController extends Controller
         $data = [
             'benang'=> $this->TransaksiGudangModel->BenangallData(),
         ];
-        return view('Goods Receipt.GR benang.v_gr_addbenang',$data,compact('purchase','supplier','kd','gudang'));
+        $item = PurchaseOrderModel::join("trx_po_detail", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
+                })
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemPO')
+                ->get();
+        return view('Goods Receipt.GR benang.v_gr_addbenang',$data,compact('purchase','supplier','kd','gudang','item'));
     }
 
     public function addgrbenang1()
@@ -122,14 +130,25 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
+            $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
             $datas->barcode =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->kode_gudang[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
+            $datas->keterangan = $request->keterangan[$key];
             $datas->save();
+            LineItemPOModel::where('id_barang', $request-> id_barang[$key])
+                                    ->where('id_purchaseorder', $request->id_PurchaseOrder)
+                                    ->where('trx_po_detail.keterangan', 'ItemPO')
+                                    ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("RY%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         return redirect('/grpobenang')->with('pesan', 'Data Berhasil Disimpan');
     }
 
@@ -196,7 +215,14 @@ class TransaksiGudangController extends Controller
         $data = [
             'greige'=> $this->TransaksiGudangModel->GreigeallData(),
         ];
-        return view('Goods Receipt.GR Greige.v_gr_addgreige',$data,compact('purchase','supplier','kd','gudang'));
+        $item = PurchaseOrderModel::join("trx_po_detail", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
+                })
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemPO')
+                ->get();
+        return view('Goods Receipt.GR Greige.v_gr_addgreige',$data,compact('item','purchase','supplier','kd','gudang'));
     }
 
     public function GrGreigesubmitData(Request $request)
@@ -214,14 +240,25 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
+            $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
             $datas->barcode =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->kode_gudang[$key];
+            $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
+            LineItemPOModel::where('id_barang', $request-> id_barang[$key])
+                                    ->where('id_purchaseorder', $request->id_PurchaseOrder)
+                                    ->where('trx_po_detail.keterangan', 'ItemPO')
+                                    ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("RG%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         return redirect('/grpogreige')->with('pesan', 'Data Berhasil Disimpan');
     }
 
@@ -284,7 +321,14 @@ class TransaksiGudangController extends Controller
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
-        return view('Goods Issue.GI twisting.v_gi_addtwisting',compact('purchase','supplier','kd'));
+        $item = PurchaseOrderModel::join("trx_po_detail", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
+                })
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemMaklon')
+                ->get();
+        return view('Goods Issue.GI twisting.v_gi_addtwisting',compact('item','purchase','supplier','kd'));
     }
 
     public function ajax(Request $request)
@@ -325,15 +369,20 @@ class TransaksiGudangController extends Controller
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->id_lokasi[$key];
+            $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
-            LineItemPOModel::whereIn('id_barang', $request-> id_barang)
+            LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemMaklon')
                                     ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
-
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("DM%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         
         return redirect('/gitwisting')->with('pesan', 'Data Berhasil Disimpan');
     }
@@ -423,7 +472,14 @@ class TransaksiGudangController extends Controller
         $data = [
             'greige'=> $this->TransaksiGudangModel->GreigeallData(),
         ];
-        return view('Goods Receipt.GR Twisting.v_gr_addtwisting',$data,compact('purchase','supplier','kd','gudang'));
+        $item = PurchaseOrderModel::join("trx_po_detail", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
+                })
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemPO')
+                ->get();
+        return view('Goods Receipt.GR Twisting.v_gr_addtwisting',$data,compact('item','purchase','supplier','kd','gudang'));
     }
 
     public function GrTwistingsubmitData(Request $request)
@@ -441,14 +497,26 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
+            $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
             $datas->barcode =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->kode_gudang[$key];
+            $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
+            LineItemPOModel::where('id_barang', $request-> id_barang[$key])
+                                    ->where('id_purchaseorder', $request->id_PurchaseOrder)
+                                    ->where('trx_po_detail.keterangan', 'ItemPO')
+                                    ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("RM%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
+    
         return redirect('/grtwisting')->with('pesan', 'Data Berhasil Disimpan');
     }
 
@@ -511,7 +579,14 @@ class TransaksiGudangController extends Controller
                         ->where('id_PurchaseOrder',$id_PurchaseOrder)
                         ->first();
         $supplier = SupplierModel::all();
-        return view('Goods Issue.GI DF.v_gi_adddf',compact('purchase','supplier','kd'));
+        $item = PurchaseOrderModel::join("trx_po_detail", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
+                })
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemMaklon')
+                ->get();
+        return view('Goods Issue.GI DF.v_gi_adddf',compact('item','purchase','supplier','kd','item'));
     }
 
     public function ajax2(Request $request)
@@ -547,6 +622,15 @@ class TransaksiGudangController extends Controller
         return view('Goods Issue.ajax_tanggal', compact('ajax_tanggal'));
     }
 
+    public function ajaxketerangan(Request $request)
+    {
+        $kode_barang['barcode'] = $request->kode_barang;
+        $ajax_keterangan = TStokModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_stok.ID_TRAN')
+                        ->where('barcode', $kode_barang)->get();
+
+        return view('Goods Issue.ajax_keterangan', compact('ajax_keterangan'));
+    }
+
     public function GiDFsubmitData(Request $request)
     {
         $data = [
@@ -569,15 +653,21 @@ class TransaksiGudangController extends Controller
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->id_lokasi[$key];
+            $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
-            LineItemPOModel::whereIn('id_barang', $request-> id_barang)
+            LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemMaklon')
                                     ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
 
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("DF%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         
         return redirect('/gidf')->with('pesan', 'Data Berhasil Disimpan');
     }
@@ -666,7 +756,14 @@ class TransaksiGudangController extends Controller
         $data = [
             'fg'=> $this->TransaksiGudangModel->FGallData(),
         ];
-        return view('Goods Receipt.GR DF.v_gr_adddf',$data,compact('purchase','supplier','kd','gudang'));
+        $item = PurchaseOrderModel::join("trx_po_detail", function($join){
+                    $join->on("trx_po.id_PurchaseOrder", "=", "trx_po_detail.id_PurchaseOrder");
+                })
+                ->select('trx_po_detail.*')
+                ->where('trx_po_detail.id_purchaseorder', $id_PurchaseOrder)
+                ->where('trx_po_detail.keterangan', 'ItemPO')
+                ->get();
+        return view('Goods Receipt.GR DF.v_gr_adddf',$data,compact('item','purchase','supplier','kd','gudang'));
     }
 
     public function GrDFsubmitData(Request $request)
@@ -693,14 +790,26 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
+            $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
             $datas->barcode =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->kode_gudang[$key];
+            $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
+            LineItemPOModel::where('id_barang', $request-> id_barang[$key])
+                                    ->where('id_purchaseorder', $request->id_PurchaseOrder)
+                                    ->where('trx_po_detail.keterangan', 'ItemPO')
+                                    ->update(["sisa" => DB::raw("sisa - '$jumlah'")]);
         }
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNG1("RJ%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","FG1")');
+
         return redirect('/grdyeingfinishing')->with('pesan', 'Data Berhasil Disimpan');
     }
 
@@ -802,10 +911,16 @@ class TransaksiGudangController extends Controller
             $datas->id_barang = $request->id_barang[$key];
             $datas->jumlah = $request->jumlah[$key];
             $datas->id_lokasi = $request->id_lokasi[$key];
+            $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
         }
+        $bulan = date('m');
+        $year = date('Y');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNG1("JF%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","FG1")');
 
         
         return redirect('/gipenjualan')->with('pesan', 'Data Berhasil Disimpan');

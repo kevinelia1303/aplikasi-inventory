@@ -28,11 +28,21 @@
               </li>
               @endif
               
+              
+              <li class="nav-item">
+                <a href="/finished-goods" class="nav-link {{ request()->is('finished-goods*') ? 'active' : '' }}">
+                  <i class="far fas fa-box nav-icon"></i>
+                  <p>
+                    02 Finished Goods
+                  </p>
+                </a>
+              </li>
+              @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
               <li class="nav-item">
                 <a href="/benang" class="nav-link {{ request()->is('benang*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    02 Benang
+                    03 Benang
                   </p>
                 </a>
               </li>
@@ -40,19 +50,10 @@
                 <a href="/greige" class="nav-link {{ request()->is('greige*') ? 'active' : '' }}">
                   <i class="far fas fa-box nav-icon"></i>
                   <p>
-                    03 Greige
+                    04 Greige
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/finished-goods" class="nav-link {{ request()->is('finished-goods*') ? 'active' : '' }}">
-                  <i class="far fas fa-box nav-icon"></i>
-                  <p>
-                    04 Finished Goods
-                  </p>
-                </a>
-              </li>
-              @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
               <li class="nav-item">
                 <a href="/supplier" class="nav-link {{ request()->is('supplier*') ? 'active' : '' }}">
                   <i class="far far fa-handshake nav-icon"></i>
@@ -87,6 +88,7 @@
                   <p>01 Finished Goods</p>
                 </a>
               </li>
+              @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
               <li class="nav-item">
                 <a href="/stockgreige" class="nav-link {{ request()->is('stockgreige') ? 'active' : '' }}">
                   <i class="far fas fa-info nav-icon"></i>
@@ -103,9 +105,10 @@
                   </p>
                 </a>
               </li>
+              @endif
             </ul>
           </li>
-          @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
+          @if (auth()->user()->id_divisi == 1 )
           <li class="nav-item {{ request()->is('pobenang*','pogreige*','pomaklontwisting*','pomaklondf*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('pobenang*','pogreige*','pomaklontwisting*','pomaklondf*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-cart-plus"></i>
@@ -217,7 +220,33 @@
               </li>
             </ul>
           </li>
-            
+          <li class="nav-item {{ request()->is('returbeli','returjual') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('returbeli','returjual') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-redo-alt"></i>
+              <p>
+                Retur
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/returjual" class="nav-link {{ request()->is('returjual') ? 'active' : '' }}">
+                  <i class="far fab fa-adobe nav-icon"></i>
+                  <p>01 Retur Penjualan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/returbeli" class="nav-link {{ request()->is('returbeli') ? 'active' : '' }}">
+                  <i class="far fab fa-adobe nav-icon"></i>
+                  <p>
+                    02 Retur Pembelian/Maklon
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          @endif 
+            @if (auth()->user()->id_divisi == 1 OR auth()->user()->id_divisi == 3 )
           <li class="nav-item {{ request()->is('kartustok*','stokopname*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('kartustok*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-file-invoice fa-flip-horizontal"></i>
@@ -226,6 +255,7 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/kartustok" class="nav-link {{ request()->is('kartustok*') ? 'active' : '' }}">
@@ -234,6 +264,8 @@
                 </a>
               </li>
             </ul>
+            @endif 
+            @if (auth()->user()->id_divisi == 1 )
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/stokopname" class="nav-link {{ request()->is('stokopname*') ? 'active' : '' }}">
@@ -242,6 +274,7 @@
                 </a>
               </li>
             </ul>
+            @endif 
           </li>
-          @endif   
+            
         </ul>

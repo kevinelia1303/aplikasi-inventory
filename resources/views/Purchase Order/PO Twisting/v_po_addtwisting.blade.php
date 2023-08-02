@@ -23,10 +23,10 @@
                     </div>
                   </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Supplier</label>
+                    <label class="col-sm-2 col-form-label">Perusahaan Maklon</label>
                     <div class="col-sm-10">
                     <select class="form-control" id="id_supplier" name="id_supplier" required>
-                        <option value="" hidden>-- Pilih Supplier --</option>
+                        <option value="" hidden>-- Pilih Perusahaan Maklon --</option>
                         @foreach ($supplier as $data)
                             <option value="{{ $data->id_supp }}">{{ $data->nama_supplier }}</option>
                         @endforeach
@@ -50,6 +50,16 @@
                         <option value="" hidden>-- Pilih Jenis Pembayaran --</option>
                         <option value="Kredit">Kredit</option>
                         <option value="Cash">Cash</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Sending Term</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="shipment" required>
+                        <option value="" hidden>-- Pilih Jenis Sending Term --</option>
+                        <option value="Partial Shipment">Partial Shipment</option>
+                        <option value="Full Shipment">Full Shipment</option>
                     </select>
                     </div>
                 </div>

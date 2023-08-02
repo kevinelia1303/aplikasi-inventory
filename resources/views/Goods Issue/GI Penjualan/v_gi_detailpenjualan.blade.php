@@ -41,6 +41,7 @@
                       <th style="border:1px solid">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
+                      <th style="border:1px solid">Keterangan</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,7 @@
                       <td>{{ $data->barcode }}</td>
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ $data->jumlah }}</td>
+                      <td>{{ $data->keterangan }}</td>
                     </tr>
                     @endforeach
                     </tbody>

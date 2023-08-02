@@ -157,17 +157,6 @@ class BarangController extends Controller
 
     public function insertgreige(Request $request)
     {
-        // Request()->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|unique:users,email',
-        //     'password' => 'required',
-        //     'jabatan' => 'required',
-        //     'divisi' => 'required',
-
-        // ],[
-        //     'name.required' => 'wajib diisi',
-        // ]);
-
         BarangModel::create([
             'id_barang' => $request->id_barang,
             'keterangan1' => $request->keterangan1,

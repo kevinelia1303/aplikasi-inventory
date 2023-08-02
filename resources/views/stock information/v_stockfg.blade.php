@@ -48,7 +48,6 @@
                         <td>{{ $data->keterangan1 }}</td>
                         <td>{{ $data->keterangan2 }}</td>
                         <td>{{ $data->keterangan3 }}</td>
-                        <td>{{ $data->keterangan4 }}</td>
                         <td>{{ $data->jumlah }}</td>
                         <td>{{ $data->satuan }}</td>
                         <td>{{ $data->id_lokasi }}</td>

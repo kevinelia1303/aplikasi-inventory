@@ -10,6 +10,7 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KartuStokController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ReturController;
 use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\TransaksiGudangController;
 
@@ -167,6 +168,7 @@ Route::group(['middleware' => 'Inventory'], function (){
 
     Route::get('/ajax-lokasi', [TransaksiGudangController::class, 'ajaxlokasi']);
     Route::get('/ajax-tanggal', [TransaksiGudangController::class, 'ajaxtanggal']);
+    Route::get('/ajax-keterangan', [TransaksiGudangController::class, 'ajaxketerangan']);
 
     Route::get('/grpobenang', [TransaksiGudangController::class, 'indexgrbenang']);
     Route::get('/grpobenang/add', [TransaksiGudangController::class, 'addgrbenang1']);
@@ -202,4 +204,25 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::post('/SOsubmitData', [StockOpnameController::class, 'SOsubmitData'])->name('submitDataSO');
     Route::get('/stokopname/detailso/{id}', [StockOpnameController::class, 'detailso']);
 
+    Route::get('/returbeli', [ReturController::class, 'indexreturbeli']);
+    Route::get('/returbeli/add', [ReturController::class, 'addreturbeli']);
+    Route::post('/submitDataReturBeli', [ReturController::class, 'RetursubmitData'])->name('submitDataRetur');
+    Route::get('/returbeli/detailreturbeli/{id}', [ReturController::class, 'detailreturbeli']);
+    Route::get('/returbeli/ajax', [ReturController::class, 'ajax']);
+    Route::get('/returbeli/ajax1', [ReturController::class, 'ajax1']);
+    Route::get('/returbeli/printsj/{id}', [ReturController::class, 'printsjtw']);
+    Route::get('/returbeli/printpl/{id}', [ReturController::class, 'printpltw']);
+    Route::get('/returbeli/edit/{id}', [ReturController::class, 'editreturbeli']);
+    Route::post('/returbeli/update/{id}', [ReturController::class, 'updatereturbeli']);
+
+    Route::get('/returjual', [ReturController::class, 'indexreturjual']);
+    Route::get('/returjual/add', [ReturController::class, 'addreturjual']);
+    Route::post('/submitDataReturjual', [ReturController::class, 'RetursubmitDataJual'])->name('submitDataReturJual');
+    Route::get('/returjual/detailreturjual/{id}', [ReturController::class, 'detailreturjual']);
+    Route::get('/returbeli/ajax', [ReturController::class, 'ajax']);
+    Route::get('/returbeli/ajax1', [ReturController::class, 'ajax1']);
+    Route::get('/returbeli/printsj/{id}', [ReturController::class, 'printsjtw']);
+    Route::get('/returbeli/printpl/{id}', [ReturController::class, 'printpltw']);
+    Route::get('/returjual/edit/{id}', [ReturController::class, 'editreturjual']);
+    Route::post('/returjual/update/{id}', [ReturController::class, 'updatereturjual']);
 });

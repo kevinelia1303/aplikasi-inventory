@@ -38,6 +38,24 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Jenis Bayar</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="jenis_bayar" required>
+                        <option {{ $po->jenis_bayar == 'Kredit' ? 'selected' : '' }} value="Kredit">Kredit</option>
+                        <option {{ $po->jenis_bayar == 'Cash' ? 'selected' : '' }} value="Cash">Cash</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Sending Term</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="shipment" required>
+                        <option {{ $po->shipment == 'Partial Shipment' ? 'selected' : '' }} value="Partial Shipment">Partial Shipment</option>
+                        <option {{ $po->shipment == 'Full Shipment' ? 'selected' : '' }} value="Full Shipment">Full Shipment</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Status</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="status" required>
@@ -46,12 +64,7 @@
                     </select>
                     </div>
                   </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Jenis Bayar</label>
-                    <div class="col-sm-10">
-                      <input readonly type="text" value="{{ $po->jenis_bayar }}" class="form-control" name="jenis_bayar" placeholder="Status ..">
-                    </div>
-                </div>
+                
                 <div class="form-group">
                     <input type="submit" value="Submit">
                 </div> 

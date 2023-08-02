@@ -53,12 +53,22 @@
                     </div>
                   </div> --}}
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Jenis Bayar</label>
+                    <label class="col-sm-2 col-form-label">Jenis Pembayaran</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="jenis_bayar" required>
                         <option value="" hidden>-- Pilih Jenis Pembayaran --</option>
-                        <option value="Kredit">Kredit</option>
+                        <option value="Kredit">Credit</option>
                         <option value="Cash">Cash</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Jenis Pengiriman</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="shipment" required>
+                        <option value="" hidden>-- Pilih Jenis Sending Term --</option>
+                        <option value="Partial Shipment">Partial Shipment</option>
+                        <option value="Full Shipment">Full Shipment</option>
                     </select>
                     </div>
                 </div>

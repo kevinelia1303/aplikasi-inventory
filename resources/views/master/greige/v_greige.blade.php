@@ -65,7 +65,7 @@
 														@else
 														<a href="/greige/detailgreige/{{ $data->id_barang }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
                                                         <a href="/greige/editgreige/{{ $data->id_barang }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a href="/greige/deletegreige/{{ $data->id_barang }}" data-toggle="modal" class="btn btn-danger btn-xs" data-target="#delete{{ $data->id_barang }}"><i class="fa fa-trash"></i> Hapus</a>
+                                                        <a href="/greige/deletegreige/{{ $data->id_barang }}" data-toggle="modal" class="btn btn-danger btn-xs" data-target="#delete{{ $data->id_barang }}"><i class="fa fa-trash"></i> Delete</a>
 														@endif
 													</td>
 												</tr>

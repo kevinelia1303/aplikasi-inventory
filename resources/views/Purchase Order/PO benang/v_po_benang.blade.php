@@ -53,8 +53,9 @@
 													<th>Tanggal</th>
 													<th>Supplier</th>
 													<th>Total Harga</th>
-													<th>Status</th>
 													<th>Jenis Pembayaran</th>
+													<th>Sending Term</th>
+													<th>Status</th>
                                                     <th>Action</th>
 												</tr>
 											</thead>
@@ -66,8 +67,9 @@
 													<td>{{ $data->tanggal }}</td>
                                                     <td>{{ $data->nama_supplier }}</td>
 													<td>{{ formatRupiah($data->total_harga)  }}</td>
-													<td>{{ $data->status  }}</td>
                                                     <td>{{ $data->jenis_bayar  }}</td>
+													<td>{{ $data->shipment  }}</td>
+													<td>{{ $data->status  }}</td>
 													@if ( $data->status =="Done")
 													<td>
 														<a href="/pobenang/edit/{{ $data->id_PurchaseOrder }}"   class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>

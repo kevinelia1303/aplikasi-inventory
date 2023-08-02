@@ -1,17 +1,13 @@
 @extends('layout.v_template')
-@section('title', 'GI Penjualan')
+@section('title', 'Retur Jual')
 @section('content')
-    <h1>Goods Issue Penjualan</h1>
-    <form action="/gipenjualan" method="get">
+<h1>Retur Penjualan</h1> 
+    <form action="/returjual" method="get">
 		@csrf
 		<div class="row mb-3">
 			<div class="col-sm-2">
 				<label for="" class="form-label"></label>
-				<input type="text" name="ID_Transaksi" class="form-control" placeholder="Cari ID Goods Issue ...">
-			</div>
-			<div class="col-sm-2">
-				<label for="" class="form-label"></label>
-				<input type="text" name="id_sales" class="form-control" placeholder="Cari ID Sales ...">
+				<input type="text" name="ID_Transaksi" class="form-control" placeholder="Cari ID Goods Issue Twisting ...">
 			</div>
 			<div class="col-sm-2">
 				<label for="" class="form-label"></label>
@@ -19,7 +15,12 @@
 			</div>
 			<div class="col-sm-2">
 				<label for="" class="form-label"></label>
-				<input type="text" name="customer" class="form-control" placeholder="Cari Customer ...">
+				<select class="form-control" id="id_supplier" name="id_supplier">
+                        <option value="" hidden>-- Pilih Supplier --</option>
+                        @foreach ($supplier1 as $data)
+                            <option value="{{ $data->id_supp }}">{{ $data->nama_supplier }}</option>
+                        @endforeach
+                    </select>
 			</div>
 			<div class="col-sm-2">
 				<button type="submit" class="btn btn-primary mt-4">Search</button>
@@ -41,7 +42,7 @@
 								<div class="card-header">
 									<div class="d-flex align-items-center">
 										
-										<a href="/gipenjualan/add" class="btn btn-primary btn-round ml-auto">+ Add Goods Issue Penjualan</a> <br>
+										<a href="/returjual/add" class="btn btn-primary btn-round ml-auto">+ Add Retur Penjualan</a> <br>
 									</div>
 								</div>
 								<div class="card-body">
@@ -49,10 +50,9 @@
 										<table id="add-row" class="display table table-striped table-hover" >
 											<thead>
 												<tr>
-                                                    <th>ID Goods Issue</th>
-                                                    <th>ID Sales</th>
+                                                    <th>ID Transaksi</th>
 													<th>Tanggal</th>
-													<th>Customer</th>
+													<th>Supplier</th>
 													<th>Total Panjang</th>
 													<th>Total Roll</th>
 													<th>Status</th>
@@ -61,26 +61,24 @@
 											</thead>
 											
 											<tbody>
-                                                @foreach ($gipenjualan as $data )
+                                                @foreach ($returbeli as $data )
 												<tr>
 													<td>{{ $data->ID_Transaksi }}</td>
-                                                    <td>{{ $data->id_sales  }}</td>
 													<td>{{ $data->Tanggal }}</td>
-                                                    <td>{{ $data->customer }}</td>
+                                                    <td>{{ $data->nama_supplier }}</td>
 													<td>{{ formatTotal($data->total_panjang)  }}</td>
 													<td>{{ $data->total_roll  }}</td>
 													<td>{{ $data->status  }}</td>
 													@if ( $data->status =="CLOSED")
 													<td>
-														<a href="/gipenjualan/edit/{{ $data->ID_Transaksi }}"  class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
-														<a href="/gipenjualan/detailgipenjualan/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/returbeli/edit/{{ $data->ID_Transaksi }}"  class="btn disabled btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+														<a href="/returbeli/detailreturbeli/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a></td>
 													@else
 													<td>
-														<a href="/gipenjualan/edit/{{ $data->ID_Transaksi }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
-														<a href="/gipenjualan/detailgipenjualan/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
+														<a href="/returbeli/edit/{{ $data->ID_Transaksi }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+														<a href="/returbeli/detailreturbeli/{{ $data->ID_Transaksi }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
 													</td>	
 													@endif
-													<td></td>
 												</tr>
                                                 @endforeach
 											</tbody>
@@ -94,5 +92,10 @@
 			</div>
 	</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-     
+
+<script>
+  $(document).ready(function() {
+        $('#id_supplier').select2();
+    });
+</script>  
 @endsection

@@ -54,7 +54,7 @@
 										<table id="add-row" class="display table table-striped table-hover" >
 											<thead>
 												<tr>
-                                                    <th>ID Transaksi</th>
+                                                    <th>ID Goods Receipt</th>
                                                     <th>ID Purchase Order</th>
 													<th>Tanggal</th>
 													<th>Supplier</th>

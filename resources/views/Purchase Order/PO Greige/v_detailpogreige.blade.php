@@ -21,6 +21,9 @@
                 <div class="form-group">
                     <label>Jenis Bayar : {{ $pogreige->jenis_bayar }}</label>
                 </div>
+                <div class="form-group">
+                    <label>Sending Term : {{ $pogreige->shipment }}</label>
+                </div>
                 <div>
                     <label>Status : {{ $pogreige->status }}</label>
                 </div>
@@ -40,6 +43,8 @@
                       <th>Jumlah (Yard)</th>
                       <th>Harga (Per Yard)</th>
                       <th>Total Harga</th>
+                      <th>Sudah Diterima</th>
+                      <th>Belum Diterima</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,6 +54,8 @@
                       <td>{{ formatTotal($data->jumlah) }}</td>
                       <td>{{ formatRupiah($data->harga) }}</td>
                       <td>{{ formatRupiah($data->TotalHarga) }}</td>
+                      <td>{{ formatTotal(($data->jumlah)-($data->sisa)) }}</td>
+                      <td>{{ formatTotal($data->sisa) }}</td>
                     </tr>
                     @endforeach
                     </tbody>

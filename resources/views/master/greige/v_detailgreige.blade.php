@@ -47,6 +47,7 @@
                       <th>Lokasi</th>
                       <th>Tanggal Masuk</th>
                       <th>Kode Barang</th>
+                      <th>Keterangan</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,6 +58,7 @@
                           <td>{{ $data->id_lokasi }}</td>
                           <td>{{ $data->Tanggal }}</td>
                           <td>{{ $data->barcode }}</td>
+                          <td>{{ $data->keterangan }}</td>
 													<td>
 													</td>
 												</tr>

@@ -83,6 +83,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => 'In Progress',
             'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
@@ -90,6 +91,7 @@ class PurchaseOrderController extends Controller
             $datas = new LineItemPOModel();
             $datas->id_barang =$id_barang;
             $datas->jumlah = $request->jumlah[$key];
+            $datas->sisa = $request->jumlah[$key];
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
@@ -127,6 +129,8 @@ class PurchaseOrderController extends Controller
     {
         $data = [
             'status' => Request()->status,
+            'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
@@ -213,6 +217,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => 'In Progress',
             'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
@@ -220,6 +225,7 @@ class PurchaseOrderController extends Controller
             $datas = new LineItemPOModel();
             $datas->id_barang =$id_barang;
             $datas->jumlah = $request->jumlah[$key];
+            $datas->sisa = $request->jumlah[$key];
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
@@ -257,6 +263,8 @@ class PurchaseOrderController extends Controller
     {
         $data = [
             'status' => Request()->status,
+            'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'total_harga' => 0
         ];
         $this->PurchaseOrderModel->editData($id_PurchaseOrder,$data);
@@ -342,6 +350,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => 'In Progress',
             'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
@@ -349,6 +358,7 @@ class PurchaseOrderController extends Controller
             $datas = new LineItemPOModel();
             $datas->id_barang =$id_barang;
             $datas->jumlah = $request->jumlah[$key];
+            $datas->sisa = $request->jumlah[$key];
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
@@ -391,6 +401,8 @@ class PurchaseOrderController extends Controller
     public function updatepotwisting(Request $request, $id_PurchaseOrder)
     {
         $data = [
+            'status' => Request()->status,
+            'shipment' => Request()->shipment,
             'status' => Request()->status,
             'total_harga' => 0
         ];
@@ -477,6 +489,7 @@ class PurchaseOrderController extends Controller
             'total_harga' => Request()->total_harga,
             'status' => "In Progress",
             'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'id_user' => Request()->id_user
         ];
         $this->PurchaseOrderModel->addData($data);
@@ -484,6 +497,7 @@ class PurchaseOrderController extends Controller
             $datas = new LineItemPOModel();
             $datas->id_barang =$id_barang;
             $datas->jumlah = $request->jumlah[$key];
+            $datas->sisa = $request->jumlah[$key];
             $datas->harga = $request->harga[$key];
             $datas->TotalHarga = $request->total[$key];
             $datas->id_PurchaseOrder = $request->id_PurchaseOrder;
@@ -527,6 +541,8 @@ class PurchaseOrderController extends Controller
     public function updatepodf(Request $request, $id_PurchaseOrder)
     {
         $data = [
+            'jenis_bayar' => Request()->jenis_bayar,
+            'shipment' => Request()->shipment,
             'status' => Request()->status,
             'total_harga' => 0
         ];

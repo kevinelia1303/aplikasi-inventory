@@ -59,6 +59,16 @@
                     </select>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Sending Term</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" name="shipment" required>
+                        <option value="" hidden>-- Pilih Jenis Sending Term --</option>
+                        <option value="Partial Shipment">Partial Shipment</option>
+                        <option value="Full Shipment">Full Shipment</option>
+                    </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <input type="submit" value="Submit">
                 </div> 

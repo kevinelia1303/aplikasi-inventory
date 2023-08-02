@@ -1,27 +1,29 @@
 @extends('layout.v_template')
-@section('title', 'GI DF')
+@section('title', 'Retur Jual')
 @section('content')
-    <h1>Add Goods Issue Maklon Dyeing Finishing</h1>
+    <h1>Add Retur Penjualan</h1>
     <div class="card card-info">
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{ route('submitData8') }}" class="form-horizontal">
+              {{-- action="{{ route('submitDataRetur') }}" --}}
+              <form method="post" action="{{ route('submitDataReturJual') }}" class="form-horizontal">
                 @csrf
                 <div class="card-body">
                     <input type="hidden" value="{{ Auth::user()->id }}" name="id_user" required>
                   
                    <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">ID Goods Issue</label>
+                    <label class="col-sm-2 col-form-label">ID Retur Penjualan</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_Transaksi" readonly="" value="{{ 'DF'.date('Y').'-'.date('m').$kd }}" placeholder="ID Goods Issue .." required>
+                      <input type="text" class="form-control" name="id_Transaksi" readonly="" value="{{ 'RS'.date('Y').'-'.date('m').$kd }}" placeholder="ID Retur Beli .." required>
                     </div>
-                  </div>
+                    </div>
+                  {{-- </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
                       <input readonly type="text" value="{{ $purchase->id_PurchaseOrder }}" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
                     </div>
-                  </div>
+                  </div> --}}
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Tanggal</label>
                     <div class="col-sm-10">
@@ -29,12 +31,12 @@
                     </div>
                   </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Perusahaan Maklon</label>
+                    <label class="col-sm-2 col-form-label">Perusahaan Maklon/Supplier</label>
                     <div class="col-sm-10"> 
                       <select class="form-control" id="id_supplier" name="id_supplier" required>
                         <option  value="" hidden>-- Pilih Supplier --</option>
                         @foreach ($supplier as $data)
-                            <option value="{{ $data->id_supp }}" {{ $data->id_supp == $purchase->id_supplier ? 'selected' : '' }}>{{ $data->nama_supplier }}</option>
+                            <option value="{{ $data->id_supp }}">{{ $data->nama_supplier }}</option>
                         @endforeach
                     </select>
                     </div>
@@ -61,37 +63,7 @@
                         <input type="text" readonly class="form-control" id="total_roll" name="total_roll" placeholder="Total Roll ..">
                     </div>
                 </div>
-                <p>
-                  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Detail Item Purchase Order Maklon Dyeing Finishing
-                  </a>
-                </p>
-                <div class="collapse" id="collapseExample">
-                  <div class="card card-body">
-                    <div class="col-12 table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                    <tr>
-                      <th>ID Barang</th>
-                      <th>Jumlah (Yard)</th>
-                      <th>Sudah Dikirim</th>
-                      <th>Belum Dikirim</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($item as $data )
-                    <tr>
-                      <td>{{ $data->id_barang }}</td>
-                      <td>{{ formatTotal($data->jumlah) }}</td>
-                      <td>{{ formatTotal(($data->jumlah)-($data->sisa)) }}</td>
-                      <td>{{ formatTotal($data->sisa) }}</td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                  </table>
-                </div>
-                  </div>
-                </div>
+                
                 <div class="form-group">
                     <input type="submit" value="Submit">
                 </div> 
@@ -109,7 +81,7 @@
                     <thead>
                     <tr >
                       
-                      <th style="border:1px solid">QR Code</th>
+                      <th style="border:1px solid;width:25%;">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                       <th style="border:1px solid">Lokasi</th>
@@ -152,12 +124,12 @@
                 html += "<div id='detail_barang" +baris+"'></div>"
                 html += "</td>"
                 html += "<td style='border:1px solid'>"
-                html += "<div id='totalpanjang" +baris+"'></div>"
+                html += "<input type='number' class='form-control' name='jumlah[]' id='jumlah" +baris+"' required>"
                 html += "</td>"
-                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<td style='border:1px solid;'>"
                 html += "<div id='kode_gudang"+baris+"'></div>"
                 html += "</td>"
-                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<td style='border:1px solid;'>"
                 html += "<div id='Tanggal"+baris+"'></div>"
                 html += "</td>"
                 html += "<td style='border:1px solid;'>"
@@ -167,6 +139,22 @@
                 html += "</tr>"
             console.log(html);
             $('#tabel1').append(html);
+            $(document).ready(function(){
+              $("#jumlah"+baris).keyup(function() {
+                var arr = document.getElementsByName('jumlah[]');
+                var tot=0;
+                for(var i=0;i<arr.length;i++){
+                  if(parseInt(arr[i].value))
+                      tot += parseInt(arr[i].value);
+                }
+                document.getElementById('total_panjang').value = tot;
+                var table = document.getElementById("tabel1");
+                var totalRowCount = table.rows.length;
+                var rows = totalRowCount - 1;
+                console.log(totalRowCount);
+                document.getElementById('total_roll').value = rows;
+              });
+            });
             // document.getElementById('total_roll').value = baris;
             
             console.log(baris);
@@ -174,7 +162,7 @@
                 var kode_barang = $("#result"+baris).val();
                 $.ajax({
                     type: "GET",
-                    url: "/gidf/ajax2",
+                    url: "/gitwisting/ajax",
                     data: "kode_barang="+kode_barang,
                     cache:false,
                     success: function (data) {
@@ -183,7 +171,7 @@
                 });
                 $.ajax({
                     type: "GET",
-                    url: "/gidf/ajax3",
+                    url: "/gitwisting/ajax1",
                     data: "kode_barang="+kode_barang,
                     cache:false,
                     success: function (data) {
@@ -228,7 +216,7 @@
                   success: function (data) {
                       $('#keterangan'+baris).html(data);
                   }
-                });
+              });
             });
               
             $.ajaxSetup({
@@ -253,7 +241,7 @@ function onScanSuccess(decodedText, decodedResult) {
     var kode_barang = $("#result"+baris).val();
     $.ajax({
         type: "GET",
-        url: "/gidf/ajax2",
+        url: "/gitwisting/ajax",
         data: "kode_barang="+kode_barang,
         cache:false,
         success: function (data) {
@@ -262,7 +250,7 @@ function onScanSuccess(decodedText, decodedResult) {
     })
     $.ajax({
         type: "GET",
-        url: "/gidf/ajax3",
+        url: "/gitwisting/ajax1",
         data: "kode_barang="+kode_barang,
         cache:false,
         success: function (data) {
@@ -309,6 +297,7 @@ function onScanSuccess(decodedText, decodedResult) {
             $('#keterangan'+baris).html(data);
         }
     });
+    
 }
 
 function onScanFailure(error) {

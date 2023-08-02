@@ -19,7 +19,7 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input type="text" value="{{ $purchase->id_PurchaseOrder }}" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
+                      <input readonly type="text" value="{{ $purchase->id_PurchaseOrder }}" class="form-control" name="id_PurchaseOrder" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -29,9 +29,9 @@
                     </div>
                   </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Supplier</label>
+                    <label class="col-sm-2 col-form-label">Perusahaan Maklon</label>
                     <div class="col-sm-10"> 
-                      <select readonly class="form-control" id="id_supplier" name="id_supplier" required>
+                      <select class="form-control" id="id_supplier" name="id_supplier" required>
                         <option  value="" hidden>-- Pilih Supplier --</option>
                         @foreach ($supplier as $data)
                             <option value="{{ $data->id_supp }}" {{ $data->id_supp == $purchase->id_supplier ? 'selected' : '' }}>{{ $data->nama_supplier }}</option>
@@ -51,6 +51,41 @@
                         <input type="text" readonly class="form-control" id="total_roll" name="total_roll" placeholder="Total Roll ..">
                     </div>
                 </div>
+                <p>
+                  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Detail Item Purchase Order
+                  </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    <div class="col-12 table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>ID Barang</th>
+                      <th>Jumlah (Yard)</th>
+                      <th>Harga (Per Yard)</th>
+                      <th>Total Harga</th>
+                      <th>Sudah Diterima</th>
+                      <th>Belum Diterima</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($item as $data )
+                    <tr>
+                      <td>{{ $data->id_barang }}</td>
+                      <td>{{ formatTotal($data->jumlah) }}</td>
+                      <td>{{ formatRupiah($data->harga) }}</td>
+                      <td>{{ formatRupiah($data->TotalHarga) }}</td>
+                      <td>{{ formatTotal(($data->jumlah)-($data->sisa)) }}</td>
+                      <td>{{ formatTotal($data->sisa) }}</td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                  </table>
+                </div>
+                  </div>
+                </div>
                 <div class="form-group">
                     <input type="submit" value="Submit">
                 </div> 
@@ -68,10 +103,11 @@
                     <thead>
                     <tr >
                       
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid;width:25%">Kode Barang</th>
                       <th style="border:1px solid">ID Barang</th>
-                      <th style="border:1px solid">Jumlah (Yard)</th>
+                      <th style="border:1px solid;width:10%;">Jumlah (Yard)</th>
                       <th style="border:1px solid">Lokasi</th>
+                      <th style="border:1px solid">Keterangan</th>
                       <th style="border:1px solid">
                             <a href="javascript:;" class="btn btn-info addRow">+</a></th>
                         </th> 
@@ -123,6 +159,9 @@
                 html += "<option value='{{ $data->kode_gudang }}'>{{ $data->kode_gudang }}</option>"
                 html += "@endforeach"
                 html += "</select>"
+                html += "</td>"
+                html += "<td style='border:1px solid'>"
+                html += "<input type='text' class='form-control' name='keterangan[]'  id='keterangan" +baris+"'>"
                 html += "</td>"
                 html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"

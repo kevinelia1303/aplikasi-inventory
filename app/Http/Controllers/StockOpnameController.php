@@ -66,7 +66,7 @@ class StockOpnameController extends Controller
 
         KartuStokModel::create([
             'TAHUN' => '2023',
-            'BULAN' => '5',
+            'BULAN' => '7',
             'id_barang' => Request()->id_barangg,
             'KODE_GUDANG' => Request()->id_lokasi,
             'AKHIR' => Request()->total_panjang  

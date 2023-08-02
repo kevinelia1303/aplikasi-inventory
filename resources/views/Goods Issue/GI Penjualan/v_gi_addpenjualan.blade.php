@@ -74,7 +74,7 @@
                 </div>
                 <div class="row">
                 <div class="col-12 table-responsive">
-                    <h5>List Barang</h5>
+                    <h5>List Item</h5>
                     <div class="row">
                         <div class="col-4">
                             <div id="reader" width="600px"></div>
@@ -85,11 +85,12 @@
                     <thead>
                     <tr >
                       
-                      <th style="border:1px solid">Kode Barang</th>
+                      <th style="border:1px solid;width:25%;">QR Code</th>
                       <th style="border:1px solid">ID Barang</th>
                       <th style="border:1px solid">Jumlah (Yard)</th>
                       <th style="border:1px solid">Lokasi</th>
                       <th style="border:1px solid">Tanggal Masuk</th>
+                      <th style="border:1px solid">Keterangan</th>
                       <th style="border:1px solid">
                             <a href="javascript:;" class="btn btn-info addRow">+</a></th>
                         </th> 
@@ -120,7 +121,7 @@
         $('thead').on('click', '.addRow', function () {
             baris = baris + 1
             var html = "<tr style='border:1px solid' id='baris'" +baris+  ">"
-                html += "<td style='border:1px solid;width:50%;'>"
+                html += "<td style='border:1px solid;'>"
                 html += "<input type='text' size=40 name='kode_barang[]' id='result" +baris+"'>"
                 html += "</td>"
                 html += "<td style='border:1px solid;width:30%;'>"
@@ -134,6 +135,9 @@
                 html += "</td>"
                 html += "<td style='border:1px solid;width:10%;'>"
                 html += "<div id='Tanggal"+baris+"'></div>"
+                html += "</td>"
+                html += "<td style='border:1px solid;width:10%;'>"
+                html += "<div id='keterangan"+baris+"'></div>"
                 html += "</td>"
                 html +="<td style='border:1px solid'><a href='javascript:;'' class='btn btn-danger deleteRow'>-</a></td>"
                 html += "</tr>"
@@ -190,6 +194,15 @@
                     cache:false,
                     success: function (data) {
                         $('#Tanggal'+baris).html(data);
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: "/ajax-keterangan",
+                    data: "kode_barang="+kode_barang,
+                    cache:false,
+                    success: function (data) {
+                        $('#keterangan'+baris).html(data);
                     }
                 });
             });
@@ -263,6 +276,15 @@ function onScanSuccess(decodedText, decodedResult) {
         cache:false,
         success: function (data) {
             $('#Tanggal'+baris).html(data);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "/ajax-keterangan",
+        data: "kode_barang="+kode_barang,
+        cache:false,
+        success: function (data) {
+            $('#keterangan'+baris).html(data);
         }
     });
     
