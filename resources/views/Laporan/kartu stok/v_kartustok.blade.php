@@ -1,24 +1,6 @@
 @extends('layout.v_template')
 @section('title', 'Kartu Stok')
 @section('content')
-    <h1>Hitung Kartu Stok</h1>
-	<form action="/kartustok/hitung" method="POST">
-		@csrf
-		<div class="row mb-3">
-			<div class="col-sm-3">
-				<label for="" class="form-label">Tanggal Awal</label>
-				<input type="date" placeholder="Tanggal Awal" name="tanggal_awal" class="form-control">
-			</div>
-			<div class="col-sm-3">
-				<label for="" class="form-label">Tanggal Akhir</label>
-				<input type="date" placeholder="Tanggal Akhir" name="tanggal_akhir" class="form-control">
-			</div>
-			<div class="col-sm-3">
-				
-				<button type="submit" class="btn btn-primary mt-4">Hitung Kartu Stok</button>
-			</div>
-		</div>
-	</form>
 	@if (session('pesan'))
 	<div class="alert alert-success" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -50,10 +32,11 @@
 													<th>Bulan</th>
 													<th>ID Barang</th>
 													<th>Kode Gudang</th>
-													<th>Awal</th>
+													<th>Stok Awal</th>
                                                     <th>Masuk</th>
                                                     <th>Keluar</th>
-													<th>Akhir</th>
+													<th>Stok Akhir</th>
+													<th>Action</th>
 												</tr>
 											</thead>
 											
@@ -68,6 +51,8 @@
                                                     <td>{{ $data->masuk }}</td>
 													<td>{{ $data->keluar }}</td>
 													<td>{{ $data->akhir }}</td>
+													<td><a href="/kartustok/detail/{{ $data->tahun }}-{{ $data->bulan }}-{{ $data->id_barang }}"  class="btn btn-info btn-xs"><i class="fa fa-info"></i> Detail</a></td>
+													
 												</tr>
                                                 @endforeach
 											</tbody>
@@ -128,6 +113,7 @@
         </div>
     </div>
 </div>	
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="{{ asset('AdminLTE-master/') }}/plugins/select2/js/select2.full.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

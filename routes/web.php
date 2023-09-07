@@ -198,6 +198,7 @@ Route::group(['middleware' => 'Inventory'], function (){
     Route::get('/kartustok', [KartuStokController::class, 'indexkartustok']);
     Route::post('/kartustok/hitung', [KartuStokController::class, 'hitungkartustok']);
     Route::get('/laporan_kartuStok/cetak', [KartuStokController::class, 'cetak']);
+    Route::get('/kartustok/detail/{tahun}-{bulan}-{id_barang}', [KartuStokController::class, 'detail']);
 
     Route::get('/stokopname', [StockOpnameController::class, 'indexso']);
     Route::get('/stokopname/add', [StockOpnameController::class, 'addso']);

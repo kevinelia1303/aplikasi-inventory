@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
 use App\Models\KartuStokModel;
+use App\Models\TranDetailModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,5 +46,33 @@ class KartuStokController extends Controller
         // dd($KartuStok);
         
         return view('Laporan.kartu stok.cetak_kartustok', compact('KartuStok','barang'));
+    }
+
+    public function detail($tahun,$bulan,$id_barang){
+        $detail = KartuStokModel::where('id_barang',$id_barang)
+                        ->where('TAHUN',$tahun)
+                        ->where('BULAN',$bulan)
+                        ->first();
+        $gr = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->select("trx_gudang_detail.id_tran", "trx_gudang.Tanggal", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_tran', "like", "R%")
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->distinct()
+                ->get();
+
+        $gi = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->select("trx_gudang_detail.id_tran", "trx_gudang.Tanggal", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_tran', "not like", "R%")
+                ->where('trx_gudang_detail.id_tran', "not like", "S%")
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->distinct()
+                ->get();
+        return view('Laporan.kartu stok.v_detailkartustok', compact('detail','gr','gi'));
     }
 }

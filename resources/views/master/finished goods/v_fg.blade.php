@@ -71,7 +71,7 @@
 														@else
 														<a href="/finished-goods/detailfg/{{ $data->id_barang }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>
                                                         <a href="/finished-goods/editfg/{{ $data->id_barang }}"  class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
-                                                        <a href="/finished-goods/deletefg/{{ $data->id_barang }}" data-toggle="modal" class="btn btn-danger btn-xs" data-target="#delete{{ $data->id_barang }}"><i class="fa fa-trash"></i> Hapus</a>
+                                                        <a href="/finished-goods/deletefg/{{ $data->id_barang }}" data-toggle="modal" class="btn btn-danger btn-xs" data-target="#delete{{ $data->id }}"><i class="fa fa-trash"></i> Hapus</a>
 														@endif
 													</td>
 												</tr>
@@ -81,7 +81,7 @@
 										@foreach ($finished_goods as $data)
 
     
-										<div class="modal fade" id="delete{{$data->id_barang}}">
+										<div class="modal fade" id="delete{{$data->id}}">
 											<div class="modal-dialog modal-sm">
 											<div class="modal-content bg-danger">
 												<div class="modal-header">

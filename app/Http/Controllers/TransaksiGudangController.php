@@ -147,7 +147,7 @@ class TransaksiGudangController extends Controller
         $bulan = date('m');
         $year = date('Y');
         DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("RY%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         return redirect('/grpobenang')->with('pesan', 'Data Berhasil Disimpan');
     }
@@ -257,7 +257,7 @@ class TransaksiGudangController extends Controller
         $bulan = date('m');
         $year = date('Y');
         DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("RG%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         return redirect('/grpogreige')->with('pesan', 'Data Berhasil Disimpan');
     }
@@ -514,7 +514,7 @@ class TransaksiGudangController extends Controller
         $bulan = date('m');
         $year = date('Y');
         DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("RM%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
     
         return redirect('/grtwisting')->with('pesan', 'Data Berhasil Disimpan');
@@ -807,7 +807,7 @@ class TransaksiGudangController extends Controller
         $bulan = date('m');
         $year = date('Y');
         DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
-        DB::select('CALL HITUNG1("RJ%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","FG1")');
 
         return redirect('/grdyeingfinishing')->with('pesan', 'Data Berhasil Disimpan');
