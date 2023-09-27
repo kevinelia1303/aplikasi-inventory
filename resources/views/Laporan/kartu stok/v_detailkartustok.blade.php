@@ -75,7 +75,23 @@
                   <tbody>
                     @foreach ($gr as $data )
                     <tr>
-                      <td>{{ $data->id_tran }}</td>
+                      @if (substr( $data->id_tran,0,2)=='RG')
+                      <td>
+                        <a href="/grpogreige/detailgrgreige/{{ $data->id_tran }}" > {{ $data->id_tran }}</a>
+                      </td>
+                      @elseif (substr( $data->id_tran,0,2)=='RM')
+                      <td>
+                        <a href="/grtwisting/detailgrtwisting/{{ $data->id_tran }}"> {{ $data->id_tran }}</a>
+                      </td>
+                      @elseif (substr( $data->id_tran,0,2)=='RY')
+                      <td>
+                        <a href="/grpobenang/detailgrbenang/{{ $data->id_tran }}"> {{ $data->id_tran }}</a>
+                      </td>
+                      @elseif (substr( $data->id_tran,0,2)=='RJ')
+                      <td>
+                        <a href="/grdyeingfinishing/detailgrdf/{{ $data->id_tran }}"> {{ $data->id_tran }}</a>
+                      </td>
+                      @endif
                       <td>{{ $data->Tanggal }}</td>
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ $data->total }}</td>
@@ -119,7 +135,19 @@
                   <tbody>
                     @foreach ($gi as $data )
                     <tr>
-                      <td>{{ $data->id_tran }}</td>
+                      @if (substr( $data->id_tran,0,2)=='JF')
+                      <td>
+                        <a href="/gipenjualan/detailgipenjualan/{{ $data->id_tran }}" > {{ $data->id_tran }}</a>
+                      </td>
+                      @elseif (substr( $data->id_tran,0,2)=='DM')
+                      <td>
+                        <a href="/gitwisting/detailgitwisting/{{ $data->id_tran }}"> {{ $data->id_tran }}</a>
+                      </td>
+                      @elseif (substr( $data->id_tran,0,2)=='DF')
+                      <td>
+                        <a href="/gidf/detailgidf/{{ $data->id_tran }}"> {{ $data->id_tran }}</a>
+                      </td>
+                      @endif
                       <td>{{ $data->Tanggal }}</td>
                       <td>{{ $data->id_barang }}</td>
                       <td>{{ $data->total }}</td>

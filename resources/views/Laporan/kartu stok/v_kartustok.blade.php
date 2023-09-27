@@ -32,10 +32,10 @@
 													<th>Bulan</th>
 													<th>ID Barang</th>
 													<th>Kode Gudang</th>
-													<th>Stok Awal</th>
-                                                    <th>Masuk</th>
-                                                    <th>Keluar</th>
-													<th>Stok Akhir</th>
+													<th>Stok Awal Bulan</th>
+                                                    <th>Total Masuk</th>
+                                                    <th>Total Keluar</th>
+													<th>Stok Akhir Bulan</th>
 													<th>Action</th>
 												</tr>
 											</thead>

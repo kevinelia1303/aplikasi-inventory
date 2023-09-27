@@ -2,7 +2,7 @@
 @section('title', 'Greige')
 @section('content')
     <h1>Data Master Greige</h1>
-	<form action="/greige" method="get">
+	{{-- <form action="/greige" method="get">
 		@csrf
 		<div class="row mb-3">
 			<div class="col-sm-3">
@@ -13,7 +13,7 @@
 				<button type="submit" class="btn btn-primary mt-4">Search</button>
 			</div>
 		</div>
-	</form>
+	</form> --}}
     @if (session('pesan'))
 	<div class="alert alert-success" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -35,7 +35,7 @@
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
-										<table id="add-row" class="display table table-striped table-hover" >
+										<table id="mytable" class="display table table-striped table-hover" >
 											<thead>
 												<tr>
                                                     <th>ID Barang</th>
@@ -44,6 +44,7 @@
 													<th>Pick</th>
 													<th>Lebar</th>
                                                     <th>Gramasi</th>
+													<th>Stok Available</th>
                                                     <th>Satuan</th>
                                                     <th>Action</th>
 												</tr>
@@ -53,12 +54,18 @@
                                                 @foreach ($greige as $data )
 												<tr>
 													<td>{{ $data->id_barang }}</td>
-													<td>{{ $data->jenis_barang }}</td>
+													<td>Greige</td>
                                                     <td>{{ $data->keterangan1 }}</td>
 													<td>{{ $data->keterangan2 }}</td>
                                                     <td>{{ $data->keterangan3 }}</td>
                                                     <td>{{ $data->keterangan4 }}</td>
-                                                    <td>{{ $data->satuan }}</td>
+													@if (is_null($data->total_panjang))
+														<td>0</td>
+													@else
+														<td>{{ $data->total_panjang }}</td>
+														@endif
+													
+                                                    <td>Yard</td>
 													<td>
 														@if (auth()->user()->id_divisi == 2 OR auth()->user()->id_divisi == 3 )
 														<a href="/greige/detailgreige/{{ $data->id_barang }}"  class="btn btn-success btn-xs"><i class="fa fa-info"></i> Detail</a>

@@ -5,12 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class BarangModel extends Model
 {
+    use Sortable;
     protected $table = 'barang';
 
     protected $fillable = [
+        'id_barang',
+        'keterangan1',
+        'keterangan2',
+        'keterangan3',
+        'keterangan4',
+        'keterangan5',
+        'id_satuan',
+        'id_jenis_barang'
+    ];
+
+    public  $sortable = [
         'id_barang',
         'keterangan1',
         'keterangan2',

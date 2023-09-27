@@ -24,20 +24,22 @@ class BarangController extends Controller
         $nama=$request->nama;
         $warna=$request->warna;
         if ($id_barang OR $nama OR $warna <> "") {
-            $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+            $finished_goods=BarangModel::leftJoin("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
+                                ->select(DB::raw('barang.*,SUM(trx_stok.jumlah) as total_panjang'))
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
                                 ->where("barang.keterangan1","like",'%'.$nama.'%')
                                 ->where("barang.keterangan2","like",'%'.$warna.'%')
                                 ->where("barang.id_jenis_barang",1)
+                                ->groupBy("barang.id_barang")
                                 ->orderBy("barang.keterangan1","asc")
                                 ->orderBy("barang.keterangan2","asc")
                                 ->orderBy("barang.keterangan3","asc")
                                 ->get();
         }else{
-            $finished_goods=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+            $finished_goods=BarangModel::leftJoin("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
+                                ->select(DB::raw('barang.*,SUM(trx_stok.jumlah) as total_panjang'))
                                 ->where("barang.id_barang","like",'F%')
+                                ->groupBy("barang.id_barang")
                                 ->orderBy("barang.keterangan1","asc")
                                 ->orderBy("barang.keterangan2","asc")
                                 ->orderBy("barang.keterangan3","asc")
@@ -132,20 +134,25 @@ class BarangController extends Controller
     {
         $id_barang=$request->id_barang;
         if ($id_barang <> "") {
-            $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+            $greige=BarangModel::leftJoin("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
+                                ->select(DB::raw('barang.*,SUM(trx_stok.jumlah) as total_panjang'))
                                 ->where("barang.id_barang","like",'%'.$id_barang.'%')
                                 ->where("barang.id_jenis_barang",2)
+                                ->groupBy("barang.id_barang")
                                 ->orderBy("barang.id_barang","asc")
                                 ->get();
         }else{
-            $greige=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
+            $greige=BarangModel::leftJoin("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
+                                ->select(DB::raw('barang.*,SUM(trx_stok.jumlah) as total_panjang'))
                                 ->where("barang.id_barang","like",'ITJ%')
+                                ->groupBy("barang.id_barang")
                                 ->orderBy("barang.id_barang","asc")
                                 ->get();
         }
-        return view('master.greige.v_greige', compact('greige'));
+        $total_panjang = TStokModel::select(DB::raw('id_barang,SUM(jumlah) as total_panjang'))
+                        ->groupBy("id_barang")
+                        ->get();
+        return view('master.greige.v_greige', compact('greige','total_panjang'));
     }
 
     public function addgreige()
@@ -223,15 +230,15 @@ class BarangController extends Controller
     {
         $id_barang=$request->id_barang;
         if ($id_barang <> "") {
-            $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
-                                ->where("barang.id_barang","like",'%'.$id_barang.'%')
+            $benang=BarangModel::leftJoin("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
+                                ->select(DB::raw('barang.*,SUM(trx_stok.jumlah) as total_panjang'))->where("barang.id_barang","like",'%'.$id_barang.'%')
                                 ->where("barang.id_jenis_barang",3)
+                                ->groupBy("barang.id_barang")
                                 ->get();
         }else{
-            $benang=BarangModel::join('satuan', "barang.id_satuan", "=", "satuan.id_satuan")
-                                ->join("jenis_barang","jenis_barang.id_jenis_barang", "=", "barang.id_jenis_barang")
-                                ->where("barang.id_barang","like",'YA%')
+            $benang=BarangModel::leftJoin("trx_stok","trx_stok.id_barang", "=", "barang.id_barang")
+                                ->select(DB::raw('barang.*,SUM(trx_stok.jumlah) as total_panjang'))->where("barang.id_barang","like",'YA%')
+                                ->groupBy("barang.id_barang")
                                 ->get();
         }
         
