@@ -49,12 +49,14 @@ class KartuStokController extends Controller
     }
 
     public function detail($tahun,$bulan,$id_barang){
-        $detail = KartuStokModel::where('id_barang',$id_barang)
+        $detail = KartuStokModel::join('barang', 'barang.id_barang','=','kartustok.id_barang')
+                        ->where('kartustok.id_barang',$id_barang)
                         ->where('TAHUN',$tahun)
                         ->where('BULAN',$bulan)
                         ->first();
         $gr = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
-                ->select("trx_gudang_detail.id_tran", "trx_gudang.Tanggal", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->select("supplier.*","trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
                 ->where('trx_gudang_detail.id_tran', "like", "R%")
                 ->where('trx_gudang_detail.id_barang',$id_barang)
                 ->whereYear('trx_gudang.Tanggal', '=', $tahun)
@@ -64,7 +66,8 @@ class KartuStokController extends Controller
                 ->get();
 
         $gi = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
-                ->select("trx_gudang_detail.id_tran", "trx_gudang.Tanggal", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->select("supplier.*","trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
                 ->where('trx_gudang_detail.id_tran', "not like", "R%")
                 ->where('trx_gudang_detail.id_tran', "not like", "S%")
                 ->where('trx_gudang_detail.id_barang',$id_barang)
@@ -74,5 +77,97 @@ class KartuStokController extends Controller
                 ->distinct()
                 ->get();
         return view('Laporan.kartu stok.v_detailkartustok', compact('detail','gr','gi'));
+    }
+
+    public function detailfg($tahun,$bulan,$id_barang){
+        $detail = KartuStokModel::join('barang', 'barang.id_barang','=','kartustok.id_barang')
+                        ->where('kartustok.id_barang',$id_barang)
+                        ->where('TAHUN',$tahun)
+                        ->where('BULAN',$bulan)
+                        ->first();
+        $gr = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->select("supplier.*","trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_tran', "like", "R%")
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->distinct()
+                ->get();
+
+        $gi = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->select("trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_tran', "not like", "R%")
+                ->where('trx_gudang_detail.id_tran', "not like", "S%")
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->distinct()
+                ->get();
+        return view('Laporan.kartu stok.v_detailfg', compact('detail','gr','gi'));
+    }
+
+    public function detail1($tahun,$bulan,$id_barang){
+        $detail = KartuStokModel::join('barang', 'barang.id_barang','=','kartustok.id_barang')
+                        ->where('kartustok.id_barang',$id_barang)
+                        ->where('TAHUN',$tahun)
+                        ->where('BULAN',$bulan)
+                        ->first();
+        $bal = TranDetailModel::select('id_tran','balance')->get();
+        $gr = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->select("supplier.*","trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->orderBy('trx_gudang.Tanggal',"asc")
+                ->distinct()
+                ->get();
+        // dd($gr);
+        $gi = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->join('supplier', 'trx_gudang.id_supp','=','supplier.id_supp')
+                ->select("supplier.*","trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_tran', "not like", "R%")
+                ->where('trx_gudang_detail.id_tran', "not like", "S%")
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->distinct()
+                ->get();
+        return view('Laporan.kartu stok.v_detailkartustok1', compact('detail','gr','gi','bal'));
+    }
+
+    public function detailfg1($tahun,$bulan,$id_barang){
+        $detail = KartuStokModel::join('barang', 'barang.id_barang','=','kartustok.id_barang')
+                        ->where('kartustok.id_barang',$id_barang)
+                        ->where('TAHUN',$tahun)
+                        ->where('BULAN',$bulan)
+                        ->first();
+        $bal = TranDetailModel::select('id_tran','balance')->get();
+        $gr = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->select("trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang","trx_gudang_detail.balance", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->orderBy('trx_gudang.Tanggal',"asc")
+                ->distinct()
+                ->get();
+
+        $gi = TranDetailModel::join('trx_gudang', 'trx_gudang.ID_Transaksi','=','trx_gudang_detail.id_tran')
+                ->select("trx_gudang_detail.id_tran", "trx_gudang.*", "trx_gudang_detail.id_barang", DB::raw("(sum(trx_gudang_detail.jumlah)) as total"))
+                ->where('trx_gudang_detail.id_tran', "not like", "R%")
+                ->where('trx_gudang_detail.id_tran', "not like", "S%")
+                ->where('trx_gudang_detail.id_barang',$id_barang)
+                ->whereYear('trx_gudang.Tanggal', '=', $tahun)
+                ->whereMonth('trx_gudang.Tanggal', '=', $bulan)
+                ->groupBy("trx_gudang_detail.id_tran")
+                ->distinct()
+                ->get();
+        return view('Laporan.kartu stok.v_detailfg1', compact('detail','gr','gi','bal'));
     }
 }

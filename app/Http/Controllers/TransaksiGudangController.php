@@ -131,14 +131,15 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $jumlah = $request->jumlah[$key];
-            $datas = new TranDetailModel();
-            $datas->barcode =$kode_barang;
-            $datas->id_barang = $request->id_barang[$key];
-            $datas->jumlah = $request->jumlah[$key];
-            $datas->id_lokasi = $request->kode_gudang[$key];
-            $datas->ID_TRAN = $request->id_Transaksi;
-            $datas->keterangan = $request->keterangan[$key];
-            $datas->save();
+            // $datas = new TranDetailModel();
+            // $datas->barcode =$kode_barang;
+            // $datas->id_barang = $request->id_barang[$key];
+            // $datas->jumlah = $request->jumlah[$key];
+            // $datas->id_lokasi = $request->kode_gudang[$key];
+            // $datas->ID_TRAN = $request->id_Transaksi;
+            // $datas->keterangan = $request->keterangan[$key];
+            // $datas->save();
+            DB::select('CALL HITUNGBALANCE1('.$jumlah.',"'.$request->kode_gudang[$key].'","'.$request->keterangan[$key].'","'.$kode_barang.'","'.$request->id_Transaksi.'","'.$request->id_barang[$key].'")');
             LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemPO')
@@ -146,8 +147,8 @@ class TransaksiGudangController extends Controller
         }
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         return redirect('/grpobenang')->with('pesan', 'Data Berhasil Disimpan');
     }
@@ -241,14 +242,15 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $jumlah = $request->jumlah[$key];
-            $datas = new TranDetailModel();
-            $datas->barcode =$kode_barang;
-            $datas->id_barang = $request->id_barang[$key];
-            $datas->jumlah = $request->jumlah[$key];
-            $datas->id_lokasi = $request->kode_gudang[$key];
-            $datas->keterangan = $request->keterangan[$key];
-            $datas->ID_TRAN = $request->id_Transaksi;
-            $datas->save();
+            // $datas = new TranDetailModel();
+            // $datas->barcode =$kode_barang;
+            // $datas->id_barang = $request->id_barang[$key];
+            // $datas->jumlah = $request->jumlah[$key];
+            // $datas->id_lokasi = $request->kode_gudang[$key];
+            // $datas->ID_TRAN = $request->id_Transaksi;
+            // $datas->keterangan = $request->keterangan[$key];
+            // $datas->save();
+            DB::select('CALL HITUNGBALANCE1('.$jumlah.',"'.$request->kode_gudang[$key].'","'.$request->keterangan[$key].'","'.$kode_barang.'","'.$request->id_Transaksi.'","'.$request->id_barang[$key].'")');
             LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemPO')
@@ -256,8 +258,8 @@ class TransaksiGudangController extends Controller
         }
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         return redirect('/grpogreige')->with('pesan', 'Data Berhasil Disimpan');
     }
@@ -362,6 +364,10 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
+            $balance = TranDetailModel::where("id_barang", "=", $request->id_barang[$key])
+                        ->limit(1)
+                        ->orderBy("id","desc")
+                        ->first();
             $kode = [$request->kode_barang[$key]];
             $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
@@ -371,7 +377,9 @@ class TransaksiGudangController extends Controller
             $datas->id_lokasi = $request->id_lokasi[$key];
             $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
+            $datas->balance = $balance->balance - $request->jumlah[$key];
             $datas->save();
+            //DB::select('CALL HITUNGBALANCE1('.$jumlah.',"'.$request->kode_gudang[$key].'","'.$request->keterangan[$key].'","'.$kode_barang.'","'.$request->id_Transaksi.'","'.$request->id_barang[$key].'")');
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
             LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
@@ -380,8 +388,8 @@ class TransaksiGudangController extends Controller
         }
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("DM%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
+        DB::select('CALL HITUNG1("DM%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         
         return redirect('/gitwisting')->with('pesan', 'Data Berhasil Disimpan');
@@ -498,14 +506,15 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $jumlah = $request->jumlah[$key];
-            $datas = new TranDetailModel();
-            $datas->barcode =$kode_barang;
-            $datas->id_barang = $request->id_barang[$key];
-            $datas->jumlah = $request->jumlah[$key];
-            $datas->id_lokasi = $request->kode_gudang[$key];
-            $datas->keterangan = $request->keterangan[$key];
-            $datas->ID_TRAN = $request->id_Transaksi;
-            $datas->save();
+            // $datas = new TranDetailModel();
+            // $datas->barcode =$kode_barang;
+            // $datas->id_barang = $request->id_barang[$key];
+            // $datas->jumlah = $request->jumlah[$key];
+            // $datas->id_lokasi = $request->kode_gudang[$key];
+            // $datas->keterangan = $request->keterangan[$key];
+            // $datas->ID_TRAN = $request->id_Transaksi;
+            // $datas->save();
+            DB::select('CALL HITUNGBALANCE1('.$request->jumlah[$key].',"'.$request->kode_gudang[$key].'","'.$request->keterangan[$key].'","'.$request->kode_barang[$key].'","'.$request->id_Transaksi.'","'.$request->id_barang[$key].'")');
             LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemPO')
@@ -513,8 +522,8 @@ class TransaksiGudangController extends Controller
         }
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
     
         return redirect('/grtwisting')->with('pesan', 'Data Berhasil Disimpan');
@@ -646,6 +655,10 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
+            $balance = TranDetailModel::where("id_barang", "=", $request->id_barang[$key])
+                        ->limit(1)
+                        ->orderBy("id","desc")
+                        ->first();
             $kode = [$request->kode_barang[$key]];
             $jumlah = $request->jumlah[$key];
             $datas = new TranDetailModel();
@@ -655,8 +668,10 @@ class TransaksiGudangController extends Controller
             $datas->id_lokasi = $request->id_lokasi[$key];
             $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
+            $datas->balance = $balance->balance - $request->jumlah[$key];
             $datas->save();
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
+            //DB::select('CALL HITUNGBALANCE1('.$request->jumlah[$key].',"'.$request->kode_gudang[$key].'","'.$request->keterangan[$key].'","'.$request->kode_barang[$key].'","'.$request->id_Transaksi.'","'.$request->id_barang[$key].'")');
             LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemMaklon')
@@ -665,8 +680,8 @@ class TransaksiGudangController extends Controller
 
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
-        DB::select('CALL HITUNG1("DF%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","RM1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
+        DB::select('CALL HITUNG1("DF%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","RM1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","RM1")');
         
         return redirect('/gidf')->with('pesan', 'Data Berhasil Disimpan');
@@ -791,14 +806,15 @@ class TransaksiGudangController extends Controller
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
             $jumlah = $request->jumlah[$key];
-            $datas = new TranDetailModel();
-            $datas->barcode =$kode_barang;
-            $datas->id_barang = $request->id_barang[$key];
-            $datas->jumlah = $request->jumlah[$key];
-            $datas->id_lokasi = $request->kode_gudang[$key];
-            $datas->keterangan = $request->keterangan[$key];
-            $datas->ID_TRAN = $request->id_Transaksi;
-            $datas->save();
+            // $datas = new TranDetailModel();
+            // $datas->barcode =$kode_barang;
+            // $datas->id_barang = $request->id_barang[$key];
+            // $datas->jumlah = $request->jumlah[$key];
+            // $datas->id_lokasi = $request->kode_gudang[$key];
+            // $datas->keterangan = $request->keterangan[$key];
+            // $datas->ID_TRAN = $request->id_Transaksi;
+            // $datas->save();
+            DB::select('CALL HITUNGBALANCE1('.$request->jumlah[$key].',"'.$request->kode_gudang[$key].'","'.$request->keterangan[$key].'","'.$kode_barang.'","'.$request->id_Transaksi.'","'.$request->id_barang[$key].'")');
             LineItemPOModel::where('id_barang', $request-> id_barang[$key])
                                     ->where('id_purchaseorder', $request->id_PurchaseOrder)
                                     ->where('trx_po_detail.keterangan', 'ItemPO')
@@ -806,8 +822,8 @@ class TransaksiGudangController extends Controller
         }
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
-        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","FG1")');
+        DB::select('CALL HITUNG1("R%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","FG1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","FG1")');
 
         return redirect('/grdyeingfinishing')->with('pesan', 'Data Berhasil Disimpan');
@@ -904,8 +920,12 @@ class TransaksiGudangController extends Controller
         ];
         $this->TransaksiGudangModel->addData($data);
         foreach($request->kode_barang as $key=>$kode_barang){
-            $kode = [$request->kode_barang[$key]];
             
+            $balance = TranDetailModel::where("id_barang", "=", $request->id_barang[$key])
+                        ->limit(1)
+                        ->orderBy("id","desc")
+                        ->first();
+            //dd($balance);
             $datas = new TranDetailModel();
             $datas->barcode =$kode_barang;
             $datas->id_barang = $request->id_barang[$key];
@@ -913,13 +933,20 @@ class TransaksiGudangController extends Controller
             $datas->id_lokasi = $request->id_lokasi[$key];
             $datas->keterangan = $request->keterangan[$key];
             $datas->ID_TRAN = $request->id_Transaksi;
+            $datas->balance = $balance->balance - $request->jumlah[$key];
             $datas->save();
+            // $id_barang = isset($request->id_barang[$key])? $request->kode_barang : "";
+            // $jumlah = isset($request->jumlah[$key]) ? $request->jumlah[$key] : "";
+            // $id_lokasi = isset($request->kode_gudang[$key]) ? $request->kode_gudang[$key] : "";
+            // $keterangan = isset($request->keterangan[$key])? $request->keterangan[$key] : "";
+
+            //DB::select('CALL HITUNGBALANCE1('.$jumlah[$key].',"'.$id_lokasi[$key].'","'.$keterangan[$key].'","'.$kode_barang[$key].'","'.$request->id_Transaksi.'","'.$id_barang[$key].'")');
             //line_item_barang_Model::whereIn('kode_barang', $kode)->update(["ID_GI" => $request->id_Transaksi]);
         }
         $bulan = date('m');
         $year = date('Y');
-        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
-        DB::select('CALL HITUNG1("JF%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-31","FG1")');
+        DB::select('CALL HITUNGAWAL1("'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","FG1")');
+        DB::select('CALL HITUNG1("JF%","'.$year.'-'.$bulan.'-01","'.$year.'-'.$bulan.'-30","FG1")');
         DB::select('CALL HITUNGSALDO("'.$year.'","'.$bulan.'","FG1")');
 
         

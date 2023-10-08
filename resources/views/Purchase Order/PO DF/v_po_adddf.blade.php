@@ -13,7 +13,7 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">ID Purchase Order</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="id_PurchaseOrder" readonly="" value="{{ 'MF'.date('Y').'-'.date('m').$kd }}" placeholder="ID Purchase Order .." required>
+                      <input type="text" class="form-control" name="id_PurchaseOrder"  value="{{ 'MF'.date('Y').'-'.date('m').$kd }}" placeholder="ID Purchase Order .." required>
                     </div>
                   </div>
                   <div class="form-group row">

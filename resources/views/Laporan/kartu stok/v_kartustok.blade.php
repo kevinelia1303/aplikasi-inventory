@@ -25,11 +25,10 @@
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
-										<table id="add-row" class="display table table-striped table-hover" >
+										<table id="mytable" class="display table table-striped table-hover" >
 											<thead>
 												<tr>
-                                                    <th>Tahun</th>
-													<th>Bulan</th>
+                                                    <th>Tahun/Bulan</th>
 													<th>ID Barang</th>
 													<th>Kode Gudang</th>
 													<th>Stok Awal Bulan</th>
@@ -43,15 +42,19 @@
 											<tbody>
                                                 @foreach ($KartuStok as $data )
 												<tr>
-													<td>{{ $data->tahun }}</td>
-													<td>{{ $data->bulan }}</td>
+													<td>{{ $data->tahun }} / {{ $data->bulan }}</td>
                                                     <td>{{ $data->id_barang }}</td>
 													<td>{{ $data->kode_gudang }}</td>
                                                     <td>{{ $data->awal }}</td>
                                                     <td>{{ $data->masuk }}</td>
 													<td>{{ $data->keluar }}</td>
 													<td>{{ $data->akhir }}</td>
-													<td><a href="/kartustok/detail/{{ $data->tahun }}-{{ $data->bulan }}-{{ $data->id_barang }}"  class="btn btn-info btn-xs"><i class="fa fa-info"></i> Detail</a></td>
+                                                    @if (substr( $data->id_barang,0,1)=='F')
+                                                        <td><a href="/kartustok/detailfg/{{ $data->tahun }}-{{ $data->bulan }}-{{ $data->id_barang }}"  class="btn btn-info btn-xs"><i class="fa fa-info"></i> Detail</a></td>
+                                                    @else
+                                                        <td><a href="/kartustok/detail/{{ $data->tahun }}-{{ $data->bulan }}-{{ $data->id_barang }}"  class="btn btn-info btn-xs"><i class="fa fa-info"></i> Detail</a></td>
+                                                    @endif
+													
 													
 												</tr>
                                                 @endforeach

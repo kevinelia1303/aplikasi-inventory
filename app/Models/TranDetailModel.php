@@ -16,6 +16,7 @@ class TranDetailModel extends Model
         'id_lokasi',
         'BARCODE',
         'jumlah',
+        'balance',
         'keterangan'
     ];
 }
